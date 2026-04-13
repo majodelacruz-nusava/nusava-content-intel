@@ -88,7 +88,7 @@ tailwind.config = {
     <button onclick="showTab('personas')" id="nav-personas" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-600">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
       Persona Library
-      <span class="ml-auto badge badge-purple">7</span>
+      <span class="ml-auto badge badge-purple">4</span>
     </button>
 
     <div class="pt-4 mt-4 border-t border-stone-100">
@@ -291,15 +291,9 @@ tailwind.config = {
       <div class="card overflow-hidden">
         <div class="p-5 border-b border-stone-100 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <input type="text" placeholder="Search videos..." class="text-sm border border-stone-200 rounded-lg px-4 py-2 w-72 focus:outline-none focus:ring-2 focus:ring-nusava-green/20">
-            <select class="text-sm border border-stone-200 rounded-lg px-3 py-2 bg-white text-stone-600">
-              <option>All Products</option>
-              <option>(2-Pack) B12 Liquid Drops — $42,721</option>
-              <option>(4-Pack) B12 Liquid Drops — $25,533</option>
-              <option>(4-Pack) Wellness Bundle — $2,685</option>
-              <option>(2-Pack) D3K2 Drops — $1,622</option>
-              <option>(1-Pack) B12 Liquid Drops — $1,303</option>
-              <option>(4-Pack) D3K2 Drops — $524</option>
+            <input type="text" id="video-search" placeholder="Search videos, creators, hashtags..." oninput="populateVideoTable()" class="text-sm border border-stone-200 rounded-lg px-4 py-2 w-72 focus:outline-none focus:ring-2 focus:ring-nusava-green/20">
+            <select id="video-product-filter" onchange="populateVideoTable()" class="text-sm border border-stone-200 rounded-lg px-3 py-2 bg-white text-stone-600">
+              <option value="">All Products</option>
             </select>
           </div>
           <button class="text-sm text-stone-500 flex items-center gap-1 hover:text-stone-800">
@@ -392,49 +386,57 @@ tailwind.config = {
           </div>
           <div>
             <h3 class="font-bold text-stone-900 text-lg">Top Hooks Analysis</h3>
-            <p class="text-sm text-stone-400">Based on your top 20 performing Nusava videos by engagement rate</p>
+            <p class="text-sm text-stone-400">Patterns extracted from 13 AI-analyzed top-GMV Nusava videos (Apr 5–11, 2026)</p>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-6">
           <div>
-            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Patterns Ranked by Performance</h4>
+            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Patterns Ranked by Observed Frequency</h4>
             <div class="space-y-3">
               <div class="p-4 bg-gradient-to-r from-emerald-50 to-transparent rounded-xl border border-emerald-100">
                 <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-emerald-100 text-emerald-700">Pattern #1 &mdash; Symptom Call-Out</span>
-                  <span class="text-xs font-bold text-green-600">11.4% avg engagement</span>
+                  <span class="hook-tag bg-emerald-100 text-emerald-700">Pattern #1 &mdash; Nerve/Myelin Science Explainer</span>
+                  <span class="text-xs font-bold text-green-600">Avg hook score 82</span>
                 </div>
-                <p class="text-sm text-stone-800 font-medium">"If you're always tired, this is why..." / "Feeling drained by 2pm?"</p>
-                <p class="text-xs text-stone-500 mt-1">Used in 9 of top 20 videos. Targets pain points immediately. Avg watch-through: 82%</p>
-              </div>
-              <div class="p-4 bg-gradient-to-r from-amber-50 to-transparent rounded-xl border border-amber-100">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-amber-100 text-amber-700">Pattern #2 &mdash; Science/Education</span>
-                  <span class="text-xs font-bold text-green-600">9.8% avg engagement</span>
-                </div>
-                <p class="text-sm text-stone-800 font-medium">"Why pills don't absorb..." / "Your doctor won't tell you this about B12"</p>
-                <p class="text-xs text-stone-500 mt-1">Used in 6 of top 20. Positions liquid as superior. Avg watch-through: 76%</p>
+                <p class="text-sm text-stone-800 font-medium">"Your nerves are like electrical wires… once the myelin sheath breaks down, that's when the tingling starts."</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 5 of 13 analyzed videos (@matttatkins, @didi_finds, @kokoterashop, @jamison904). Drives Health-Educator persona GMV.</p>
               </div>
               <div class="p-4 bg-gradient-to-r from-rose-50 to-transparent rounded-xl border border-rose-100">
                 <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-rose-100 text-rose-700">Pattern #3 &mdash; Transformation</span>
-                  <span class="text-xs font-bold text-green-600">9.2% avg engagement</span>
+                  <span class="hook-tag bg-rose-100 text-rose-700">Pattern #2 &mdash; Symptom → Gabapentin Pivot</span>
+                  <span class="text-xs font-bold text-green-600">Avg hook score 80</span>
                 </div>
-                <p class="text-sm text-stone-800 font-medium">"Week 1 vs Week 4 on B12 drops" / "My energy transformation"</p>
-                <p class="text-xs text-stone-500 mt-1">Used in 5 of top 20. Highest conversion rate (5.1%). Best for product proof.</p>
+                <p class="text-sm text-stone-800 font-medium">"Got nerve issues? Taking Gabapentin? That ain't really doing nothing for you."</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 4 videos (@kokoterashop, @matttatkins, @jamison904). Validates frustration with prescriptions → positions drops as alternative.</p>
+              </div>
+              <div class="p-4 bg-gradient-to-r from-amber-50 to-transparent rounded-xl border border-amber-100">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="hook-tag bg-amber-100 text-amber-700">Pattern #3 &mdash; BOGO Value Callout</span>
+                  <span class="text-xs font-bold text-green-600">Avg hook score 87</span>
+                </div>
+                <p class="text-sm text-stone-800 font-medium">"The gettin' is good — 4 for 2 + free shipping." / "Paga dos y te van a mandar cuatro."</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 3 videos (@amberfindsdeals, @cupontokbypam, @jamison904). Highest-scoring hook pattern in the dataset.</p>
               </div>
               <div class="p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-xl border border-blue-100">
                 <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-blue-100 text-blue-700">Pattern #4 &mdash; Comparison/Debunk</span>
-                  <span class="text-xs font-bold text-green-600">8.6% avg engagement</span>
+                  <span class="hook-tag bg-blue-100 text-blue-700">Pattern #4 &mdash; Scam / Authenticity Warning</span>
+                  <span class="text-xs font-bold text-green-600">Avg hook score 80</span>
                 </div>
-                <p class="text-sm text-stone-800 font-medium">"Stop wasting money on B12 pills" / "Liquid vs pills - the truth"</p>
-                <p class="text-xs text-stone-500 mt-1">Used in 4 of top 20. High share rate (3.8x avg). Drives educational virality.</p>
+                <p class="text-sm text-stone-800 font-medium">"This is fake, this is fake, and this is fake. Only buy the real Nusava from the orange cart."</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 2 videos (@jamison904, @wellnessbymimi). Reframes counterfeit prevalence as proof of authenticity.</p>
+              </div>
+              <div class="p-4 bg-gradient-to-r from-purple-50 to-transparent rounded-xl border border-purple-100">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="hook-tag bg-purple-100 text-purple-700">Pattern #5 &mdash; Spanish Curiosity Gap</span>
+                  <span class="text-xs font-bold text-green-600">Avg hook score 83</span>
+                </div>
+                <p class="text-sm text-stone-800 font-medium">"No quieren que sepas esto." / "La neuropatía no empieza por el azúcar."</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 3 videos (@didi_finds x2, @cupontokbypam). Drives Latina Wellness persona — 28% of top-30 video GMV.</p>
               </div>
             </div>
           </div>
           <div>
-            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Performance Distribution</h4>
+            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Pattern Distribution (13 coded videos)</h4>
             <canvas id="chart-hooks" height="300"></canvas>
           </div>
         </div>
@@ -455,38 +457,41 @@ tailwind.config = {
         <div class="grid grid-cols-3 gap-5">
           <div class="script-card bg-stone-50 rounded-xl p-5">
             <div class="flex items-center justify-between mb-3">
-              <span class="badge badge-green">Symptom Call-Out</span>
-              <span class="text-xs text-stone-400">~18 sec</span>
+              <span class="badge badge-green">Symptom → Gabapentin Pivot</span>
+              <span class="text-xs text-stone-400">~30 sec</span>
             </div>
+            <p class="text-xs text-stone-400 mb-3">Modeled on @kokoterashop + @matttatkins — top Health Educator videos</p>
             <div class="space-y-3 text-sm text-stone-700">
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"If you're exhausted by 2pm every single day, you need to hear this..."</p></div>
-              <div><p class="text-xs font-semibold text-amber-600 mb-1">BUILD-UP (3-8s)</p><p>"90% of people are B12 deficient and don't even know it. And those pills you're taking? Your body only absorbs about 2% of them."</p></div>
-              <div><p class="text-xs font-semibold text-blue-600 mb-1">SOLUTION (8-14s)</p><p>*Show dropper under tongue* "Liquid B12 drops absorb directly into your bloodstream. I felt the difference in literally 3 days."</p></div>
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (14-18s)</p><p>"The Nusava 2-pack is on sale right now in my TikTok Shop. Link pinned."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"Got nerve system issues? Taking Gabapentin?"</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">VALIDATE (3-10s)</p><p>"Your hands tingling, your feet numb, your back shooting down your leg — and that Gabapentin ain't really doing nothing for you."</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">SCIENCE (10-20s)</p><p>*Show bottle* "Nine times out of ten your nerves are firing off like fireworks. The protective myelin sheath around them is made of B vitamins — and Gabapentin masks the signal, it doesn't fix the wire."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (20-30s)</p><p>"Tap the orange cart and grab the Nusava bundle while it's still on sale."</p></div>
             </div>
           </div>
           <div class="script-card bg-stone-50 rounded-xl p-5">
             <div class="flex items-center justify-between mb-3">
-              <span class="badge badge-yellow">Science/Education</span>
+              <span class="badge badge-yellow">Spanish Curiosity Gap + BOGO</span>
+              <span class="text-xs text-stone-400">~25 sec</span>
+            </div>
+            <p class="text-xs text-stone-400 mb-3">Modeled on @didi_finds + @cupontokbypam — Latina Wellness persona</p>
+            <div class="space-y-3 text-sm text-stone-700">
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"La neuropatía no empieza por el azúcar. Empieza por algo que nadie te cuenta."</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">ANALOGÍA (3-12s)</p><p>"Tus nervios son como cables eléctricos con una capa protectora. A partir de los 50, ya no absorbes la vitamina B12 — y esa capa se rompe. Ahí empieza el dolor, el hormigueo, la falta de energía."</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">OFERTA (12-20s)</p><p>*Muestra 2 botellas* "Nusava te lo dejó fácil — paga dos, recibe cuatro. En el carrito naranja."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (20-25s)</p><p>"Toca el carrito ahora antes de que se acabe."</p></div>
+            </div>
+          </div>
+          <div class="script-card bg-stone-50 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="badge badge-purple">Scam Warning Reframe</span>
               <span class="text-xs text-stone-400">~22 sec</span>
             </div>
+            <p class="text-xs text-stone-400 mb-3">Modeled on @jamison904 + @wellnessbymimi — Value Hunter persona</p>
             <div class="space-y-3 text-sm text-stone-700">
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"Your doctor won't tell you this about Vitamin D and K2..."</p></div>
-              <div><p class="text-xs font-semibold text-amber-600 mb-1">EDUCATE (3-12s)</p><p>"Taking Vitamin D without K2 is actually dangerous. D helps you absorb calcium, but without K2, that calcium goes to your arteries instead of your bones. They NEED to be taken together."</p></div>
-              <div><p class="text-xs font-semibold text-blue-600 mb-1">PRODUCT (12-18s)</p><p>*Show Nusava D3K2 bottle* "That's why Nusava combines organic D3 and K2 in one liquid drop. No pills, no fillers, just what your body needs."</p></div>
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (18-22s)</p><p>"2-pack is under $39 in my TikTok Shop. Your bones will thank you."</p></div>
-            </div>
-          </div>
-          <div class="script-card bg-stone-50 rounded-xl p-5">
-            <div class="flex items-center justify-between mb-3">
-              <span class="badge badge-purple">Transformation</span>
-              <span class="text-xs text-stone-400">~20 sec</span>
-            </div>
-            <div class="space-y-3 text-sm text-stone-700">
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"Week 1 vs Week 4 on Nusava B12 drops..."</p></div>
-              <div><p class="text-xs font-semibold text-amber-600 mb-1">STORY (3-10s)</p><p>*Split screen: tired mornings vs energized* "I used to need 3 coffees just to function. I was brain foggy, sluggish, couldn't focus. My naturopath said check your B12. It was critically low."</p></div>
-              <div><p class="text-xs font-semibold text-blue-600 mb-1">PROOF (10-16s)</p><p>"4 weeks of Nusava liquid B12 every morning. I wake up before my alarm now. Energy is steady all day. No crash."</p></div>
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (16-20s)</p><p>"Grab the 4-pack from my TikTok Shop, it's the best value. Seriously life-changing."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-4s)</p><p>*Shows competitor listings* "This is fake. This is fake. This is fake."</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">REFRAME (4-10s)</p><p>"You know this is a good product when everybody else is making copies of it. The only place you can buy the real Nusava is the orange cart."</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">PROOF (10-16s)</p><p>"Over 22,000 sold, 4.5-star rating, and right now it's buy-two-get-two-free with free shipping."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (16-22s)</p><p>"Tap the orange cart, grab the 4-pack. Stock is low and the sale ends tonight."</p></div>
             </div>
           </div>
         </div>
@@ -500,48 +505,48 @@ tailwind.config = {
           </div>
           <div>
             <h3 class="font-bold text-stone-900 text-lg">Shooting Guide</h3>
-            <p class="text-sm text-stone-400">Based on production analysis of top 20 Nusava supplement videos</p>
+            <p class="text-sm text-stone-400">Production patterns observed across the 13 AI-coded top-GMV Nusava videos</p>
           </div>
         </div>
         <div class="grid grid-cols-4 gap-5">
           <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-            <h4 class="font-semibold text-stone-800 mb-2">Camera Angles</h4>
+            <h4 class="font-semibold text-stone-800 mb-2">Camera & Framing</h4>
             <ul class="text-xs text-stone-600 space-y-1.5">
-              <li>&#8226; Extreme close-up of liquid dropper dispensing</li>
-              <li>&#8226; Eye-level talking head for credibility</li>
-              <li>&#8226; Under-tongue application shot (money shot)</li>
-              <li>&#8226; Flat lay: bottle + natural ingredients</li>
-              <li>&#8226; Morning routine POV for lifestyle context</li>
+              <li>&#8226; Eye-level handheld talking-head (12 of 13 videos)</li>
+              <li>&#8226; Bottle held in frame, gestured-with while talking</li>
+              <li>&#8226; Tight close-up when shaking the bottle for emphasis</li>
+              <li>&#8226; Side-by-side competitor comparison shots (scam-warning hook)</li>
+              <li>&#8226; Indoor casual setting (kitchen, bedroom, car)</li>
             </ul>
           </div>
           <div class="bg-amber-50 rounded-xl p-5 border border-amber-100">
-            <h4 class="font-semibold text-stone-800 mb-2">Lighting</h4>
+            <h4 class="font-semibold text-stone-800 mb-2">Text Overlays</h4>
             <ul class="text-xs text-stone-600 space-y-1.5">
-              <li>&#8226; Warm natural light (82% of top videos)</li>
-              <li>&#8226; Backlight through liquid bottle = viral shot</li>
-              <li>&#8226; Kitchen/bathroom natural setting preferred</li>
-              <li>&#8226; Avoid clinical/sterile look &mdash; reduces trust</li>
-              <li>&#8226; Golden hour for "wellness lifestyle" feel</li>
+              <li>&#8226; Hook restated as on-screen caption (every video)</li>
+              <li>&#8226; Stat callouts: "B12 2000", "B6 3400", "Niacin + Folate"</li>
+              <li>&#8226; "Buy 2 Get 2 Free" sticker visible on product shots</li>
+              <li>&#8226; "Results may vary" disclaimer pinned bottom</li>
+              <li>&#8226; Spanish videos use bold yellow caption highlights</li>
             </ul>
           </div>
           <div class="bg-blue-50 rounded-xl p-5 border border-blue-100">
-            <h4 class="font-semibold text-stone-800 mb-2">Pacing & Timing</h4>
+            <h4 class="font-semibold text-stone-800 mb-2">Pacing & Length</h4>
             <ul class="text-xs text-stone-600 space-y-1.5">
-              <li>&#8226; Hook in first 0.5 seconds (critical)</li>
-              <li>&#8226; Optimal length: 18-25 seconds</li>
-              <li>&#8226; Scene change every 2-3 seconds</li>
-              <li>&#8226; Show product by second 8 at latest</li>
-              <li>&#8226; Price mention boosts conv +52%</li>
+              <li>&#8226; Avg coded video length: ~50 sec (range 30s–80s)</li>
+              <li>&#8226; Hook delivered in first 2 seconds</li>
+              <li>&#8226; Product visible by second 5 in 11 of 13 videos</li>
+              <li>&#8226; Single continuous take (8 of 13) outperforms cuts</li>
+              <li>&#8226; "Orange cart" CTA in final 5 seconds (every video)</li>
             </ul>
           </div>
           <div class="bg-purple-50 rounded-xl p-5 border border-purple-100">
-            <h4 class="font-semibold text-stone-800 mb-2">What Works for Supplements</h4>
+            <h4 class="font-semibold text-stone-800 mb-2">What's Working Now</h4>
             <ul class="text-xs text-stone-600 space-y-1.5">
-              <li>&#8226; Show the dropper + liquid (texture sells)</li>
-              <li>&#8226; Text overlays with stats/science</li>
-              <li>&#8226; Voiceover &gt; text-only (+45% engagement)</li>
-              <li>&#8226; Include ingredient close-up on label</li>
-              <li>&#8226; Loop-friendly ending boosts replay +40%</li>
+              <li>&#8226; Nerve-pain framing dominates (8 of 13 videos)</li>
+              <li>&#8226; Myelin-sheath analogy = repeatable explainer device</li>
+              <li>&#8226; Anti-Gabapentin angle resonates (4 videos, scores 70–90)</li>
+              <li>&#8226; Spanish content punches above its weight on hook scores</li>
+              <li>&#8226; "Verbal Only" integration outperforms scripted reviews</li>
             </ul>
           </div>
         </div>
@@ -560,28 +565,29 @@ tailwind.config = {
         </div>
         <div class="grid grid-cols-3 gap-5">
           <div class="bg-amber-50 rounded-xl p-5 border border-amber-100">
-            <h4 class="font-semibold text-stone-800 mb-3">Trending Formats</h4>
+            <h4 class="font-semibold text-stone-800 mb-3">Format Mix (13 coded videos)</h4>
             <div class="space-y-2">
-              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Morning Routine + Drops</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:88%"></div></div><span class="text-xs font-semibold text-stone-600">88%</span></div></div>
-              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Science Explainer</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:74%"></div></div><span class="text-xs font-semibold text-stone-600">74%</span></div></div>
-              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Before/After Energy</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:68%"></div></div><span class="text-xs font-semibold text-stone-600">68%</span></div></div>
-              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Pills vs Liquid</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:55%"></div></div><span class="text-xs font-semibold text-stone-600">55%</span></div></div>
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Nerve-Pain Symptom Framing</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:62%"></div></div><span class="text-xs font-semibold text-stone-600">8/13</span></div></div>
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Science / Myelin Explainer</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:54%"></div></div><span class="text-xs font-semibold text-stone-600">7/13</span></div></div>
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Spanish-Language</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:31%"></div></div><span class="text-xs font-semibold text-stone-600">4/13</span></div></div>
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">BOGO / Deal-Forward</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:23%"></div></div><span class="text-xs font-semibold text-stone-600">3/13</span></div></div>
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Scam-Warning Reframe</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:15%"></div></div><span class="text-xs font-semibold text-stone-600">2/13</span></div></div>
             </div>
           </div>
           <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-            <h4 class="font-semibold text-stone-800 mb-3">Audio & Sound</h4>
+            <h4 class="font-semibold text-stone-800 mb-3">Tone & Integration</h4>
             <div class="space-y-2 text-sm text-stone-700">
-              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Voiceover converts 2.8x more</p><p class="text-xs text-stone-500">Authority voice builds supplement trust</p></div>
-              <div class="p-2 bg-white rounded-lg"><p class="font-medium">ASMR dropper sound: +58% saves</p><p class="text-xs text-stone-500">Liquid dispensing sound is satisfying</p></div>
-              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Calm/wellness music: +32% watch time</p><p class="text-xs text-stone-500">Matches health-conscious audience mood</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Educational tone (7 of 13)</p><p class="text-xs text-stone-500">Higher hook scores avg 80+; pairs with science-explainer angle</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Casual tone (5 of 13)</p><p class="text-xs text-stone-500">Drives Value Hunter persona — "tap the orange cart" energy</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Verbal Only integration (9 of 13)</p><p class="text-xs text-stone-500">Outperforms formal Review integrations on hook scores</p></div>
             </div>
           </div>
           <div class="bg-stone-100 rounded-xl p-5 border border-stone-200">
-            <h4 class="font-semibold text-stone-800 mb-3">CTA Patterns</h4>
+            <h4 class="font-semibold text-stone-800 mb-3">CTA Patterns Observed</h4>
             <div class="space-y-2 text-sm text-stone-700">
-              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Price mention: +52% conversion</p><p class="text-xs text-stone-500">"Under $22 per bottle" outperforms vague CTAs</p></div>
-              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Pack size comparison: +38% AOV</p><p class="text-xs text-stone-500">"4-pack is the best value" drives bundle sales</p></div>
-              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Health urgency: +41% CTR</p><p class="text-xs text-stone-500">"Your body needs this NOW" beats generic CTAs</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">"Tap the orange cart" — 13/13 videos</p><p class="text-xs text-stone-500">Universal CTA phrase across creators and languages</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">BOGO / "buy 2 get 2 free" — 5/13</p><p class="text-xs text-stone-500">Top-scoring hook variant (avg score 87)</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Stock urgency — 4/13</p><p class="text-xs text-stone-500">"Stock is low" / "ends tonight" framing</p></div>
             </div>
           </div>
         </div>
@@ -590,104 +596,146 @@ tailwind.config = {
 
     <!-- LIVE TIPS TAB -->
     <div id="tab-livetips" class="hidden fade-in">
-      <div class="grid grid-cols-3 gap-6 mb-6">
-        <div class="card p-5 border-l-4 border-nusava-green"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Best Day to Go LIVE</p><p class="text-2xl font-bold text-stone-900">Tuesday & Sunday</p><p class="text-xs text-stone-500 mt-1">Based on peak viewer count analysis</p></div>
-        <div class="card p-5 border-l-4 border-nusava-gold"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Best Time Slot</p><p class="text-2xl font-bold text-stone-900">7:00 - 10:00 PM</p><p class="text-xs text-stone-500 mt-1">Local time, highest concurrent viewers</p></div>
-        <div class="card p-5 border-l-4 border-nusava-sage"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Optimal Duration</p><p class="text-2xl font-bold text-stone-900">2 - 3 hours</p><p class="text-xs text-stone-500 mt-1">Sweet spot for GMV per minute</p></div>
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+        <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div class="text-xs text-amber-900"><span class="font-semibold">Data-only inference.</span> This playbook is derived from LIVE session metadata (creator, duration, GMV, items, AOV) for Apr 5–11, 2026. With no LIVE transcripts/replays available, tactics are inferred from performance patterns rather than observed behavior.</div>
       </div>
 
+      <div class="grid grid-cols-3 gap-6 mb-6">
+        <div class="card p-5 border-l-4 border-nusava-green"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Best Day by GMV</p><p class="text-2xl font-bold text-stone-900">Sunday</p><p class="text-xs text-stone-500 mt-1">$1,703 across 3 sessions (Apr 5) — top-grossing day of the week</p></div>
+        <div class="card p-5 border-l-4 border-nusava-gold"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Optimal Duration</p><p class="text-2xl font-bold text-stone-900">2h – 2h 9min</p><p class="text-xs text-stone-500 mt-1">9 of top 10 GMV sessions fall in this band</p></div>
+        <div class="card p-5 border-l-4 border-nusava-sage"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Top LIVE Creator</p><p class="text-2xl font-bold text-stone-900">@nutritionnestegg</p><p class="text-xs text-stone-500 mt-1">$4,926 across 18 sessions — ~72% of total LIVE GMV this week</p></div>
+      </div>
+
+      <!-- Top Creators Breakdown -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+          <div><h3 class="font-bold text-stone-900 text-lg">LIVE Creator Performance</h3><p class="text-sm text-stone-400">Top 4 creators driving Nusava LIVE GMV — Apr 5–11, 2026</p></div>
+        </div>
+        <div class="grid grid-cols-4 gap-4">
+          <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+            <div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@nutritionnestegg</span><span class="badge badge-green">#1</span></div>
+            <p class="text-2xl font-bold text-stone-900">$4,926</p>
+            <p class="text-xs text-stone-500 mt-1">18 sessions · AOV ~$24 · "B12 BOGO" / "Get Two Free"</p>
+            <p class="text-xs text-emerald-700 mt-2">Volume play — runs 2h sessions daily, repetitive title, consistent AOV</p>
+          </div>
+          <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+            <div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@gck_007</span><span class="badge badge-yellow">#2</span></div>
+            <p class="text-2xl font-bold text-stone-900">$1,100</p>
+            <p class="text-xs text-stone-500 mt-1">6 sessions · AOV ~$23 · "Nusava B Complex"</p>
+            <p class="text-xs text-amber-700 mt-2">Mixed-duration — best session ($519) ran 2h9min; shorter 1h sessions underperform</p>
+          </div>
+          <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+            <div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@realdeborahtune</span><span class="badge badge-blue">#3</span></div>
+            <p class="text-2xl font-bold text-stone-900">$654</p>
+            <p class="text-xs text-stone-500 mt-1">3 sessions · AOV ~$36 · "Wellness Shop Live"</p>
+            <p class="text-xs text-blue-700 mt-2">Highest-AOV creator — fewer items per session but higher basket value</p>
+          </div>
+          <div class="bg-stone-100 rounded-xl p-4 border border-stone-200">
+            <div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">Long Tail</span><span class="badge bg-stone-200 text-stone-700">~$282</span></div>
+            <p class="text-2xl font-bold text-stone-900">3 creators</p>
+            <p class="text-xs text-stone-500 mt-1">@shansttshop, @calidadypuravida, @tatatrigos</p>
+            <p class="text-xs text-stone-600 mt-2">One-off sessions, highly variable durations (39min – 4h3min)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inferred Tactics -->
       <div class="card p-6 mb-6">
         <div class="flex items-center gap-3 mb-5">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg></div>
-          <div><h3 class="font-bold text-stone-900 text-lg">Engagement Tactics for Supplement LIVEs</h3><p class="text-sm text-stone-400">Proven strategies from Nusava's top LIVE sessions</p></div>
+          <div><h3 class="font-bold text-stone-900 text-lg">Inferred Tactics from Top Sessions</h3><p class="text-sm text-stone-400">Patterns to test, derived from session-metadata signals</p></div>
         </div>
         <div class="grid grid-cols-2 gap-5">
           <div class="space-y-4">
             <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-              <div class="flex items-center gap-2 mb-2"><span class="badge badge-green">High Impact</span><h4 class="font-semibold text-stone-800">Live "Under the Tongue" Demo</h4></div>
-              <p class="text-sm text-stone-600">Demonstrate how the liquid drops work live on camera. Show the dropper, count the drops, place under tongue. Sessions with live demos had 3.2x more adds-to-cart than sessions that only talked about the product.</p>
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-green">Volume</span><h4 class="font-semibold text-stone-800">Daily 2-Hour Cadence</h4></div>
+              <p class="text-sm text-stone-600">@nutritionnestegg streamed 18 times in 7 days, all in the 2h–2h9min band. Their consistency drove ~72% of weekly LIVE GMV. Implication: daily, predictable, fixed-length sessions outperform sporadic long streams.</p>
             </div>
             <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-              <div class="flex items-center gap-2 mb-2"><span class="badge badge-green">High Impact</span><h4 class="font-semibold text-stone-800">Ingredient Education Segments</h4></div>
-              <p class="text-sm text-stone-600">Spend 5-10 minutes explaining methylcobalamin vs cyanocobalamin, or why D3+K2 together. Sessions with education segments had 2.4x longer average watch time and 67% more shares.</p>
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-green">Title</span><h4 class="font-semibold text-stone-800">BOGO in the LIVE Title</h4></div>
+              <p class="text-sm text-stone-600">All top 5 sessions used "B12 Get Two Free" or "B12 BOGO" in the title. The deal mechanic is hardcoded into the show name, signaling value before viewers tap in.</p>
             </div>
             <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
-              <div class="flex items-center gap-2 mb-2"><span class="badge badge-blue">Medium Impact</span><h4 class="font-semibold text-stone-800">"Drop your symptom" Q&A</h4></div>
-              <p class="text-sm text-stone-600">Ask viewers to type their symptoms (fatigue, brain fog, joint pain). Match each symptom to a product recommendation. This drives 4x comment velocity and pushes the LIVE to more viewers.</p>
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-blue">SKU Focus</span><h4 class="font-semibold text-stone-800">Single-Hero-Product Streams</h4></div>
+              <p class="text-sm text-stone-600">Every top session focused on ONE SKU (B12, B Complex, or Wellness Shop bundle). No multi-product juggling in the top 10. Cross-sell appears to dilute conversion in this dataset.</p>
             </div>
           </div>
           <div class="space-y-4">
             <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
-              <div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Conversion</span><h4 class="font-semibold text-stone-800">Bundle Flash Deals Every 20 Min</h4></div>
-              <p class="text-sm text-stone-600">Run a LIVE-exclusive bundle deal (B12 + D3K2 wellness bundle) every 20 minutes. Your best session had 4 flash deals generating 62% of total GMV. Urgency + value stacking works.</p>
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">AOV</span><h4 class="font-semibold text-stone-800">Two AOV Strategies</h4></div>
+              <p class="text-sm text-stone-600">@nutritionnestegg ($20–31 AOV) wins on volume; @realdeborahtune ($33–37 AOV) wins on basket size. Bundle-led shows pull ~50% higher AOV but ~25% the order count.</p>
             </div>
             <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
-              <div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Conversion</span><h4 class="font-semibold text-stone-800">"Type 1 for B12, Type 2 for D3K2"</h4></div>
-              <p class="text-sm text-stone-600">Simple polling drives algorithm engagement. Then say "Everyone who typed 1 — I'm pinning the B12 2-pack right now, LIVE price only." Converts browsers to buyers at 2.6x the normal rate.</p>
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Day</span><h4 class="font-semibold text-stone-800">Weekend + Monday Bias</h4></div>
+              <p class="text-sm text-stone-600">Sun ($1,703), Mon ($1,153), Sat ($1,107) and Wed ($1,073) are top GMV days. Tue is the weakest ($384). Schedule the highest-effort streams Sun–Mon.</p>
             </div>
             <div class="p-4 bg-purple-50 rounded-xl border border-purple-100">
-              <div class="flex items-center gap-2 mb-2"><span class="badge badge-purple">Retention</span><h4 class="font-semibold text-stone-800">Tease the "Biggest Deal" for End</h4></div>
-              <p class="text-sm text-stone-600">"Stay till the end — I'm dropping the 4-pack bundle at the lowest price we've EVER done." Sessions with end-of-stream teasers had 44% lower drop-off at the 45-minute mark.</p>
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-purple">Risk</span><h4 class="font-semibold text-stone-800">Short Sessions Underperform</h4></div>
+              <p class="text-sm text-stone-600">@gck_007's 1h10min sessions averaged ~$140; their 2h9min session hit $519. The shortest LIVE in the dataset (@shansttshop, 39min) generated only $86. Don't go below 2h.</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Product Showcase Flow -->
+      <!-- Suggested Showcase Flow -->
       <div class="card p-6 mb-6">
-        <h3 class="font-bold text-stone-900 text-lg mb-5">Optimal Product Showcase Flow for Nusava LIVEs</h3>
+        <h3 class="font-bold text-stone-900 text-lg mb-1">Suggested 2-Hour Showcase Flow</h3>
+        <p class="text-xs text-stone-400 mb-5">Time blocks inferred from BOGO-titled sessions averaging 2h–2h9min. Tactics within blocks borrowed from top video hooks (no LIVE replay data available).</p>
         <div class="flex items-start gap-4">
           <div class="flex-1 text-center">
             <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-emerald-600">1</span></div>
-            <h5 class="font-semibold text-sm text-stone-800">Warm-Up</h5><p class="text-xs text-stone-500 mt-1">0-10 min</p>
-            <p class="text-xs text-stone-600 mt-2">Greet viewers, share what's coming. "Tonight we're breaking down every vitamin you need + LIVE-only deals!"</p>
+            <h5 class="font-semibold text-sm text-stone-800">Warm-Up</h5><p class="text-xs text-stone-500 mt-1">0–15 min</p>
+            <p class="text-xs text-stone-600 mt-2">Open with the BOGO offer in plain language. Pin the 2-pack and 4-pack listings immediately so late joiners see them.</p>
           </div>
           <div class="pt-6 text-stone-300">&#8594;</div>
           <div class="flex-1 text-center">
             <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-amber-600">2</span></div>
-            <h5 class="font-semibold text-sm text-stone-800">Hero: B12 Drops</h5><p class="text-xs text-stone-500 mt-1">10-35 min</p>
-            <p class="text-xs text-stone-600 mt-2">Lead with bestseller. Full demo, science, testimonials. First flash deal on the 2-pack.</p>
+            <h5 class="font-semibold text-sm text-stone-800">Symptom Block</h5><p class="text-xs text-stone-500 mt-1">15–50 min</p>
+            <p class="text-xs text-stone-600 mt-2">Use the nerve-pain / Gabapentin pivot from top videos. Invite "drop your symptom" comments — match each to B12 or B-Complex.</p>
           </div>
           <div class="pt-6 text-stone-300">&#8594;</div>
           <div class="flex-1 text-center">
             <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-blue-600">3</span></div>
-            <h5 class="font-semibold text-sm text-stone-800">D3K2 + Q&A</h5><p class="text-xs text-stone-500 mt-1">35-70 min</p>
-            <p class="text-xs text-stone-600 mt-2">Educate on D3+K2 synergy. Answer live questions. Introduce bundle deal.</p>
+            <h5 class="font-semibold text-sm text-stone-800">Science Explainer</h5><p class="text-xs text-stone-500 mt-1">50–80 min</p>
+            <p class="text-xs text-stone-600 mt-2">Walk through the myelin-sheath analogy — the highest-scoring hook pattern in the videos. Hold the bottle in frame throughout.</p>
           </div>
           <div class="pt-6 text-stone-300">&#8594;</div>
           <div class="flex-1 text-center">
             <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-purple-600">4</span></div>
-            <h5 class="font-semibold text-sm text-stone-800">Wellness Bundle</h5><p class="text-xs text-stone-500 mt-1">70-100 min</p>
-            <p class="text-xs text-stone-600 mt-2">Position the 4-pack bundles. Compare value per bottle. "Best deal of the night" flash sale.</p>
+            <h5 class="font-semibold text-sm text-stone-800">Bundle Push</h5><p class="text-xs text-stone-500 mt-1">80–105 min</p>
+            <p class="text-xs text-stone-600 mt-2">Switch focus to the 4-pack to lift AOV (@realdeborahtune model). Frame as the "smart shopper" upgrade.</p>
           </div>
           <div class="pt-6 text-stone-300">&#8594;</div>
           <div class="flex-1 text-center">
             <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-rose-600">5</span></div>
-            <h5 class="font-semibold text-sm text-stone-800">Grand Finale</h5><p class="text-xs text-stone-500 mt-1">100-120 min</p>
-            <p class="text-xs text-stone-600 mt-2">Biggest deal. Recap all products. Final countdown. Announce next LIVE + giveaway.</p>
+            <h5 class="font-semibold text-sm text-stone-800">Close</h5><p class="text-xs text-stone-500 mt-1">105–125 min</p>
+            <p class="text-xs text-stone-600 mt-2">Restate BOGO, scarcity message ("stock is low"), and the exact tap path. Confirm same time tomorrow to build cadence.</p>
           </div>
         </div>
       </div>
 
       <!-- Interaction Scripts -->
       <div class="card p-6">
-        <h3 class="font-bold text-stone-900 text-lg mb-5">Audience Interaction Scripts</h3>
+        <h3 class="font-bold text-stone-900 text-lg mb-1">Audience Interaction Scripts</h3>
+        <p class="text-xs text-stone-400 mb-5">Adapted from the highest-scoring video hooks across the 13 coded creators</p>
         <div class="grid grid-cols-2 gap-5">
           <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-            <h4 class="font-semibold text-stone-800 mb-2">Opening Script</h4>
-            <p class="text-sm text-stone-600 italic">"Hey everyone! Welcome to Nusava LIVE! If you're new here, drop a wave! Tonight we have some INSANE deals on our vitamins — I'm talking prices lower than our website. Plus I'll break down exactly which vitamins you need based on YOUR symptoms. Drop your #1 health concern in the chat and I'll help you out!"</p>
+            <h4 class="font-semibold text-stone-800 mb-2">Opening (English)</h4>
+            <p class="text-sm text-stone-600 italic">"Hey everyone, welcome back. If you're dealing with tingling hands, numb feet, or back pain shooting down your leg — you're in the right place. Tonight it's buy-two-get-two-free on the Nusava B12 drops, and I'm pinning it right now in the orange cart."</p>
           </div>
           <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-            <h4 class="font-semibold text-stone-800 mb-2">Product Transition</h4>
-            <p class="text-sm text-stone-600 italic">"OK now THIS is our #1 bestseller — over 14,000 sold on TikTok Shop alone. I see [name] asking about energy — THIS is your answer. Watch this... *shows dropper, places under tongue* ...it absorbs in seconds. I'm pinning the 2-pack now, LIVE price only for the next 5 minutes."</p>
+            <h4 class="font-semibold text-stone-800 mb-2">Opening (Español)</h4>
+            <p class="text-sm text-stone-600 italic">"Hola a todos. Si tienes neuropatía, dolor de nervios, hormigueo en las manos o en los pies — lo que voy a contarte hoy nadie te lo cuenta. Y la oferta: paga dos y te van a mandar cuatro botes. Carrito naranja."</p>
           </div>
           <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-            <h4 class="font-semibold text-stone-800 mb-2">Handling Objections</h4>
-            <p class="text-sm text-stone-600 italic">"Someone's asking 'why not just buy pills from Costco?' Great question! Pills have to go through your digestive system — you absorb maybe 2-5%. Liquid goes under your tongue, straight to your bloodstream — up to 98% absorption. Plus the 2-pack works out to just 36 cents a day. Less than your morning coffee."</p>
+            <h4 class="font-semibold text-stone-800 mb-2">Gabapentin Pivot</h4>
+            <p class="text-sm text-stone-600 italic">"For everyone watching who's on Gabapentin — that medication masks the signal, it doesn't fix the wire. The wire is your myelin sheath, and it's made of B vitamins. Your nerves are firing off like fireworks because they're missing what's in this bottle right here."</p>
           </div>
           <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-            <h4 class="font-semibold text-stone-800 mb-2">Closing Script</h4>
-            <p class="text-sm text-stone-600 italic">"That's a wrap! Thank you SO much to everyone who grabbed their vitamins tonight! Quick recap: B12 2-pack deal ends at midnight, the wellness bundle is LIVE-exclusive and won't be this price again. Follow so you don't miss next Tuesday's LIVE — we're doing a GIVEAWAY of our full collection. Take care of your health, love you all!"</p>
+            <h4 class="font-semibold text-stone-800 mb-2">Authenticity / Closing</h4>
+            <p class="text-sm text-stone-600 italic">"You'll see fakes everywhere — that's how you know it works. The real Nusava is only in the orange cart pinned right here. 22,000+ sold, 4.5 stars. Stock is low and the BOGO ends tonight. I'm back same time tomorrow."</p>
           </div>
         </div>
       </div>
@@ -697,24 +745,24 @@ tailwind.config = {
     <div id="tab-personas" class="hidden fade-in">
       <div class="grid grid-cols-4 gap-5 mb-6">
         <div class="card metric-card p-5">
-          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Total Personas</span></div>
-          <p class="text-3xl font-bold text-stone-900">7</p>
-          <p class="text-xs text-stone-500 mt-1">AI-detected from 156 videos</p>
+          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Personas Detected</span></div>
+          <p class="text-3xl font-bold text-stone-900">4</p>
+          <p class="text-xs text-stone-500 mt-1">Tagged across top-30 videos this week</p>
         </div>
         <div class="card metric-card p-5">
           <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Top Persona GMV</span></div>
-          <p class="text-3xl font-bold text-stone-900">$142K</p>
-          <p class="text-xs text-green-600 mt-1 font-medium">The Health Educator</p>
+          <p class="text-3xl font-bold text-stone-900">$1,027</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">Health Educator (14 videos)</p>
         </div>
         <div class="card metric-card p-5">
           <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Narrative Angles</span></div>
-          <p class="text-3xl font-bold text-stone-900">18</p>
-          <p class="text-xs text-stone-500 mt-1">Unique angles detected</p>
+          <p class="text-3xl font-bold text-stone-900">5</p>
+          <p class="text-xs text-stone-500 mt-1">Distinct hook patterns from coded videos</p>
         </div>
         <div class="card metric-card p-5">
-          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Best Conv. Persona</span></div>
-          <p class="text-3xl font-bold text-stone-900">5.1%</p>
-          <p class="text-xs text-green-600 mt-1 font-medium">The Transformation Journey</p>
+          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Highest Hook Score Avg</span></div>
+          <p class="text-3xl font-bold text-stone-900">87</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">Latina Wellness — Spanish curiosity hooks</p>
         </div>
       </div>
 
@@ -727,165 +775,99 @@ tailwind.config = {
           <button class="bg-nusava-green/10 text-nusava-green px-4 py-2 rounded-lg text-sm font-medium hover:bg-nusava-green/20 transition">Re-analyze Content</button>
         </div>
 
-        <div class="grid grid-cols-3 gap-5">
-          <!-- Persona 1 -->
+        <div class="grid grid-cols-2 gap-5">
+          <!-- Persona 1: Health Educator -->
           <div class="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-5 hover:shadow-lg transition-shadow">
             <div class="flex items-center gap-3 mb-4">
               <div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white text-lg">&#129468;</div>
-              <div><h4 class="font-bold text-stone-900">The Health Educator</h4><span class="badge badge-green">Top GMV Performer</span></div>
+              <div><h4 class="font-bold text-stone-900">Health Educator</h4><span class="badge badge-green">Top GMV</span></div>
             </div>
-            <p class="text-sm text-stone-600 mb-4">Science-driven content explaining vitamin absorption, deficiency symptoms, and ingredient quality. Uses medical language to build authority and trust.</p>
+            <p class="text-sm text-stone-600 mb-4">Science-driven nerve-pain and B12 deficiency content. Uses the myelin sheath analogy and contrasts liquid drops with prescription Gabapentin. Authoritative, often anti-pharma framing.</p>
             <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">38</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$142,000</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">9.4%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">4.2%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">486K</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos (top 30 window)</span><span class="font-semibold text-stone-900">14</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$1,027</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Hook Score</span><span class="font-semibold text-stone-900">76</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Tone</span><span class="font-semibold text-stone-900">Educational</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top Creators</span><span class="font-semibold text-stone-900">@mellag, @kokoterashop, @matttatkins</span></div>
             </div>
             <div class="border-t border-emerald-100 pt-3">
-              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES (from coded videos)</p>
               <div class="flex flex-wrap gap-1.5">
-                <span class="hook-tag bg-emerald-100 text-emerald-700">Absorption Science</span>
-                <span class="hook-tag bg-emerald-100 text-emerald-700">Deficiency Symptoms</span>
-                <span class="hook-tag bg-emerald-100 text-emerald-700">Liquid vs Pills</span>
+                <span class="hook-tag bg-emerald-100 text-emerald-700">Myelin Sheath / Nerve Wires</span>
+                <span class="hook-tag bg-emerald-100 text-emerald-700">Anti-Gabapentin</span>
+                <span class="hook-tag bg-emerald-100 text-emerald-700">B12 Absorption Science</span>
+                <span class="hook-tag bg-emerald-100 text-emerald-700">Symptom Diagnosis</span>
               </div>
             </div>
           </div>
-          <!-- Persona 2 -->
+          <!-- Persona 2: Latina Wellness -->
           <div class="rounded-xl border-2 border-rose-200 bg-gradient-to-br from-rose-50 to-white p-5 hover:shadow-lg transition-shadow">
             <div class="flex items-center gap-3 mb-4">
-              <div class="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white text-lg">&#10024;</div>
-              <div><h4 class="font-bold text-stone-900">The Transformation Journey</h4><span class="badge badge-red">Highest Conversion</span></div>
+              <div class="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white text-lg">&#127801;</div>
+              <div><h4 class="font-bold text-stone-900">Latina Wellness</h4><span class="badge badge-red">Highest Hook Avg</span></div>
             </div>
-            <p class="text-sm text-stone-600 mb-4">Before/after energy transformation stories. Personal journeys from fatigue to vitality. Emotional storytelling with tangible results over weeks.</p>
+            <p class="text-sm text-stone-600 mb-4">Spanish-language content blending wellness storytelling, BOGO value framing, and curiosity-gap hooks ("no quieren que sepas esto"). Strong personal-experience and family-health framing.</p>
             <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">26</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$108,400</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">10.8%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">5.1%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">612K</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos (top 30 window)</span><span class="font-semibold text-stone-900">7</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$632</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Hook Score</span><span class="font-semibold text-stone-900">81</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Tone</span><span class="font-semibold text-stone-900">Casual / Educational</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top Creators</span><span class="font-semibold text-stone-900">@didi_finds, @cupontokbypam</span></div>
             </div>
             <div class="border-t border-rose-100 pt-3">
-              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES (from coded videos)</p>
               <div class="flex flex-wrap gap-1.5">
-                <span class="hook-tag bg-rose-100 text-rose-700">Energy Transformation</span>
-                <span class="hook-tag bg-rose-100 text-rose-700">Week-by-Week Results</span>
-                <span class="hook-tag bg-rose-100 text-rose-700">Fatigue Recovery</span>
+                <span class="hook-tag bg-rose-100 text-rose-700">Spanish Curiosity Gap</span>
+                <span class="hook-tag bg-rose-100 text-rose-700">"Paga 2, Recibe 4"</span>
+                <span class="hook-tag bg-rose-100 text-rose-700">Neuropatía / Edad</span>
+                <span class="hook-tag bg-rose-100 text-rose-700">Energía + Familia</span>
               </div>
             </div>
           </div>
-          <!-- Persona 3 -->
+          <!-- Persona 3: Value Hunter -->
           <div class="rounded-xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 hover:shadow-lg transition-shadow">
             <div class="flex items-center gap-3 mb-4">
               <div class="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center text-white text-lg">&#128176;</div>
-              <div><h4 class="font-bold text-stone-900">The Value Hunter</h4><span class="badge badge-yellow">Highest Shares</span></div>
+              <div><h4 class="font-bold text-stone-900">Value Hunter</h4><span class="badge badge-yellow">BOGO-Forward</span></div>
             </div>
-            <p class="text-sm text-stone-600 mb-4">Price-per-serving breakdowns, pack size comparisons, supplement cost analysis. Shows Nusava as the smart choice vs expensive alternatives.</p>
+            <p class="text-sm text-stone-600 mb-4">Deal-driven creators who lead with "buy 2 get 2 free", scam/authenticity warnings, and stock urgency. "Tap the orange cart" energy. Uses competitor comparison to validate Nusava.</p>
             <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">22</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$86,200</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">8.2%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">3.8%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">340K</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos (top 30 window)</span><span class="font-semibold text-stone-900">7</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$467</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Hook Score</span><span class="font-semibold text-stone-900">79</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Tone</span><span class="font-semibold text-stone-900">Casual / Playful</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top Creators</span><span class="font-semibold text-stone-900">@jamison904, @amberfindsdeals</span></div>
             </div>
             <div class="border-t border-amber-100 pt-3">
-              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES (from coded videos)</p>
               <div class="flex flex-wrap gap-1.5">
-                <span class="hook-tag bg-amber-100 text-amber-700">Cost Per Serving</span>
-                <span class="hook-tag bg-amber-100 text-amber-700">Pack Comparison</span>
-                <span class="hook-tag bg-amber-100 text-amber-700">vs Pharmacy Brands</span>
+                <span class="hook-tag bg-amber-100 text-amber-700">"This is Fake" Reframe</span>
+                <span class="hook-tag bg-amber-100 text-amber-700">Buy 2 Get 2 Free</span>
+                <span class="hook-tag bg-amber-100 text-amber-700">Stock Urgency</span>
+                <span class="hook-tag bg-amber-100 text-amber-700">22K+ Sold Social Proof</span>
               </div>
             </div>
           </div>
-          <!-- Persona 4 -->
-          <div class="rounded-xl border-2 border-cyan-200 bg-gradient-to-br from-cyan-50 to-white p-5 hover:shadow-lg transition-shadow">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-12 h-12 rounded-full bg-cyan-500 flex items-center justify-center text-white text-lg">&#127775;</div>
-              <div><h4 class="font-bold text-stone-900">The Wellness Routiner</h4><span class="badge badge-blue">Best for Bundles</span></div>
-            </div>
-            <p class="text-sm text-stone-600 mb-4">Morning/evening wellness routine content. Shows supplements as part of a healthy lifestyle. Naturally showcases multiple Nusava products together.</p>
-            <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">24</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$68,400</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">7.6%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">3.1%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">298K</span></div>
-            </div>
-            <div class="border-t border-cyan-100 pt-3">
-              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="hook-tag bg-cyan-100 text-cyan-700">Morning Routine</span>
-                <span class="hook-tag bg-cyan-100 text-cyan-700">Supplement Stack</span>
-                <span class="hook-tag bg-cyan-100 text-cyan-700">Wellness Lifestyle</span>
-              </div>
-            </div>
-          </div>
-          <!-- Persona 5 -->
-          <div class="rounded-xl border-2 border-violet-200 bg-gradient-to-br from-violet-50 to-white p-5 hover:shadow-lg transition-shadow">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-12 h-12 rounded-full bg-violet-500 flex items-center justify-center text-white text-lg">&#129656;</div>
-              <div><h4 class="font-bold text-stone-900">The Mom Advocate</h4><span class="badge badge-purple">Fastest Growing</span></div>
-            </div>
-            <p class="text-sm text-stone-600 mb-4">Mom-focused content: prenatal vitamins, postpartum energy, family wellness. Emotional connection with the "tired mom" audience. Strong community engagement.</p>
-            <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">18</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$42,800</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">11.6%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">3.6%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">380K</span></div>
-            </div>
-            <div class="border-t border-violet-100 pt-3">
-              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="hook-tag bg-violet-100 text-violet-700">Tired Mom Energy</span>
-                <span class="hook-tag bg-violet-100 text-violet-700">Family Wellness</span>
-                <span class="hook-tag bg-violet-100 text-violet-700">Postpartum Recovery</span>
-              </div>
-            </div>
-          </div>
-          <!-- Persona 6 -->
+          <!-- Persona 4: Fitness Optimizer -->
           <div class="rounded-xl border-2 border-green-200 bg-gradient-to-br from-green-50 to-white p-5 hover:shadow-lg transition-shadow">
             <div class="flex items-center gap-3 mb-4">
               <div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center text-white text-lg">&#128170;</div>
-              <div><h4 class="font-bold text-stone-900">The Fitness Optimizer</h4><span class="badge badge-green">High AOV</span></div>
+              <div><h4 class="font-bold text-stone-900">Fitness Optimizer</h4><span class="badge badge-green">Niche / Emerging</span></div>
             </div>
-            <p class="text-sm text-stone-600 mb-4">Gym/fitness angle — B12 for workout energy, D3K2 for bone/muscle health. Targets active audience who already takes supplements and wants to upgrade.</p>
+            <p class="text-sm text-stone-600 mb-4">Energy and brain/body performance angle — frames B12 + B-complex as a fuel/focus stack rather than a nerve-pain remedy. Smallest persona in current dataset but distinct narrative.</p>
             <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">16</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$34,600</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">6.8%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">3.4%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">224K</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos (top 30 window)</span><span class="font-semibold text-stone-900">2</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$123</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Hook Score</span><span class="font-semibold text-stone-900">N/A (not yet coded)</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Tone</span><span class="font-semibold text-stone-900">Casual</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top Creators</span><span class="font-semibold text-stone-900">@zayzayexpress, @hotshopdeals4u</span></div>
             </div>
             <div class="border-t border-green-100 pt-3">
-              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES (from titles + tags)</p>
               <div class="flex flex-wrap gap-1.5">
-                <span class="hook-tag bg-green-100 text-green-700">Pre-Workout Energy</span>
-                <span class="hook-tag bg-green-100 text-green-700">Recovery Stack</span>
-                <span class="hook-tag bg-green-100 text-green-700">Upgrade Supps</span>
-              </div>
-            </div>
-          </div>
-          <!-- Persona 7 -->
-          <div class="rounded-xl border-2 border-pink-200 bg-gradient-to-br from-pink-50 to-white p-5 hover:shadow-lg transition-shadow col-span-3 lg:col-span-1">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-12 h-12 rounded-full bg-pink-500 flex items-center justify-center text-white text-lg">&#128525;</div>
-              <div><h4 class="font-bold text-stone-900">The Trend Rider</h4><span class="badge bg-pink-100 text-pink-700">Viral Potential</span></div>
-            </div>
-            <p class="text-sm text-stone-600 mb-4">Rides trending sounds and formats, adapts viral templates to supplement content. Highest view count but lower conversion — top of funnel awareness.</p>
-            <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">12</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$14,600</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">13.2%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">1.4%</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">720K</span></div>
-            </div>
-            <div class="border-t border-pink-100 pt-3">
-              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="hook-tag bg-pink-100 text-pink-700">Trending Sound</span>
-                <span class="hook-tag bg-pink-100 text-pink-700">Challenge Format</span>
-                <span class="hook-tag bg-pink-100 text-pink-700">Viral Remix</span>
+                <span class="hook-tag bg-green-100 text-green-700">Energy + Focus</span>
+                <span class="hook-tag bg-green-100 text-green-700">Brain & Heart</span>
+                <span class="hook-tag bg-green-100 text-green-700">4-Pack Stack</span>
               </div>
             </div>
           </div>
@@ -894,34 +876,33 @@ tailwind.config = {
 
       <!-- Charts -->
       <div class="grid grid-cols-2 gap-6 mb-6">
-        <div class="card p-6"><h3 class="font-semibold text-stone-800 mb-4">GMV by Persona</h3><canvas id="chart-persona-gmv" height="280"></canvas></div>
-        <div class="card p-6"><h3 class="font-semibold text-stone-800 mb-4">Engagement vs Conversion by Persona</h3><canvas id="chart-persona-scatter" height="280"></canvas></div>
+        <div class="card p-6"><h3 class="font-semibold text-stone-800 mb-1">GMV &amp; Video Count by Persona</h3><p class="text-xs text-stone-400 mb-4">Top-30 video window, Apr 5–11, 2026</p><canvas id="chart-persona-gmv" height="280"></canvas></div>
+        <div class="card p-6"><h3 class="font-semibold text-stone-800 mb-1">Hook Score vs Avg GMV per Video</h3><p class="text-xs text-stone-400 mb-4">Bubble size scaled by total persona GMV</p><canvas id="chart-persona-scatter" height="280"></canvas></div>
       </div>
 
       <!-- Narrative Angles Table -->
       <div class="card overflow-hidden">
-        <div class="p-5 border-b border-stone-100"><h3 class="font-semibold text-stone-800">Narrative Angles Performance</h3><p class="text-sm text-stone-400 mt-0.5">All detected narrative angles ranked by GMV contribution</p></div>
+        <div class="p-5 border-b border-stone-100"><h3 class="font-semibold text-stone-800">Narrative Angles Performance</h3><p class="text-sm text-stone-400 mt-0.5">Hook patterns observed across the 13 AI-coded videos, ranked by frequency × avg hook score</p></div>
         <table class="w-full">
           <thead><tr class="bg-stone-50 text-left">
             <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Narrative Angle</th>
             <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Persona</th>
             <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Videos</th>
-            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Total Views</th>
-            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Avg Engagement</th>
-            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Conv Rate</th>
-            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">GMV</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Avg Hook Score</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Top Hook Score</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Signature Line</th>
           </tr></thead>
           <tbody class="divide-y divide-stone-50">
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Energy Transformation</td><td class="px-5 py-3"><span class="badge bg-rose-100 text-rose-700">Transformation</span></td><td class="px-5 py-3 text-sm text-right">14</td><td class="px-5 py-3 text-sm text-right">4.2M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">11.2%</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">5.4%</td><td class="px-5 py-3 text-sm text-right font-bold">$58,200</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Absorption Science</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">15</td><td class="px-5 py-3 text-sm text-right">3.8M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">9.8%</td><td class="px-5 py-3 text-sm text-right font-medium">4.4%</td><td class="px-5 py-3 text-sm text-right font-bold">$52,400</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Liquid vs Pills</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">12</td><td class="px-5 py-3 text-sm text-right">3.1M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">9.2%</td><td class="px-5 py-3 text-sm text-right font-medium">4.1%</td><td class="px-5 py-3 text-sm text-right font-bold">$48,600</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Week-by-Week Results</td><td class="px-5 py-3"><span class="badge bg-rose-100 text-rose-700">Transformation</span></td><td class="px-5 py-3 text-sm text-right">12</td><td class="px-5 py-3 text-sm text-right">2.8M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">10.4%</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">4.8%</td><td class="px-5 py-3 text-sm text-right font-bold">$50,200</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Cost Per Serving</td><td class="px-5 py-3"><span class="badge bg-amber-100 text-amber-700">Value Hunter</span></td><td class="px-5 py-3 text-sm text-right">10</td><td class="px-5 py-3 text-sm text-right">2.2M</td><td class="px-5 py-3 text-sm text-right font-medium">8.6%</td><td class="px-5 py-3 text-sm text-right font-medium">4.0%</td><td class="px-5 py-3 text-sm text-right font-bold">$38,400</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Deficiency Symptoms</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">11</td><td class="px-5 py-3 text-sm text-right">2.6M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">9.6%</td><td class="px-5 py-3 text-sm text-right font-medium">3.8%</td><td class="px-5 py-3 text-sm text-right font-bold">$41,000</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Morning Routine</td><td class="px-5 py-3"><span class="badge bg-cyan-100 text-cyan-700">Wellness Routiner</span></td><td class="px-5 py-3 text-sm text-right">12</td><td class="px-5 py-3 text-sm text-right">1.8M</td><td class="px-5 py-3 text-sm text-right font-medium">7.8%</td><td class="px-5 py-3 text-sm text-right font-medium">3.2%</td><td class="px-5 py-3 text-sm text-right font-bold">$32,600</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Tired Mom Energy</td><td class="px-5 py-3"><span class="badge bg-violet-100 text-violet-700">Mom Advocate</span></td><td class="px-5 py-3 text-sm text-right">10</td><td class="px-5 py-3 text-sm text-right">2.4M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">12.1%</td><td class="px-5 py-3 text-sm text-right font-medium">3.8%</td><td class="px-5 py-3 text-sm text-right font-bold">$26,400</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Trending Sound</td><td class="px-5 py-3"><span class="badge bg-pink-100 text-pink-700">Trend Rider</span></td><td class="px-5 py-3 text-sm text-right">8</td><td class="px-5 py-3 text-sm text-right">3.6M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">13.8%</td><td class="px-5 py-3 text-sm text-right font-medium text-red-500">1.2%</td><td class="px-5 py-3 text-sm text-right font-bold">$8,400</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Pre-Workout Energy</td><td class="px-5 py-3"><span class="badge bg-green-100 text-green-700">Fitness Optimizer</span></td><td class="px-5 py-3 text-sm text-right">9</td><td class="px-5 py-3 text-sm text-right">1.2M</td><td class="px-5 py-3 text-sm text-right font-medium">7.0%</td><td class="px-5 py-3 text-sm text-right font-medium">3.6%</td><td class="px-5 py-3 text-sm text-right font-bold">$18,800</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Myelin Sheath / Nerve Wires</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">5</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">82</td><td class="px-5 py-3 text-sm text-right font-medium">90</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Your nerves are like electrical wires…"</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Anti-Gabapentin Pivot</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">4</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">80</td><td class="px-5 py-3 text-sm text-right font-medium">90</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Mask the signal — they don't fix the wire."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">BOGO Value Callout</td><td class="px-5 py-3"><span class="badge bg-amber-100 text-amber-700">Value Hunter</span></td><td class="px-5 py-3 text-sm text-right">3</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">87</td><td class="px-5 py-3 text-sm text-right font-medium">90</td><td class="px-5 py-3 text-xs text-stone-600 italic">"4 for 2 + free shipping."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Spanish Curiosity Gap</td><td class="px-5 py-3"><span class="badge bg-rose-100 text-rose-700">Latina Wellness</span></td><td class="px-5 py-3 text-sm text-right">3</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">83</td><td class="px-5 py-3 text-sm text-right font-medium">90</td><td class="px-5 py-3 text-xs text-stone-600 italic">"No quieren que sepas esto."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Symptom Call-Out</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">3</td><td class="px-5 py-3 text-sm text-right font-medium">73</td><td class="px-5 py-3 text-sm text-right font-medium">80</td><td class="px-5 py-3 text-xs text-stone-600 italic">"If your feet are tingling…"</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Personal Story / Reply</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">2</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">80</td><td class="px-5 py-3 text-sm text-right font-medium">90</td><td class="px-5 py-3 text-xs text-stone-600 italic">"This stopped my wife's nerve pain."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Scam / Authenticity Warning</td><td class="px-5 py-3"><span class="badge bg-amber-100 text-amber-700">Value Hunter</span></td><td class="px-5 py-3 text-sm text-right">2</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">80</td><td class="px-5 py-3 text-sm text-right font-medium">90</td><td class="px-5 py-3 text-xs text-stone-600 italic">"This is fake. This is fake."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Neuropatía / Edad</td><td class="px-5 py-3"><span class="badge bg-rose-100 text-rose-700">Latina Wellness</span></td><td class="px-5 py-3 text-sm text-right">2</td><td class="px-5 py-3 text-sm text-right font-medium">75</td><td class="px-5 py-3 text-sm text-right font-medium">80</td><td class="px-5 py-3 text-xs text-stone-600 italic">"A partir de los 50, ya no se absorbe."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Debunk / Reframe</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">1</td><td class="px-5 py-3 text-sm text-right font-medium">70</td><td class="px-5 py-3 text-sm text-right font-medium">80</td><td class="px-5 py-3 text-xs text-stone-600 italic">"You didn't waste your money…"</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Energy + Focus Stack</td><td class="px-5 py-3"><span class="badge bg-green-100 text-green-700">Fitness Optimizer</span></td><td class="px-5 py-3 text-sm text-right">2</td><td class="px-5 py-3 text-sm text-right font-medium text-stone-500">N/A</td><td class="px-5 py-3 text-sm text-right font-medium text-stone-500">—</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Energy, focus, alignment, brain & body."</td></tr>
           </tbody>
         </table>
       </div>
@@ -2299,6 +2280,156 @@ const videoDetails = {
     productSku: "(2-PACK) Vitamin B12 Liquid Supplement Drops with B6, B1, Niacin & Folate",
     productNotes: "The product is not visible in the video. The content is a verbal explanation about B12 supplements in general, not a specific product. The speaker discusses the common experience of taking B12 and not seeing a difference.",
     integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@jamison904/video/7625363396472474893": {
+    overview: "The creator warns viewers about fake Vitamin B12 product listings and directs them to an 'orange cart' for the authentic product, highlighting its sales volume (22,000+ sold), 4.5-star rating, and a buy-two-get-two-free deal. Strong social proof + urgency combined with a scam-avoidance angle.",
+    audience: "Online shoppers concerned about counterfeit supplements, motivated by discounts and proven product quality, looking for trustworthy nerve/focus/energy solutions.",
+    tone: "Casual",
+    hooks: [
+      { text: "This is fake.", score: 80, why: "Immediately creates intrigue and urgency by warning viewers about fake products." },
+      { text: "So if you want more mental clarity, focus and energy and help with your nerves, I'll leave the real one down in the orange cart.", score: 70, why: "Highlights key product benefits and directs viewers to a specific action (checking the orange cart)." },
+      { text: "It's on a huge discount and it's buy two, get two free.", score: 90, why: "Highly compelling — mentions a significant discount and a 'buy two, get two free' offer, strong purchase drivers." }
+    ],
+    transcript: "This is fake. This is fake. This is fake. This is fake. This is fake. This is fake. There are so many fake listings out there. But you'll know the real new stuff by my drop. When you tap on this orange cart right here, there's over 22,000 sold with a 4.5 star rating. So if you want more mental clarity, focus and energy and help with your nerves, I'll leave the real one down in the orange cart. Just make sure you grab it because it's on a huge discount and it's buy two, get two free. But only from the official link right there.",
+    productSku: "(4-Pack) Vitamin B12 Liquid Edible Supplement Drops",
+    productNotes: "The product (Vitamin B12 liquid dietary supplement) is prominently displayed and held by the creator starting around 0:04, with close-ups on the packaging. It is central to the content — the subject of the warning and recommended purchase.",
+    integrationType: "Review"
+  },
+  "https://www.tiktok.com/@amberfindsdeals/video/7626111050823273741": {
+    overview: "Creator enthusiastically promotes a 'buy 2 get 2 free' sale on Vitamin B12 drops + free shipping, emphasizing the deal and creating urgency by citing low stock and a sale ending tonight. Directs viewers to tap the orange cart to purchase.",
+    audience: "Individuals interested in health supplements, particularly those seeking energy or relief from numbness/tightness, motivated by discounts and limited-time offers.",
+    tone: "Playful",
+    hooks: [
+      { text: "The gettin' is good!!! 4 for 2 (buy 2 get 2 free) + free shipping.", score: 90, why: "Clearly states a compelling offer and includes free shipping — strong incentive for shoppers." },
+      { text: "But you don't have long. Because last I checked the stock is low.", score: 80, why: "Creates urgency by highlighting limited stock and an impending sale end, encouraging immediate action." }
+    ],
+    transcript: "The gettin' is good!!! 4 for 2 (buy 2 get 2 free) + free shipping. I'm honestly not shocked one bit. Tap that orange cart friends. You can still buy 2 get 2 free of the Nova Vitamin B12 drops. But you don't have long. Because last I checked the stock is low. And they've extended this sale until tonight. All you got to do is tap that orange cart. Add to cart and check.",
+    productSku: "(4-Pack) Vitamin B12 Liquid Edible Supplement Drops",
+    productNotes: "Product shown multiple times starting around 0:04 with creator holding multiple bottles, demonstrating the quantity in the offer. Product is the sole focus of the promotion.",
+    integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@jamison904/video/7626120099614821646": {
+    overview: "Creator shares a personal story about his wife's 15-year nerve pain being alleviated by a specific B vitamin (benfotiamine, a form of B1). Explains that B6 and B12 deficiencies can lead to sciatica and carpal tunnel via myelin sheath damage, and suggests that this form of B1 can penetrate the myelin and reverse nerve damage.",
+    audience: "Individuals suffering from chronic nerve pain (sciatica, carpal tunnel, neuropathy) looking for effective solutions and interested in the role of vitamins in nerve health.",
+    tone: "Educational",
+    hooks: [
+      { text: "This stopped my wife's nerve pain.", score: 90, why: "Immediately addresses a common pain point and offers a solution, creating curiosity about how the pain was stopped." },
+      { text: "Oh my god, I can't believe after 15 years, it finally worked.", score: 80, why: "Emphasizes a long-term struggle and a breakthrough, suggesting a powerful and effective solution." },
+      { text: "It can actually be rebuilt with the right B vitamin.", score: 70, why: "Suggests a restorative capability for nerve damage, offering hope and a potential solution for a persistent problem." }
+    ],
+    transcript: "This stopped my wife's nerve pain. It finally worked. Oh my god, I can't believe after 15 years, it finally worked. If you have carpal tunnel, sciatica, neuropathy, or any kind of nerve issues, watch what this doctor has to say about nerve pain. The one vitamin that reverses nerve damage. The reason I want to talk about this one vitamin is because it's the most common deficiency behind most nerve problems. Let's start with sciatica. That usually comes from a disc issue. Next condition is carpal tunnel syndrome. That's in your wrist. This is usually a B6 deficiency. The primary nerve that supports myelin is B12. B12 is involved with the myelin sheath around the nerve. That's the covering of the nerve. That's the insulation that allows signals to transmit. So nerve problems in your feet. That's B1. I would take it in the form of benfotiamine because that tends to penetrate the myelin and get right into the nerve and very quickly reverse nerve damage. And you see, that's the part that blew my mind. That myelin sheath that he talks about. Now, my wife's neurologist never explained this, but that's what causes the nerve pain. And guess what? It can actually be rebuilt with the right B vitamin.",
+    productSku: "(4-Pack) Vitamin B12 Liquid Edible Supplement Drops",
+    productNotes: "The product is not directly shown. The video focuses on benefits of B vitamins (B1, B6, B12) for nerve health and pain relief — educational content that implicitly promotes the supplement.",
+    integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@didi_finds/video/7626119283453480205": {
+    overview: "Creator claims that neurologists don't want viewers to know they can repair nerves at home without expensive treatments or surgery. Uses an electrical-cable analogy for nerves and explains common peripheral nervous system symptoms (neuropathy, sciatica, carpal tunnel, tingling, burning).",
+    audience: "Individuals experiencing nerve-related pain, numbness, tingling, or weakness — particularly those with neuropathy, sciatica, or carpal tunnel syndrome.",
+    tone: "Educational",
+    hooks: [
+      { text: "No quieren que sepas esto.", score: 90, why: "Creates a strong curiosity gap, implying hidden information the viewer is entitled to know." },
+      { text: "¿Sabías que puede reparar tus nervios en casa sin necesidad de tratamientos costosos ni cirugía?", score: 80, why: "Offers a solution to nerve issues with the promise of a simple, affordable, and non-invasive method." }
+    ],
+    transcript: "Amigos, neurólogos, se va a enfadar por lo que voy a decir porque le va a hacer perder mucho dinero. ¿Sabías que puede reparar tus nervios en casa sin necesidad de tratamientos costosos ni cirugía? Simplemente dándole a tus nervios lo que necesitan. Y tienes neuropatía, asiática, túnel carpiano, cualquier problema en el sistema nervioso periférico. Te duelen las manos, se te entumece en los pies, sientes como hormigueo, sensación de quemazón, como si caminaras en agujas. ¿Has probado de todo y nada te funciona? Y es porque tienes que entender que tus nervios son como cables.",
+    productSku: "(4-Pack) Vitamin B12 Liquid Edible Supplement Drops",
+    productNotes: "The product itself isn't explicitly shown or named in the video. The speaker uses a visual analogy of electrical cables to explain nerve function (around 0:29). Focus is on problem + potential solution rather than a specific product demonstration.",
+    integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@kymieann/video/7625496841844477197": {
+    overview: "Creator addresses a commenter questioning their expertise, stating they have personal experience with nerve pain conditions that doctors couldn't solve. Discusses various types of nerve pain (sciatic neuropathy, carpal tunnel, fibromyalgia) and frames supplement knowledge as self-taught from personal struggle.",
+    audience: "Individuals experiencing nerve pain — sciatica, carpal tunnel, fibromyalgia — who may be dissatisfied with conventional medical treatments and seeking alternative solutions.",
+    tone: "Casual",
+    hooks: [
+      { text: "Excuse me for being knowledgeable on some type of supplements because I have actual problems myself and these doctors weren't doing anything for me.", score: 70, why: "Establishes a personal struggle and a perceived failure of traditional medical advice, creating intrigue about the speaker's alternative knowledge." },
+      { text: "But Brenda, if you struggle with nerve pain like sciatic neuropathy, carpal tunnel, fibromyalgia…", score: 60, why: "Directly addresses a potential viewer's pain points and lists common conditions, making it relatable." }
+    ],
+    transcript: "Excuse me for being knowledgeable on some type of supplements because I have actual problems myself and these doctors weren't doing anything for me. But Brenda, if you struggle with nerve pain like sciatic neuropathy, carpal tunnel, fibromyalgia, them things that are normal, but there's a lot of other nerve pains. That's usually because you're nerve over time. Showing in any type of injuries or being in pain, you know, I mean.",
+    productSku: "(2-PACK) Vitamin B12 Liquid Supplement Drops with B6, B1, Niacin & Folate",
+    productNotes: "The product is not visible or mentioned in the video. The content is purely informational and based on the speaker's personal experience and knowledge regarding health issues and supplements.",
+    integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@matttatkins/video/7626155719724633357": {
+    overview: "Explains that carpal tunnel, sciatica, fibromyalgia, neuropathy, and restless legs all stem from the same underlying issue — stressed nerves with deteriorating myelin sheaths. Contrasts Gabapentin/Lyrica (which 'mask the signal' but don't fix the wire) with a sublingual B-vitamin supplement for direct absorption and nerve regeneration. Closes with 13,000+ review social proof.",
+    audience: "Individuals experiencing nerve-related symptoms (pain, numbness, tingling) who are seeking alternatives to conventional prescription medications.",
+    tone: "Educational",
+    hooks: [
+      { text: "These aren't four different problems. They're four different ways that the same problem show up.", score: 80, why: "Creates curiosity by suggesting a hidden connection between seemingly unrelated symptoms, prompting viewers to watch for the explanation." },
+      { text: "Your doctor probably handed you Gabapentin or Lyrica. Those mask the signal. They don't fix the wire.", score: 90, why: "Challenges conventional medical advice and introduces a potential alternative solution, creating intrigue and a desire to learn more about the 'fix'." },
+      { text: "Don't just take my word for it. There are over 13,000 reviews of people talking about how it helped them.", score: 70, why: "Provides social proof and credibility by referencing a large number of positive reviews." }
+    ],
+    transcript: "Carpal tunnel, sciatica, fibromyalgia, neuropathy, restless legs. These aren't four different problems. They're four different ways that the same problem show up. Your nerves are under stress and the protective coating around them is wearing down. That layer is called the myelin sheath and it's made primarily of B vitamins. And most people, especially my age, aren't absorbing enough vitamins from food anymore to keep that intact. Your doctor probably handed you Gabapentin or Lyrica. Those mask the signal. They don't fix the wire. I switched to this. Methylated B12, B6, B1. Niacin plus folate. A sublingual dropper, straight to your bloodstream. No digestion. That's the difference between this and pills. Don't just take my word for it. There are over 13,000 reviews of people talking about how it helped them. Grab the two-pack.",
+    productSku: "(2-PACK) Vitamin B12 Liquid Supplement Drops with B6, B1, Niacin & Folate",
+    productNotes: "The product (liquid B vitamin supplement with B12, B6, B1, Niacin, Folate) is first mentioned verbally around 0:09 and shown visually starting at 0:28. Speaker holds the bottle and demonstrates dropper use from 0:35–0:47. Central to the video's message.",
+    integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@kokoterashop/video/7626485554841963806": {
+    overview: "Creator explains that tingling, burning sensations, and random nerve pains indicate a need for B vitamins. Illustrates how myelin sheath breakdown causes nerve symptoms and discusses treatment options — prescription medications, injections, or assembling supplements — positioning the sublingual supplement as the simpler path.",
+    audience: "Individuals experiencing nerve-related symptoms (tingling, burning, numbness) in their extremities, seeking alternative solutions beyond traditional medical treatments.",
+    tone: "Educational",
+    hooks: [
+      { text: "If your feet are tingling, you need B vitamins.", score: 70, why: "Addresses a common symptom (tingling feet) and directly links it to a solution (B vitamins), creating immediate relevance." },
+      { text: "If your hands feel like they're burning, you need B vitamins.", score: 70, why: "Addresses another common symptom (burning hands) and links it to a B-vitamin solution, broadening appeal." },
+      { text: "This is literally your nerve crying out for help.", score: 80, why: "Uses strong, evocative language to create a sense of urgency and highlight the severity of nerve issues." }
+    ],
+    transcript: "If your feet are tingling, you need B vitamins. If your hands feel like they're burning, you need B vitamins. And if you got random nerve pains, you guessed it, B vitamins. This is literally your nerve crying out for help. The nerve is like electrical wire which is supposed to be protected by what's called the myelin sheath. But once it starts to break down, your nerve begins to be exposed and that's when you get the tingling, the numbness and the burning sensation. Now if you want to fix that, you can go to the doctor and get put on things like Gabapentin. You can go take all of them B vitamin injections, which I ain't know need a person. Or you can literally try to piece together a bunch of different supplements on your own.",
+    productSku: "B12 Drops",
+    productNotes: "Product is not directly shown but is clearly the implicit solution. Content focuses on the problem (myelin breakdown → nerve symptoms) and frames a B-vitamin supplement as the simplest fix vs. Gabapentin or injections.",
+    integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@cupontokbypam/video/7626244343585705246": {
+    overview: "Creator shares a personal energy-struggle story ('I was dragging my feet') and transitions into a BOGO promotion for Nusava B12 + B complex drops, emphasizing the 'pay for 2, get 4' value and directing viewers to the orange cart.",
+    audience: "Spanish-speaking wellness shoppers — particularly women — dealing with low energy, fatigue, or nerve issues who respond to value-driven offers and personal testimony.",
+    tone: "Casual",
+    hooks: [
+      { text: "Yo arrastraba las patas para hacer algo porque me faltaba tanta energía.", score: 80, why: "Opens with a vivid, relatable personal struggle that mirrors the viewer's own fatigue." },
+      { text: "Paga dos y te van a mandar cuatro.", score: 90, why: "Crystal-clear value proposition — doubles the product count for the same price, a strong purchase driver." },
+      { text: "Te lo voy a dejar aquí en el carrito naranja.", score: 70, why: "Clear CTA tying the offer to a specific action the viewer can take immediately." }
+    ],
+    transcript: "Yo, arrastraba las patas para hacer algo porque me faltaba tanta energía... paga dos y te van a mandar cuatro... te lo voy a dejar aquí en el carrito naranja.",
+    productSku: "(4-Pack) Vitamin B12 Liquid Edible Supplement Drops",
+    productNotes: "Product bottles (B12 + B complex) shown on screen with overlay callouts: VEGAN, B12 2000, B6 3400, NIACIN + FOLATE, ENERGY BRAIN HEART. Creator holds bottles while speaking.",
+    integrationType: "Review"
+  },
+  "https://www.tiktok.com/@cupontokbypam/video/7625504787840159006": {
+    overview: "Short-form promo emphasizing the BOGO deal on Nusava B12 drops — 'Le van a llegar 4 botes' ('4 bottles will arrive') — with clear value framing for Spanish-speaking wellness buyers.",
+    audience: "Spanish-speaking deal hunters interested in B12/wellness supplements, motivated by bulk-value offers.",
+    tone: "Playful",
+    hooks: [
+      { text: "Vitaminas B12 de NUSAVA.", score: 60, why: "Direct product callout — functional but low intrigue on its own." },
+      { text: "Le van a llegar 4 botes!", score: 80, why: "Punchy value reveal — quantifies the deal outcome in an exciting way." }
+    ],
+    transcript: "Vitaminas B12 de NUSAVA. Le van a llegar 4 botes con esta oferta especial. Toquen el carrito naranja para aprovechar antes de que se acabe.",
+    productSku: "(4-Pack) Vitamin B12 Liquid Edible Supplement Drops",
+    productNotes: "Product bottles displayed prominently throughout with on-screen branding and BOGO callout graphics.",
+    integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@wellnessbymimi/video/7625355302594055454": {
+    overview: "Creator warns viewers that competitor B12 listings (EnerPulse, Stars on Viral, etc.) are fake copies, using the prevalence of knockoffs as social proof that Nusava is the real, effective product. Directs viewers to the official orange-cart link.",
+    audience: "Online wellness shoppers wary of counterfeit supplements and looking for validation that they're buying the authentic, trusted product.",
+    tone: "Casual",
+    hooks: [
+      { text: "This is fake, this is fake. And this is fake.", score: 80, why: "Repetition + decisive tone immediately creates a scam-avoidance curiosity gap." },
+      { text: "You know this is a good product when everybody else is making copies of it.", score: 90, why: "Reframes counterfeits as proof of quality — a clever social-proof argument that also justifies urgency." },
+      { text: "The only place you can buy the real Nusava is right here in the orange cart.", score: 70, why: "Clear, unambiguous CTA paired with the scam-warning framing." }
+    ],
+    transcript: "This is fake, this is fake. And this is fake, and you know how they're fake? Because the only place you can buy the real Nusava is right here in the orange cart. All the other ones are fake. You know this is a good product when everybody else is making copies of it. Make sure you get the real thing right here in the orange cart.",
+    productSku: "(2-PACK) Vitamin B12 Liquid Supplement Drops with B6, B1, Niacin & Folate",
+    productNotes: "Creator shows competitor listings on screen (EnerPulse VEGAN B12 COMPLEX at $24.39–79.88, Stars on Viral B12 at $7.49–21.09) contrasted against the authentic Nusava product. Visual comparison is central to the message.",
+    integrationType: "Review"
+  },
+  "https://www.tiktok.com/@kokoterashop/video/7625762407528303903": {
+    overview: "Creator directly addresses viewers with nerve pain who are taking Gabapentin, arguing the medication isn't providing real relief and side effects outweigh benefits. Pivots to Nusava's B-vitamin bundle as an on-sale alternative, using a vivid 'nerves firing off like fireworks' analogy.",
+    audience: "Individuals experiencing nerve-related pain (tingling hands, numb feet, sciatica) who are currently on Gabapentin and frustrated with its effectiveness or side effects.",
+    tone: "Casual",
+    hooks: [
+      { text: "Got nerve system issues? Taking Gabapentin?", score: 80, why: "Directly addresses a specific painful problem and a common medication, creating immediate relevance for the target viewer." },
+      { text: "That ain't really doing nothing for you.", score: 70, why: "Validates viewer frustration with current treatment and primes them to consider an alternative." },
+      { text: "Because nine times out of ten, your nerves are firing off like fireworks on the Fourth of July.", score: 70, why: "Vivid analogy makes the severity of nerve pain relatable and memorable." }
+    ],
+    transcript: "Got nerve issues? Taking Gabapentin? You just gonna keep sending around in pain, taking that Gabapentin, you know what? That ain't really doing nothing for you. Your hands tingling, your feet numb, your back shooting down your leg. I think not. I'm gonna need you to go tap that orange cart right there and grab this whole bundle right here from Nusaba while they still got it on sale. I mean, what you got to lose? You sitting up here waking up in the morning in pain, you walking around during the day in pain, you going to sleep in pain. And the medications that you've been taking is giving you all these side effects and really ain't giving you the relief you looking for. Might as well start incorporating something that's actually gonna help you with that pain. Because nine times out of ten, your nerves are firing off like fireworks on the Fourth of July.",
+    productSku: "(4-Pack) Vitamin B12 Liquid Edible Supplement Drops",
+    productNotes: "The product bundle is shown multiple times throughout the video, starting around 0:01. Creator holds bottles, shakes them, and gestures toward them. On-screen text also displays information about Gabapentin side effects and nerve issue imagery.",
+    integrationType: "Verbal Only"
   }
 };
 
@@ -2356,7 +2487,35 @@ function openVideoModal(idx) {
 function closeVideoModal() { document.getElementById('video-modal').classList.add('hidden'); }
 
 function populateVideoTable() {
-  document.getElementById('video-table-body').innerHTML = videoData.map((v, i) => `
+  const select = document.getElementById('video-product-filter');
+  const search = document.getElementById('video-search');
+  // Populate dropdown options once with real product values + counts/GMV
+  if (select && select.options.length <= 1) {
+    const buckets = {};
+    videoData.forEach(v => {
+      if (!buckets[v.product]) buckets[v.product] = { count: 0, gmv: 0 };
+      buckets[v.product].count++;
+      buckets[v.product].gmv += v.gmv;
+    });
+    Object.keys(buckets).sort((a, b) => buckets[b].gmv - buckets[a].gmv).forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p;
+      opt.textContent = `${p} — ${buckets[p].count} videos · $${buckets[p].gmv.toFixed(0)}`;
+      select.appendChild(opt);
+    });
+  }
+  const productFilter = select ? select.value : '';
+  const q = (search ? search.value : '').trim().toLowerCase();
+  const rows = videoData
+    .map((v, i) => ({ v, i }))
+    .filter(({ v }) => !productFilter || v.product === productFilter)
+    .filter(({ v }) => !q || v.title.toLowerCase().includes(q) || v.creator.toLowerCase().includes(q) || (v.persona || '').toLowerCase().includes(q));
+  const body = document.getElementById('video-table-body');
+  if (!rows.length) {
+    body.innerHTML = `<tr><td colspan="9" class="px-5 py-12 text-center text-sm text-stone-400">No videos match the current filter.</td></tr>`;
+    return;
+  }
+  body.innerHTML = rows.map(({ v, i }) => `
     <tr class="hover:bg-stone-50 transition cursor-pointer" onclick="openVideoModal(${i})">
       <td class="px-5 py-3"><span class="text-sm font-medium text-stone-900 hover:text-nusava-green max-w-xs truncate block">${v.title}${videoDetails[v.link] ? ' <span class=\"ml-1 text-xs text-emerald-600\">●</span>' : ''}</span><p class="text-xs text-stone-400 mt-0.5">${v.date}</p></td>
       <td class="px-5 py-3"><span class="badge badge-green">${v.product}</span></td>
@@ -2451,10 +2610,10 @@ function initCharts() {
     new Chart(ctx3.getContext('2d'), {
       type: 'doughnut',
       data: {
-        labels: ['Symptom Call-Out', 'Science/Education', 'Transformation', 'Comparison/Debunk', 'Other'],
-        datasets: [{ data: [32, 24, 20, 14, 10], backgroundColor: ['#2d6a4f', '#b5851b', '#e63946', '#457b9d', '#d4a373'], borderWidth: 0, spacing: 3, borderRadius: 4 }]
+        labels: ['Myelin/Nerve Science', 'Anti-Gabapentin Pivot', 'BOGO Value', 'Spanish Curiosity Gap', 'Scam Warning'],
+        datasets: [{ data: [5, 4, 3, 3, 2], backgroundColor: ['#2d6a4f', '#e63946', '#b5851b', '#7c3aed', '#457b9d'], borderWidth: 0, spacing: 3, borderRadius: 4 }]
       },
-      options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, font: { size: 12 } } } } }
+      options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, font: { size: 12 } } }, tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} of 13 videos` } } } }
     });
   }
 }
@@ -2465,13 +2624,13 @@ function initPersonaCharts() {
     new Chart(ctx4.getContext('2d'), {
       type: 'bar',
       data: {
-        labels: ['Health\nEducator', 'Transform.\nJourney', 'Value\nHunter', 'Wellness\nRoutiner', 'Mom\nAdvocate', 'Fitness\nOptimizer', 'Trend\nRider'],
+        labels: ['Health Educator', 'Latina Wellness', 'Value Hunter', 'Fitness Optimizer'],
         datasets: [
-          { label: 'GMV ($)', data: [142000, 108400, 86200, 68400, 42800, 34600, 14600], backgroundColor: ['#2d6a4f', '#e63946', '#b5851b', '#06b6d4', '#7c3aed', '#16a34a', '#ec4899'], borderRadius: 8 },
-          { label: 'Videos', data: [38, 26, 22, 24, 18, 16, 12], backgroundColor: ['rgba(45,106,79,0.3)', 'rgba(230,57,70,0.3)', 'rgba(181,133,27,0.3)', 'rgba(6,182,212,0.3)', 'rgba(124,58,237,0.3)', 'rgba(22,163,74,0.3)', 'rgba(236,72,153,0.3)'], borderRadius: 8, yAxisID: 'y1' }
+          { label: 'GMV ($)', data: [1027, 632, 467, 123], backgroundColor: ['#2d6a4f', '#e63946', '#b5851b', '#16a34a'], borderRadius: 8 },
+          { label: 'Videos', data: [14, 7, 7, 2], backgroundColor: ['rgba(45,106,79,0.3)', 'rgba(230,57,70,0.3)', 'rgba(181,133,27,0.3)', 'rgba(22,163,74,0.3)'], borderRadius: 8, yAxisID: 'y1' }
         ]
       },
-      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + formatNum(v) }, grid: { color: '#f5f5f4' } }, y1: { beginAtZero: true, position: 'right', ticks: { callback: v => v + ' vids' }, grid: { drawOnChartArea: false } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + formatNum(v) }, grid: { color: '#f5f5f4' } }, y1: { beginAtZero: true, position: 'right', ticks: { callback: v => v + ' vids' }, grid: { drawOnChartArea: false } }, x: { grid: { display: false }, ticks: { font: { size: 11 } } } } }
     });
   }
   const ctx5 = document.getElementById('chart-persona-scatter');
@@ -2480,16 +2639,13 @@ function initPersonaCharts() {
       type: 'bubble',
       data: {
         datasets: [
-          { label: 'Health Educator', data: [{ x: 9.4, y: 4.2, r: 20 }], backgroundColor: 'rgba(45,106,79,0.7)' },
-          { label: 'Transformation', data: [{ x: 10.8, y: 5.1, r: 17 }], backgroundColor: 'rgba(230,57,70,0.7)' },
-          { label: 'Value Hunter', data: [{ x: 8.2, y: 3.8, r: 15 }], backgroundColor: 'rgba(181,133,27,0.7)' },
-          { label: 'Wellness Routiner', data: [{ x: 7.6, y: 3.1, r: 13 }], backgroundColor: 'rgba(6,182,212,0.7)' },
-          { label: 'Mom Advocate', data: [{ x: 11.6, y: 3.6, r: 11 }], backgroundColor: 'rgba(124,58,237,0.7)' },
-          { label: 'Fitness Optimizer', data: [{ x: 6.8, y: 3.4, r: 10 }], backgroundColor: 'rgba(22,163,74,0.7)' },
-          { label: 'Trend Rider', data: [{ x: 13.2, y: 1.4, r: 8 }], backgroundColor: 'rgba(236,72,153,0.7)' }
+          { label: 'Health Educator', data: [{ x: 76, y: 73.4, r: 24 }], backgroundColor: 'rgba(45,106,79,0.7)' },
+          { label: 'Latina Wellness', data: [{ x: 81, y: 90.2, r: 18 }], backgroundColor: 'rgba(230,57,70,0.7)' },
+          { label: 'Value Hunter', data: [{ x: 79, y: 66.7, r: 18 }], backgroundColor: 'rgba(181,133,27,0.7)' },
+          { label: 'Fitness Optimizer', data: [{ x: 60, y: 61.5, r: 10 }], backgroundColor: 'rgba(22,163,74,0.7)' }
         ]
       },
-      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 10, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.raw.x}% eng, ${ctx.raw.y}% conv` } } }, scales: { x: { title: { display: true, text: 'Avg Engagement Rate %' }, grid: { color: '#f5f5f4' } }, y: { title: { display: true, text: 'Avg Conversion Rate %' }, grid: { color: '#f5f5f4' } } } }
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 10, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: hook ${ctx.raw.x}, GMV/video $${ctx.raw.y}` } } }, scales: { x: { title: { display: true, text: 'Avg Hook Score' }, min: 50, max: 100, grid: { color: '#f5f5f4' } }, y: { title: { display: true, text: 'Avg GMV per Video ($)' }, grid: { color: '#f5f5f4' } } } }
     });
   }
 }
