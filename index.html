@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nusava - TikTok Shop Content Intelligence</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+body { font-family: 'Inter', sans-serif; }
+.card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); }
+.metric-card { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.metric-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+.hook-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.script-card { border-left: 4px solid #2d6a4f; }
+.fade-in { animation: fadeIn 0.3s ease-in; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+.badge-blue { background: #dbeafe; color: #1e40af; }
+.badge-purple { background: #ede9fe; color: #5b21b6; }
+.badge-yellow { background: #fef3c7; color: #92400e; }
+.badge-amber { background: #fef3c7; color: #92400e; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+.progress-bar { height: 8px; border-radius: 4px; background: #e5e7eb; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.sidebar-item { transition: all 0.15s ease; }
+.sidebar-item:hover { background: rgba(45,106,79,0.08); }
+.sidebar-item.active { background: rgba(45,106,79,0.12); color: #2d6a4f; font-weight: 600; }
+</style>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        nusava: { green: '#2d6a4f', gold: '#b5851b', light: '#d8f3dc', dark: '#1b4332', sage: '#52796f', cream: '#fefae0', amber: '#dda15e' }
+      }
+    }
+  }
+}
+</script>
+</head>
+<body class="bg-stone-50 min-h-screen">
+
+<!-- Sidebar -->
+<div class="fixed left-0 top-0 h-full w-64 bg-white border-r border-stone-100 z-50 flex flex-col">
+  <div class="p-6 border-b border-stone-100">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-nusava-sage flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+      </div>
+      <div>
+        <h1 class="font-bold text-stone-900 text-sm">Nusava</h1>
+        <p class="text-xs text-stone-400">Content Intelligence</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="flex-1 py-4 px-3 space-y-1">
+    <button onclick="showTab('dashboard')" id="nav-dashboard" class="sidebar-item active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 0a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zm0 6a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1h-4a1 1 0 01-1-1v-5zM4 13a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z"/></svg>
+      Dashboard
+    </button>
+    <button onclick="showTab('videos')" id="nav-videos" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-600">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+      Videos
+      <span class="ml-auto badge badge-green">156</span>
+    </button>
+    <button onclick="showTab('live')" id="nav-live" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-600">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728M9.172 14.828a4 4 0 010-5.656m5.656 0a4 4 0 010 5.656M12 12h.01"/></svg>
+      LIVE Sessions
+      <span class="ml-auto badge badge-amber">24</span>
+    </button>
+    <button onclick="showTab('briefs')" id="nav-briefs" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-600">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+      Content Briefs
+      <span class="ml-auto badge badge-purple">AI</span>
+    </button>
+    <button onclick="showTab('livetips')" id="nav-livetips" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-600">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      LIVE Playbook
+      <span class="ml-auto badge badge-purple">AI</span>
+    </button>
+    <button onclick="showTab('personas')" id="nav-personas" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-600">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+      Persona Library
+      <span class="ml-auto badge badge-purple">7</span>
+    </button>
+
+    <div class="pt-4 mt-4 border-t border-stone-100">
+      <button onclick="showTab('tech')" id="nav-tech" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Tech & Costs
+      </button>
+      <button onclick="showTab('setup')" id="nav-setup" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+        Setup Guide
+        <span class="ml-auto badge bg-nusava-green/10 text-nusava-green text-xs">New</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="p-4 border-t border-stone-100">
+    <div class="bg-gradient-to-r from-nusava-green/10 to-nusava-gold/10 rounded-xl p-4">
+      <p class="text-xs font-semibold text-stone-700">Shop Connected</p>
+      <p class="text-xs text-stone-500 mt-1">Nusava Official Store</p>
+      <div class="flex items-center gap-1 mt-2">
+        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+        <span class="text-xs text-green-700">Synced 5 min ago</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="ml-64">
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-stone-100 px-8 py-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 id="page-title" class="text-xl font-bold text-stone-900">Dashboard</h2>
+        <p id="page-subtitle" class="text-sm text-stone-400 mt-0.5">Overview of Nusava's TikTok Shop content performance</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <select class="text-sm border border-stone-200 rounded-lg px-4 py-2 bg-white text-stone-600 focus:outline-none focus:ring-2 focus:ring-nusava-green/20">
+          <option>Last 30 days</option>
+          <option>Last 7 days</option>
+          <option>Last 90 days</option>
+          <option>All time</option>
+        </select>
+        <button class="bg-nusava-green text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-nusava-dark transition flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          Sync Now
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="p-8">
+    <!-- DASHBOARD -->
+    <div id="tab-dashboard" class="fade-in">
+      <div class="grid grid-cols-5 gap-5 mb-8">
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Total Videos</span>
+            <div class="w-8 h-8 rounded-lg bg-nusava-green/10 flex items-center justify-center">
+              <svg class="w-4 h-4 text-nusava-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </div>
+          </div>
+          <p class="text-3xl font-bold text-stone-900">156</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">+28 this month</p>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium text-stone-400 uppercase tracking-wide">LIVE Sessions</span>
+            <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
+              <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728"/></svg>
+            </div>
+          </div>
+          <p class="text-3xl font-bold text-stone-900">24</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">+6 this month</p>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Total Views</span>
+            <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+              <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            </div>
+          </div>
+          <p class="text-3xl font-bold text-stone-900">12.4M</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">+18% vs last period</p>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Avg Engagement</span>
+            <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            </div>
+          </div>
+          <p class="text-3xl font-bold text-stone-900">7.2%</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">Above 5% benchmark</p>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Shop GMV</span>
+            <div class="w-8 h-8 rounded-lg bg-nusava-gold/20 flex items-center justify-center">
+              <svg class="w-4 h-4 text-nusava-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+          </div>
+          <p class="text-3xl font-bold text-stone-900">$497K</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">+16.2% vs last period</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6 mb-8">
+        <div class="card p-6">
+          <h3 class="font-semibold text-stone-800 mb-4">Views & GMV Over Time</h3>
+          <canvas id="chart-views" height="220"></canvas>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-semibold text-stone-800 mb-4">GMV by Product</h3>
+          <canvas id="chart-type" height="220"></canvas>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6">
+        <div class="card p-6">
+          <h3 class="font-semibold text-stone-800 mb-4">Top Performing Videos</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">
+              <div class="w-10 h-10 rounded-lg bg-nusava-green/10 flex items-center justify-center text-sm font-bold text-nusava-green">1</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-stone-900 truncate">"I couldn't believe my energy levels after 1 week" - B12 Drops</p>
+                <p class="text-xs text-stone-400">@wellness_maria &bull; 2 days ago</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm font-bold text-stone-900">1.2M</p>
+                <p class="text-xs text-stone-400">views</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">
+              <div class="w-10 h-10 rounded-lg bg-nusava-green/10 flex items-center justify-center text-sm font-bold text-nusava-green">2</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-stone-900 truncate">"POV: You finally found a B12 that actually works" - 2-Pack B12</p>
+                <p class="text-xs text-stone-400">@healthylife_jen &bull; 4 days ago</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm font-bold text-stone-900">890K</p>
+                <p class="text-xs text-stone-400">views</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">
+              <div class="w-10 h-10 rounded-lg bg-nusava-green/10 flex items-center justify-center text-sm font-bold text-nusava-green">3</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-stone-900 truncate">"Why your B12 pills aren't working (liquid vs pills)" - B12 Drops</p>
+                <p class="text-xs text-stone-400">@vitaminscience &bull; 1 week ago</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm font-bold text-stone-900">764K</p>
+                <p class="text-xs text-stone-400">views</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-semibold text-stone-800 mb-4">Top LIVE Sessions</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">
+              <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-sm font-bold text-amber-600">1</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-stone-900 truncate">Mega Flash Sale - All Products 40% Off</p>
+                <p class="text-xs text-stone-400">3h 15min &bull; Mar 28, 2026</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm font-bold text-stone-900">$28.4K</p>
+                <p class="text-xs text-stone-400">GMV</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">
+              <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-sm font-bold text-amber-600">2</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-stone-900 truncate">Vitamin Deep Dive - B12 vs D3K2 explained</p>
+                <p class="text-xs text-stone-400">2h 30min &bull; Apr 2, 2026</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm font-bold text-stone-900">$22.1K</p>
+                <p class="text-xs text-stone-400">GMV</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">
+              <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-sm font-bold text-amber-600">3</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-stone-900 truncate">Wellness Bundle Launch + Giveaway</p>
+                <p class="text-xs text-stone-400">2h 00min &bull; Mar 22, 2026</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm font-bold text-stone-900">$18.6K</p>
+                <p class="text-xs text-stone-400">GMV</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEOS TAB -->
+    <div id="tab-videos" class="hidden fade-in">
+      <div class="card overflow-hidden">
+        <div class="p-5 border-b border-stone-100 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <input type="text" placeholder="Search videos..." class="text-sm border border-stone-200 rounded-lg px-4 py-2 w-72 focus:outline-none focus:ring-2 focus:ring-nusava-green/20">
+            <select class="text-sm border border-stone-200 rounded-lg px-3 py-2 bg-white text-stone-600">
+              <option>All Products</option>
+              <option>(2-Pack) B12 Liquid Drops</option>
+              <option>(4-Pack) B12 Liquid Supplement</option>
+              <option>(2-Pack) D3K2 Drops</option>
+              <option>(4-Pack) D3K2 Drops</option>
+              <option>(4-Pack) Wellness Bundle</option>
+              <option>(3-Pack) Wellness Bundle</option>
+              <option>(1-Pack) B12 Liquid Drops</option>
+            </select>
+          </div>
+          <button class="text-sm text-stone-500 flex items-center gap-1 hover:text-stone-800">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Export CSV
+          </button>
+        </div>
+        <table class="w-full">
+          <thead>
+            <tr class="bg-stone-50 text-left">
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Video</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Product</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Creator</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Views</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Likes</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Shares</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">CTR</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Conv Rate</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">GMV</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-50" id="video-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LIVE TAB -->
+    <div id="tab-live" class="hidden fade-in">
+      <div class="card overflow-hidden">
+        <div class="p-5 border-b border-stone-100 flex items-center justify-between">
+          <input type="text" placeholder="Search LIVE sessions..." class="text-sm border border-stone-200 rounded-lg px-4 py-2 w-72 focus:outline-none focus:ring-2 focus:ring-nusava-green/20">
+          <button class="text-sm text-stone-500 flex items-center gap-1 hover:text-stone-800">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Export CSV
+          </button>
+        </div>
+        <table class="w-full">
+          <thead>
+            <tr class="bg-stone-50 text-left">
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Session</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Date</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Duration</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Peak Viewers</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Avg Viewers</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Comments</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Items Sold</th>
+              <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">GMV</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-50" id="live-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CONTENT BRIEFS TAB -->
+    <div id="tab-briefs" class="hidden fade-in">
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-stone-900 text-lg">Top Hooks Analysis</h3>
+            <p class="text-sm text-stone-400">Based on your top 20 performing Nusava videos by engagement rate</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Patterns Ranked by Performance</h4>
+            <div class="space-y-3">
+              <div class="p-4 bg-gradient-to-r from-emerald-50 to-transparent rounded-xl border border-emerald-100">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="hook-tag bg-emerald-100 text-emerald-700">Pattern #1 &mdash; Symptom Call-Out</span>
+                  <span class="text-xs font-bold text-green-600">11.4% avg engagement</span>
+                </div>
+                <p class="text-sm text-stone-800 font-medium">"If you're always tired, this is why..." / "Feeling drained by 2pm?"</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 9 of top 20 videos. Targets pain points immediately. Avg watch-through: 82%</p>
+              </div>
+              <div class="p-4 bg-gradient-to-r from-amber-50 to-transparent rounded-xl border border-amber-100">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="hook-tag bg-amber-100 text-amber-700">Pattern #2 &mdash; Science/Education</span>
+                  <span class="text-xs font-bold text-green-600">9.8% avg engagement</span>
+                </div>
+                <p class="text-sm text-stone-800 font-medium">"Why pills don't absorb..." / "Your doctor won't tell you this about B12"</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 6 of top 20. Positions liquid as superior. Avg watch-through: 76%</p>
+              </div>
+              <div class="p-4 bg-gradient-to-r from-rose-50 to-transparent rounded-xl border border-rose-100">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="hook-tag bg-rose-100 text-rose-700">Pattern #3 &mdash; Transformation</span>
+                  <span class="text-xs font-bold text-green-600">9.2% avg engagement</span>
+                </div>
+                <p class="text-sm text-stone-800 font-medium">"Week 1 vs Week 4 on B12 drops" / "My energy transformation"</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 5 of top 20. Highest conversion rate (5.1%). Best for product proof.</p>
+              </div>
+              <div class="p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-xl border border-blue-100">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="hook-tag bg-blue-100 text-blue-700">Pattern #4 &mdash; Comparison/Debunk</span>
+                  <span class="text-xs font-bold text-green-600">8.6% avg engagement</span>
+                </div>
+                <p class="text-sm text-stone-800 font-medium">"Stop wasting money on B12 pills" / "Liquid vs pills - the truth"</p>
+                <p class="text-xs text-stone-500 mt-1">Used in 4 of top 20. High share rate (3.8x avg). Drives educational virality.</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Performance Distribution</h4>
+            <canvas id="chart-hooks" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample Scripts -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-sage to-nusava-green flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-stone-900 text-lg">Sample Scripts</h3>
+            <p class="text-sm text-stone-400">AI-generated scripts for Nusava products based on top-performing patterns</p>
+          </div>
+          <button class="ml-auto bg-nusava-green/10 text-nusava-green px-4 py-2 rounded-lg text-sm font-medium hover:bg-nusava-green/20 transition">Regenerate Scripts</button>
+        </div>
+        <div class="grid grid-cols-3 gap-5">
+          <div class="script-card bg-stone-50 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="badge badge-green">Symptom Call-Out</span>
+              <span class="text-xs text-stone-400">~18 sec</span>
+            </div>
+            <div class="space-y-3 text-sm text-stone-700">
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"If you're exhausted by 2pm every single day, you need to hear this..."</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">BUILD-UP (3-8s)</p><p>"90% of people are B12 deficient and don't even know it. And those pills you're taking? Your body only absorbs about 2% of them."</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">SOLUTION (8-14s)</p><p>*Show dropper under tongue* "Liquid B12 drops absorb directly into your bloodstream. I felt the difference in literally 3 days."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (14-18s)</p><p>"The Nusava 2-pack is on sale right now in my TikTok Shop. Link pinned."</p></div>
+            </div>
+          </div>
+          <div class="script-card bg-stone-50 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="badge badge-yellow">Science/Education</span>
+              <span class="text-xs text-stone-400">~22 sec</span>
+            </div>
+            <div class="space-y-3 text-sm text-stone-700">
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"Your doctor won't tell you this about Vitamin D and K2..."</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">EDUCATE (3-12s)</p><p>"Taking Vitamin D without K2 is actually dangerous. D helps you absorb calcium, but without K2, that calcium goes to your arteries instead of your bones. They NEED to be taken together."</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">PRODUCT (12-18s)</p><p>*Show Nusava D3K2 bottle* "That's why Nusava combines organic D3 and K2 in one liquid drop. No pills, no fillers, just what your body needs."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (18-22s)</p><p>"2-pack is under $39 in my TikTok Shop. Your bones will thank you."</p></div>
+            </div>
+          </div>
+          <div class="script-card bg-stone-50 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="badge badge-purple">Transformation</span>
+              <span class="text-xs text-stone-400">~20 sec</span>
+            </div>
+            <div class="space-y-3 text-sm text-stone-700">
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"Week 1 vs Week 4 on Nusava B12 drops..."</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">STORY (3-10s)</p><p>*Split screen: tired mornings vs energized* "I used to need 3 coffees just to function. I was brain foggy, sluggish, couldn't focus. My naturopath said check your B12. It was critically low."</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">PROOF (10-16s)</p><p>"4 weeks of Nusava liquid B12 every morning. I wake up before my alarm now. Energy is steady all day. No crash."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (16-20s)</p><p>"Grab the 4-pack from my TikTok Shop, it's the best value. Seriously life-changing."</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shooting Guide -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-600 flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-stone-900 text-lg">Shooting Guide</h3>
+            <p class="text-sm text-stone-400">Based on production analysis of top 20 Nusava supplement videos</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-5">
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
+            <h4 class="font-semibold text-stone-800 mb-2">Camera Angles</h4>
+            <ul class="text-xs text-stone-600 space-y-1.5">
+              <li>&#8226; Extreme close-up of liquid dropper dispensing</li>
+              <li>&#8226; Eye-level talking head for credibility</li>
+              <li>&#8226; Under-tongue application shot (money shot)</li>
+              <li>&#8226; Flat lay: bottle + natural ingredients</li>
+              <li>&#8226; Morning routine POV for lifestyle context</li>
+            </ul>
+          </div>
+          <div class="bg-amber-50 rounded-xl p-5 border border-amber-100">
+            <h4 class="font-semibold text-stone-800 mb-2">Lighting</h4>
+            <ul class="text-xs text-stone-600 space-y-1.5">
+              <li>&#8226; Warm natural light (82% of top videos)</li>
+              <li>&#8226; Backlight through liquid bottle = viral shot</li>
+              <li>&#8226; Kitchen/bathroom natural setting preferred</li>
+              <li>&#8226; Avoid clinical/sterile look &mdash; reduces trust</li>
+              <li>&#8226; Golden hour for "wellness lifestyle" feel</li>
+            </ul>
+          </div>
+          <div class="bg-blue-50 rounded-xl p-5 border border-blue-100">
+            <h4 class="font-semibold text-stone-800 mb-2">Pacing & Timing</h4>
+            <ul class="text-xs text-stone-600 space-y-1.5">
+              <li>&#8226; Hook in first 0.5 seconds (critical)</li>
+              <li>&#8226; Optimal length: 18-25 seconds</li>
+              <li>&#8226; Scene change every 2-3 seconds</li>
+              <li>&#8226; Show product by second 8 at latest</li>
+              <li>&#8226; Price mention boosts conv +52%</li>
+            </ul>
+          </div>
+          <div class="bg-purple-50 rounded-xl p-5 border border-purple-100">
+            <h4 class="font-semibold text-stone-800 mb-2">What Works for Supplements</h4>
+            <ul class="text-xs text-stone-600 space-y-1.5">
+              <li>&#8226; Show the dropper + liquid (texture sells)</li>
+              <li>&#8226; Text overlays with stats/science</li>
+              <li>&#8226; Voiceover &gt; text-only (+45% engagement)</li>
+              <li>&#8226; Include ingredient close-up on label</li>
+              <li>&#8226; Loop-friendly ending boosts replay +40%</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Creative Insights -->
+      <div class="card p-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-gold to-amber-600 flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-stone-900 text-lg">Creative Insights</h3>
+            <p class="text-sm text-stone-400">Patterns from Nusava's supplement content ecosystem</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-5">
+          <div class="bg-amber-50 rounded-xl p-5 border border-amber-100">
+            <h4 class="font-semibold text-stone-800 mb-3">Trending Formats</h4>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Morning Routine + Drops</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:88%"></div></div><span class="text-xs font-semibold text-stone-600">88%</span></div></div>
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Science Explainer</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:74%"></div></div><span class="text-xs font-semibold text-stone-600">74%</span></div></div>
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Before/After Energy</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:68%"></div></div><span class="text-xs font-semibold text-stone-600">68%</span></div></div>
+              <div class="flex items-center justify-between"><span class="text-sm text-stone-700">Pills vs Liquid</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:55%"></div></div><span class="text-xs font-semibold text-stone-600">55%</span></div></div>
+            </div>
+          </div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
+            <h4 class="font-semibold text-stone-800 mb-3">Audio & Sound</h4>
+            <div class="space-y-2 text-sm text-stone-700">
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Voiceover converts 2.8x more</p><p class="text-xs text-stone-500">Authority voice builds supplement trust</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">ASMR dropper sound: +58% saves</p><p class="text-xs text-stone-500">Liquid dispensing sound is satisfying</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Calm/wellness music: +32% watch time</p><p class="text-xs text-stone-500">Matches health-conscious audience mood</p></div>
+            </div>
+          </div>
+          <div class="bg-stone-100 rounded-xl p-5 border border-stone-200">
+            <h4 class="font-semibold text-stone-800 mb-3">CTA Patterns</h4>
+            <div class="space-y-2 text-sm text-stone-700">
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Price mention: +52% conversion</p><p class="text-xs text-stone-500">"Under $22 per bottle" outperforms vague CTAs</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Pack size comparison: +38% AOV</p><p class="text-xs text-stone-500">"4-pack is the best value" drives bundle sales</p></div>
+              <div class="p-2 bg-white rounded-lg"><p class="font-medium">Health urgency: +41% CTR</p><p class="text-xs text-stone-500">"Your body needs this NOW" beats generic CTAs</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE TIPS TAB -->
+    <div id="tab-livetips" class="hidden fade-in">
+      <div class="grid grid-cols-3 gap-6 mb-6">
+        <div class="card p-5 border-l-4 border-nusava-green"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Best Day to Go LIVE</p><p class="text-2xl font-bold text-stone-900">Tuesday & Sunday</p><p class="text-xs text-stone-500 mt-1">Based on peak viewer count analysis</p></div>
+        <div class="card p-5 border-l-4 border-nusava-gold"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Best Time Slot</p><p class="text-2xl font-bold text-stone-900">7:00 - 10:00 PM</p><p class="text-xs text-stone-500 mt-1">Local time, highest concurrent viewers</p></div>
+        <div class="card p-5 border-l-4 border-nusava-sage"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Optimal Duration</p><p class="text-2xl font-bold text-stone-900">2 - 3 hours</p><p class="text-xs text-stone-500 mt-1">Sweet spot for GMV per minute</p></div>
+      </div>
+
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg></div>
+          <div><h3 class="font-bold text-stone-900 text-lg">Engagement Tactics for Supplement LIVEs</h3><p class="text-sm text-stone-400">Proven strategies from Nusava's top LIVE sessions</p></div>
+        </div>
+        <div class="grid grid-cols-2 gap-5">
+          <div class="space-y-4">
+            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-green">High Impact</span><h4 class="font-semibold text-stone-800">Live "Under the Tongue" Demo</h4></div>
+              <p class="text-sm text-stone-600">Demonstrate how the liquid drops work live on camera. Show the dropper, count the drops, place under tongue. Sessions with live demos had 3.2x more adds-to-cart than sessions that only talked about the product.</p>
+            </div>
+            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-green">High Impact</span><h4 class="font-semibold text-stone-800">Ingredient Education Segments</h4></div>
+              <p class="text-sm text-stone-600">Spend 5-10 minutes explaining methylcobalamin vs cyanocobalamin, or why D3+K2 together. Sessions with education segments had 2.4x longer average watch time and 67% more shares.</p>
+            </div>
+            <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-blue">Medium Impact</span><h4 class="font-semibold text-stone-800">"Drop your symptom" Q&A</h4></div>
+              <p class="text-sm text-stone-600">Ask viewers to type their symptoms (fatigue, brain fog, joint pain). Match each symptom to a product recommendation. This drives 4x comment velocity and pushes the LIVE to more viewers.</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Conversion</span><h4 class="font-semibold text-stone-800">Bundle Flash Deals Every 20 Min</h4></div>
+              <p class="text-sm text-stone-600">Run a LIVE-exclusive bundle deal (B12 + D3K2 wellness bundle) every 20 minutes. Your best session had 4 flash deals generating 62% of total GMV. Urgency + value stacking works.</p>
+            </div>
+            <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Conversion</span><h4 class="font-semibold text-stone-800">"Type 1 for B12, Type 2 for D3K2"</h4></div>
+              <p class="text-sm text-stone-600">Simple polling drives algorithm engagement. Then say "Everyone who typed 1 — I'm pinning the B12 2-pack right now, LIVE price only." Converts browsers to buyers at 2.6x the normal rate.</p>
+            </div>
+            <div class="p-4 bg-purple-50 rounded-xl border border-purple-100">
+              <div class="flex items-center gap-2 mb-2"><span class="badge badge-purple">Retention</span><h4 class="font-semibold text-stone-800">Tease the "Biggest Deal" for End</h4></div>
+              <p class="text-sm text-stone-600">"Stay till the end — I'm dropping the 4-pack bundle at the lowest price we've EVER done." Sessions with end-of-stream teasers had 44% lower drop-off at the 45-minute mark.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Showcase Flow -->
+      <div class="card p-6 mb-6">
+        <h3 class="font-bold text-stone-900 text-lg mb-5">Optimal Product Showcase Flow for Nusava LIVEs</h3>
+        <div class="flex items-start gap-4">
+          <div class="flex-1 text-center">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-emerald-600">1</span></div>
+            <h5 class="font-semibold text-sm text-stone-800">Warm-Up</h5><p class="text-xs text-stone-500 mt-1">0-10 min</p>
+            <p class="text-xs text-stone-600 mt-2">Greet viewers, share what's coming. "Tonight we're breaking down every vitamin you need + LIVE-only deals!"</p>
+          </div>
+          <div class="pt-6 text-stone-300">&#8594;</div>
+          <div class="flex-1 text-center">
+            <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-amber-600">2</span></div>
+            <h5 class="font-semibold text-sm text-stone-800">Hero: B12 Drops</h5><p class="text-xs text-stone-500 mt-1">10-35 min</p>
+            <p class="text-xs text-stone-600 mt-2">Lead with bestseller. Full demo, science, testimonials. First flash deal on the 2-pack.</p>
+          </div>
+          <div class="pt-6 text-stone-300">&#8594;</div>
+          <div class="flex-1 text-center">
+            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-blue-600">3</span></div>
+            <h5 class="font-semibold text-sm text-stone-800">D3K2 + Q&A</h5><p class="text-xs text-stone-500 mt-1">35-70 min</p>
+            <p class="text-xs text-stone-600 mt-2">Educate on D3+K2 synergy. Answer live questions. Introduce bundle deal.</p>
+          </div>
+          <div class="pt-6 text-stone-300">&#8594;</div>
+          <div class="flex-1 text-center">
+            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-purple-600">4</span></div>
+            <h5 class="font-semibold text-sm text-stone-800">Wellness Bundle</h5><p class="text-xs text-stone-500 mt-1">70-100 min</p>
+            <p class="text-xs text-stone-600 mt-2">Position the 4-pack bundles. Compare value per bottle. "Best deal of the night" flash sale.</p>
+          </div>
+          <div class="pt-6 text-stone-300">&#8594;</div>
+          <div class="flex-1 text-center">
+            <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-rose-600">5</span></div>
+            <h5 class="font-semibold text-sm text-stone-800">Grand Finale</h5><p class="text-xs text-stone-500 mt-1">100-120 min</p>
+            <p class="text-xs text-stone-600 mt-2">Biggest deal. Recap all products. Final countdown. Announce next LIVE + giveaway.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interaction Scripts -->
+      <div class="card p-6">
+        <h3 class="font-bold text-stone-900 text-lg mb-5">Audience Interaction Scripts</h3>
+        <div class="grid grid-cols-2 gap-5">
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
+            <h4 class="font-semibold text-stone-800 mb-2">Opening Script</h4>
+            <p class="text-sm text-stone-600 italic">"Hey everyone! Welcome to Nusava LIVE! If you're new here, drop a wave! Tonight we have some INSANE deals on our vitamins — I'm talking prices lower than our website. Plus I'll break down exactly which vitamins you need based on YOUR symptoms. Drop your #1 health concern in the chat and I'll help you out!"</p>
+          </div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
+            <h4 class="font-semibold text-stone-800 mb-2">Product Transition</h4>
+            <p class="text-sm text-stone-600 italic">"OK now THIS is our #1 bestseller — over 14,000 sold on TikTok Shop alone. I see [name] asking about energy — THIS is your answer. Watch this... *shows dropper, places under tongue* ...it absorbs in seconds. I'm pinning the 2-pack now, LIVE price only for the next 5 minutes."</p>
+          </div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
+            <h4 class="font-semibold text-stone-800 mb-2">Handling Objections</h4>
+            <p class="text-sm text-stone-600 italic">"Someone's asking 'why not just buy pills from Costco?' Great question! Pills have to go through your digestive system — you absorb maybe 2-5%. Liquid goes under your tongue, straight to your bloodstream — up to 98% absorption. Plus the 2-pack works out to just 36 cents a day. Less than your morning coffee."</p>
+          </div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
+            <h4 class="font-semibold text-stone-800 mb-2">Closing Script</h4>
+            <p class="text-sm text-stone-600 italic">"That's a wrap! Thank you SO much to everyone who grabbed their vitamins tonight! Quick recap: B12 2-pack deal ends at midnight, the wellness bundle is LIVE-exclusive and won't be this price again. Follow so you don't miss next Tuesday's LIVE — we're doing a GIVEAWAY of our full collection. Take care of your health, love you all!"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERSONA LIBRARY TAB -->
+    <div id="tab-personas" class="hidden fade-in">
+      <div class="grid grid-cols-4 gap-5 mb-6">
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Total Personas</span></div>
+          <p class="text-3xl font-bold text-stone-900">7</p>
+          <p class="text-xs text-stone-500 mt-1">AI-detected from 156 videos</p>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Top Persona GMV</span></div>
+          <p class="text-3xl font-bold text-stone-900">$142K</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">The Health Educator</p>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Narrative Angles</span></div>
+          <p class="text-3xl font-bold text-stone-900">18</p>
+          <p class="text-xs text-stone-500 mt-1">Unique angles detected</p>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Best Conv. Persona</span></div>
+          <p class="text-3xl font-bold text-stone-900">5.1%</p>
+          <p class="text-xs text-green-600 mt-1 font-medium">The Transformation Journey</p>
+        </div>
+      </div>
+
+      <div class="card p-6 mb-6">
+        <div class="flex items-center justify-between mb-5">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-nusava-sage flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+            <div><h3 class="font-bold text-stone-900 text-lg">Persona Library</h3><p class="text-sm text-stone-400">AI-detected creator personas and narrative angles from Nusava content</p></div>
+          </div>
+          <button class="bg-nusava-green/10 text-nusava-green px-4 py-2 rounded-lg text-sm font-medium hover:bg-nusava-green/20 transition">Re-analyze Content</button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-5">
+          <!-- Persona 1 -->
+          <div class="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-5 hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white text-lg">&#129468;</div>
+              <div><h4 class="font-bold text-stone-900">The Health Educator</h4><span class="badge badge-green">Top GMV Performer</span></div>
+            </div>
+            <p class="text-sm text-stone-600 mb-4">Science-driven content explaining vitamin absorption, deficiency symptoms, and ingredient quality. Uses medical language to build authority and trust.</p>
+            <div class="space-y-2 mb-4">
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">38</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$142,000</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">9.4%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">4.2%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">486K</span></div>
+            </div>
+            <div class="border-t border-emerald-100 pt-3">
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="hook-tag bg-emerald-100 text-emerald-700">Absorption Science</span>
+                <span class="hook-tag bg-emerald-100 text-emerald-700">Deficiency Symptoms</span>
+                <span class="hook-tag bg-emerald-100 text-emerald-700">Liquid vs Pills</span>
+              </div>
+            </div>
+          </div>
+          <!-- Persona 2 -->
+          <div class="rounded-xl border-2 border-rose-200 bg-gradient-to-br from-rose-50 to-white p-5 hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white text-lg">&#10024;</div>
+              <div><h4 class="font-bold text-stone-900">The Transformation Journey</h4><span class="badge badge-red">Highest Conversion</span></div>
+            </div>
+            <p class="text-sm text-stone-600 mb-4">Before/after energy transformation stories. Personal journeys from fatigue to vitality. Emotional storytelling with tangible results over weeks.</p>
+            <div class="space-y-2 mb-4">
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">26</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$108,400</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">10.8%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">5.1%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">612K</span></div>
+            </div>
+            <div class="border-t border-rose-100 pt-3">
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="hook-tag bg-rose-100 text-rose-700">Energy Transformation</span>
+                <span class="hook-tag bg-rose-100 text-rose-700">Week-by-Week Results</span>
+                <span class="hook-tag bg-rose-100 text-rose-700">Fatigue Recovery</span>
+              </div>
+            </div>
+          </div>
+          <!-- Persona 3 -->
+          <div class="rounded-xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center text-white text-lg">&#128176;</div>
+              <div><h4 class="font-bold text-stone-900">The Value Hunter</h4><span class="badge badge-yellow">Highest Shares</span></div>
+            </div>
+            <p class="text-sm text-stone-600 mb-4">Price-per-serving breakdowns, pack size comparisons, supplement cost analysis. Shows Nusava as the smart choice vs expensive alternatives.</p>
+            <div class="space-y-2 mb-4">
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">22</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$86,200</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">8.2%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">3.8%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">340K</span></div>
+            </div>
+            <div class="border-t border-amber-100 pt-3">
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="hook-tag bg-amber-100 text-amber-700">Cost Per Serving</span>
+                <span class="hook-tag bg-amber-100 text-amber-700">Pack Comparison</span>
+                <span class="hook-tag bg-amber-100 text-amber-700">vs Pharmacy Brands</span>
+              </div>
+            </div>
+          </div>
+          <!-- Persona 4 -->
+          <div class="rounded-xl border-2 border-cyan-200 bg-gradient-to-br from-cyan-50 to-white p-5 hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-full bg-cyan-500 flex items-center justify-center text-white text-lg">&#127775;</div>
+              <div><h4 class="font-bold text-stone-900">The Wellness Routiner</h4><span class="badge badge-blue">Best for Bundles</span></div>
+            </div>
+            <p class="text-sm text-stone-600 mb-4">Morning/evening wellness routine content. Shows supplements as part of a healthy lifestyle. Naturally showcases multiple Nusava products together.</p>
+            <div class="space-y-2 mb-4">
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">24</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$68,400</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">7.6%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">3.1%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">298K</span></div>
+            </div>
+            <div class="border-t border-cyan-100 pt-3">
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="hook-tag bg-cyan-100 text-cyan-700">Morning Routine</span>
+                <span class="hook-tag bg-cyan-100 text-cyan-700">Supplement Stack</span>
+                <span class="hook-tag bg-cyan-100 text-cyan-700">Wellness Lifestyle</span>
+              </div>
+            </div>
+          </div>
+          <!-- Persona 5 -->
+          <div class="rounded-xl border-2 border-violet-200 bg-gradient-to-br from-violet-50 to-white p-5 hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-full bg-violet-500 flex items-center justify-center text-white text-lg">&#129656;</div>
+              <div><h4 class="font-bold text-stone-900">The Mom Advocate</h4><span class="badge badge-purple">Fastest Growing</span></div>
+            </div>
+            <p class="text-sm text-stone-600 mb-4">Mom-focused content: prenatal vitamins, postpartum energy, family wellness. Emotional connection with the "tired mom" audience. Strong community engagement.</p>
+            <div class="space-y-2 mb-4">
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">18</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$42,800</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">11.6%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">3.6%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">380K</span></div>
+            </div>
+            <div class="border-t border-violet-100 pt-3">
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="hook-tag bg-violet-100 text-violet-700">Tired Mom Energy</span>
+                <span class="hook-tag bg-violet-100 text-violet-700">Family Wellness</span>
+                <span class="hook-tag bg-violet-100 text-violet-700">Postpartum Recovery</span>
+              </div>
+            </div>
+          </div>
+          <!-- Persona 6 -->
+          <div class="rounded-xl border-2 border-green-200 bg-gradient-to-br from-green-50 to-white p-5 hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center text-white text-lg">&#128170;</div>
+              <div><h4 class="font-bold text-stone-900">The Fitness Optimizer</h4><span class="badge badge-green">High AOV</span></div>
+            </div>
+            <p class="text-sm text-stone-600 mb-4">Gym/fitness angle — B12 for workout energy, D3K2 for bone/muscle health. Targets active audience who already takes supplements and wants to upgrade.</p>
+            <div class="space-y-2 mb-4">
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">16</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$34,600</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">6.8%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">3.4%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">224K</span></div>
+            </div>
+            <div class="border-t border-green-100 pt-3">
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="hook-tag bg-green-100 text-green-700">Pre-Workout Energy</span>
+                <span class="hook-tag bg-green-100 text-green-700">Recovery Stack</span>
+                <span class="hook-tag bg-green-100 text-green-700">Upgrade Supps</span>
+              </div>
+            </div>
+          </div>
+          <!-- Persona 7 -->
+          <div class="rounded-xl border-2 border-pink-200 bg-gradient-to-br from-pink-50 to-white p-5 hover:shadow-lg transition-shadow col-span-3 lg:col-span-1">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-full bg-pink-500 flex items-center justify-center text-white text-lg">&#128525;</div>
+              <div><h4 class="font-bold text-stone-900">The Trend Rider</h4><span class="badge bg-pink-100 text-pink-700">Viral Potential</span></div>
+            </div>
+            <p class="text-sm text-stone-600 mb-4">Rides trending sounds and formats, adapts viral templates to supplement content. Highest view count but lower conversion — top of funnel awareness.</p>
+            <div class="space-y-2 mb-4">
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos</span><span class="font-semibold text-stone-900">12</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$14,600</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Engagement</span><span class="font-semibold text-stone-900">13.2%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Conv Rate</span><span class="font-semibold text-stone-900">1.4%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg Views</span><span class="font-semibold text-stone-900">720K</span></div>
+            </div>
+            <div class="border-t border-pink-100 pt-3">
+              <p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="hook-tag bg-pink-100 text-pink-700">Trending Sound</span>
+                <span class="hook-tag bg-pink-100 text-pink-700">Challenge Format</span>
+                <span class="hook-tag bg-pink-100 text-pink-700">Viral Remix</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="grid grid-cols-2 gap-6 mb-6">
+        <div class="card p-6"><h3 class="font-semibold text-stone-800 mb-4">GMV by Persona</h3><canvas id="chart-persona-gmv" height="280"></canvas></div>
+        <div class="card p-6"><h3 class="font-semibold text-stone-800 mb-4">Engagement vs Conversion by Persona</h3><canvas id="chart-persona-scatter" height="280"></canvas></div>
+      </div>
+
+      <!-- Narrative Angles Table -->
+      <div class="card overflow-hidden">
+        <div class="p-5 border-b border-stone-100"><h3 class="font-semibold text-stone-800">Narrative Angles Performance</h3><p class="text-sm text-stone-400 mt-0.5">All detected narrative angles ranked by GMV contribution</p></div>
+        <table class="w-full">
+          <thead><tr class="bg-stone-50 text-left">
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Narrative Angle</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Persona</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Videos</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Total Views</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Avg Engagement</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Conv Rate</th>
+            <th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">GMV</th>
+          </tr></thead>
+          <tbody class="divide-y divide-stone-50">
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Energy Transformation</td><td class="px-5 py-3"><span class="badge bg-rose-100 text-rose-700">Transformation</span></td><td class="px-5 py-3 text-sm text-right">14</td><td class="px-5 py-3 text-sm text-right">4.2M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">11.2%</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">5.4%</td><td class="px-5 py-3 text-sm text-right font-bold">$58,200</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Absorption Science</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">15</td><td class="px-5 py-3 text-sm text-right">3.8M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">9.8%</td><td class="px-5 py-3 text-sm text-right font-medium">4.4%</td><td class="px-5 py-3 text-sm text-right font-bold">$52,400</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Liquid vs Pills</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">12</td><td class="px-5 py-3 text-sm text-right">3.1M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">9.2%</td><td class="px-5 py-3 text-sm text-right font-medium">4.1%</td><td class="px-5 py-3 text-sm text-right font-bold">$48,600</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Week-by-Week Results</td><td class="px-5 py-3"><span class="badge bg-rose-100 text-rose-700">Transformation</span></td><td class="px-5 py-3 text-sm text-right">12</td><td class="px-5 py-3 text-sm text-right">2.8M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">10.4%</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">4.8%</td><td class="px-5 py-3 text-sm text-right font-bold">$50,200</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Cost Per Serving</td><td class="px-5 py-3"><span class="badge bg-amber-100 text-amber-700">Value Hunter</span></td><td class="px-5 py-3 text-sm text-right">10</td><td class="px-5 py-3 text-sm text-right">2.2M</td><td class="px-5 py-3 text-sm text-right font-medium">8.6%</td><td class="px-5 py-3 text-sm text-right font-medium">4.0%</td><td class="px-5 py-3 text-sm text-right font-bold">$38,400</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Deficiency Symptoms</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">11</td><td class="px-5 py-3 text-sm text-right">2.6M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">9.6%</td><td class="px-5 py-3 text-sm text-right font-medium">3.8%</td><td class="px-5 py-3 text-sm text-right font-bold">$41,000</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Morning Routine</td><td class="px-5 py-3"><span class="badge bg-cyan-100 text-cyan-700">Wellness Routiner</span></td><td class="px-5 py-3 text-sm text-right">12</td><td class="px-5 py-3 text-sm text-right">1.8M</td><td class="px-5 py-3 text-sm text-right font-medium">7.8%</td><td class="px-5 py-3 text-sm text-right font-medium">3.2%</td><td class="px-5 py-3 text-sm text-right font-bold">$32,600</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Tired Mom Energy</td><td class="px-5 py-3"><span class="badge bg-violet-100 text-violet-700">Mom Advocate</span></td><td class="px-5 py-3 text-sm text-right">10</td><td class="px-5 py-3 text-sm text-right">2.4M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">12.1%</td><td class="px-5 py-3 text-sm text-right font-medium">3.8%</td><td class="px-5 py-3 text-sm text-right font-bold">$26,400</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Trending Sound</td><td class="px-5 py-3"><span class="badge bg-pink-100 text-pink-700">Trend Rider</span></td><td class="px-5 py-3 text-sm text-right">8</td><td class="px-5 py-3 text-sm text-right">3.6M</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">13.8%</td><td class="px-5 py-3 text-sm text-right font-medium text-red-500">1.2%</td><td class="px-5 py-3 text-sm text-right font-bold">$8,400</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Pre-Workout Energy</td><td class="px-5 py-3"><span class="badge bg-green-100 text-green-700">Fitness Optimizer</span></td><td class="px-5 py-3 text-sm text-right">9</td><td class="px-5 py-3 text-sm text-right">1.2M</td><td class="px-5 py-3 text-sm text-right font-medium">7.0%</td><td class="px-5 py-3 text-sm text-right font-medium">3.6%</td><td class="px-5 py-3 text-sm text-right font-bold">$18,800</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TECH & COSTS TAB -->
+    <div id="tab-tech" class="hidden fade-in">
+      <!-- Path Toggle -->
+      <div class="card p-4 mb-6">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-sm font-semibold text-stone-700">Data Source Strategy:</span>
+          <button onclick="showPath('official')" id="btn-official" class="px-4 py-2 rounded-lg text-sm font-medium bg-nusava-green text-white transition">Path A: Official TikTok APIs</button>
+          <button onclick="showPath('alternative')" id="btn-alternative" class="px-4 py-2 rounded-lg text-sm font-medium bg-stone-200 text-stone-600 hover:bg-stone-300 transition">Path B: Alternative Tools & APIs</button>
+        </div>
+        <p class="text-xs text-stone-500 mt-2">Toggle between official API integration and alternative data sources if API approval is denied.</p>
+      </div>
+
+      <!-- PATH A: OFFICIAL APIs -->
+      <div id="path-official">
+        <div class="card p-6 mb-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-5">System Architecture</h3>
+          <div class="bg-stone-900 rounded-xl p-6 text-sm font-mono text-green-400 leading-relaxed overflow-x-auto">
+<pre>
+ +------------------+     +---------------------+     +-------------------+
+ |   TikTok Shop    |     |   TikTok Business   |     |   TikTok Content  |
+ |   Open API       |     |   API               |     |   Discovery API   |
+ |                  |     |                     |     |                   |
+ | - Products       |     | - Video Analytics   |     | - Trending Sounds |
+ | - Orders/GMV     |     | - Audience Data     |     | - Hashtag Data    |
+ | - Shop Videos    |     | - LIVE Metrics      |     | - Discovery Feed  |
+ | - LIVE Sessions  |     | - Engagement Data   |     |                   |
+ +--------+---------+     +---------+-----------+     +--------+----------+
+          |                         |                          |
+          +-------------------------+--------------------------+
+                                    |
+                          +---------v----------+
+                          |   Ingestion Layer  |
+                          |   (Node.js/Python) |
+                          |   Cron: every 6hrs |
+                          +--------+-----------+
+                                   |
+                    +--------------+---------------+
+                    |                              |
+           +--------v---------+          +---------v--------+
+           |    PostgreSQL     |          |   Redis Cache    |
+           |    (Supabase)     |          |   (Upstash)      |
+           |                   |          |                  |
+           | - Videos table    |          | - API responses  |
+           | - LIVE sessions   |          | - Computed stats |
+           | - Analytics       |          | - Rate limiting  |
+           | - Content briefs  |          |                  |
+           | - Persona library |          |                  |
+           +--------+----------+          +------------------+
+                    |
+          +---------v----------+
+          |    AI Engine        |
+          |    (GPT-4o / Claude)|
+          |                     |
+          | - Hook analysis     |
+          | - Script generation |
+          | - Persona detection |
+          | - LIVE playbooks    |
+          +--------+------------+
+                   |
+          +--------v------------+
+          |   Web App (Next.js) |
+          |   Deployed on       |
+          |   Vercel / Railway  |
+          +---------------------+
+</pre>
+          </div>
+        </div>
+
+        <div class="card p-6 mb-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-5">APIs & Connectors Required</h3>
+          <div class="space-y-4">
+            <div class="p-4 bg-stone-50 rounded-xl flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-black flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.66a8.21 8.21 0 004.76 1.52V6.73a4.83 4.83 0 01-1-.04z"/></svg></div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-stone-800">TikTok Shop Open API</h4><span class="badge badge-green">Required</span><span class="badge badge-blue">Free</span></div>
+                <p class="text-sm text-stone-600">Products, linked videos, LIVE sessions, orders, and GMV data for Nusava's shop.</p>
+                <p class="mt-2 text-xs text-stone-500"><strong>Auth:</strong> OAuth 2.0 &mdash; Requires approved TikTok Shop Partner app &bull; <strong>Rate Limit:</strong> 600 req/min</p>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-stone-800">TikTok Business API</h4><span class="badge badge-green">Required</span><span class="badge badge-blue">Free</span></div>
+                <p class="text-sm text-stone-600">Extended analytics: audience demographics, engagement breakdowns, watch-through rates.</p>
+                <p class="mt-2 text-xs text-stone-500"><strong>Auth:</strong> OAuth 2.0 &mdash; TikTok for Business account &bull; <strong>Rate Limit:</strong> 1000 req/min</p>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-stone-800">OpenAI GPT-4o / Claude API</h4><span class="badge badge-green">Required</span><span class="badge badge-red">Paid</span></div>
+                <p class="text-sm text-stone-600">Powers AI content briefs, persona detection, script generation, LIVE playbooks.</p>
+                <p class="mt-2 text-xs text-stone-500"><strong>Estimated:</strong> ~$20-50/month for daily analysis &bull; <strong>Usage:</strong> ~$2.50/1M input, ~$10/1M output tokens</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-5">Monthly Cost Estimate &mdash; Official APIs</h3>
+          <div class="overflow-hidden rounded-xl border border-stone-200">
+            <table class="w-full">
+              <thead><tr class="bg-stone-50">
+                <th class="px-5 py-3 text-left text-xs font-semibold text-stone-500 uppercase">Item</th>
+                <th class="px-5 py-3 text-left text-xs font-semibold text-stone-500 uppercase">Service</th>
+                <th class="px-5 py-3 text-right text-xs font-semibold text-stone-500 uppercase">Free Tier</th>
+                <th class="px-5 py-3 text-right text-xs font-semibold text-stone-500 uppercase">Growth</th>
+                <th class="px-5 py-3 text-right text-xs font-semibold text-stone-500 uppercase">Scale</th>
+              </tr></thead>
+              <tbody class="divide-y divide-stone-100">
+                <tr><td class="px-5 py-3 text-sm font-medium">Hosting</td><td class="px-5 py-3 text-sm text-stone-600">Vercel / Railway</td><td class="px-5 py-3 text-sm text-right">$0</td><td class="px-5 py-3 text-sm text-right">$20</td><td class="px-5 py-3 text-sm text-right">$50</td></tr>
+                <tr><td class="px-5 py-3 text-sm font-medium">Database</td><td class="px-5 py-3 text-sm text-stone-600">Supabase</td><td class="px-5 py-3 text-sm text-right">$0</td><td class="px-5 py-3 text-sm text-right">$25</td><td class="px-5 py-3 text-sm text-right">$50</td></tr>
+                <tr><td class="px-5 py-3 text-sm font-medium">Cache</td><td class="px-5 py-3 text-sm text-stone-600">Upstash Redis</td><td class="px-5 py-3 text-sm text-right">$0</td><td class="px-5 py-3 text-sm text-right">$10</td><td class="px-5 py-3 text-sm text-right">$30</td></tr>
+                <tr><td class="px-5 py-3 text-sm font-medium">AI / LLM</td><td class="px-5 py-3 text-sm text-stone-600">GPT-4o / Claude</td><td class="px-5 py-3 text-sm text-right">$5</td><td class="px-5 py-3 text-sm text-right">$35</td><td class="px-5 py-3 text-sm text-right">$80</td></tr>
+                <tr><td class="px-5 py-3 text-sm font-medium">TikTok APIs</td><td class="px-5 py-3 text-sm text-stone-600">Shop + Business</td><td class="px-5 py-3 text-sm text-right">$0</td><td class="px-5 py-3 text-sm text-right">$0</td><td class="px-5 py-3 text-sm text-right">$0</td></tr>
+                <tr class="bg-stone-50 font-bold"><td class="px-5 py-3 text-sm">Total / month</td><td class="px-5 py-3"></td><td class="px-5 py-3 text-sm text-nusava-green text-right">~$5</td><td class="px-5 py-3 text-sm text-nusava-green text-right">~$90</td><td class="px-5 py-3 text-sm text-nusava-green text-right">~$210</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-stone-400 mt-3">* TikTok APIs are free but require app approval (1-2 weeks). AI costs scale with usage.</p>
+        </div>
+      </div>
+
+      <!-- PATH B: ALTERNATIVE TOOLS & APIs -->
+      <div id="path-alternative" class="hidden">
+        <!-- Recommended Stack -->
+        <div class="card p-6 mb-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-2">Recommended Stack for Nusava</h3>
+          <p class="text-sm text-stone-500 mb-5">Best combination of tools if official TikTok API access is unavailable or delayed.</p>
+          <div class="overflow-hidden rounded-xl border border-nusava-green/30 bg-green-50/30">
+            <table class="w-full">
+              <thead><tr class="bg-nusava-green/10">
+                <th class="px-5 py-3 text-left text-xs font-semibold text-nusava-green uppercase">Need</th>
+                <th class="px-5 py-3 text-left text-xs font-semibold text-nusava-green uppercase">Tool</th>
+                <th class="px-5 py-3 text-right text-xs font-semibold text-nusava-green uppercase">Cost/mo</th>
+                <th class="px-5 py-3 text-left text-xs font-semibold text-nusava-green uppercase">Why</th>
+              </tr></thead>
+              <tbody class="divide-y divide-stone-100">
+                <tr><td class="px-5 py-3 text-sm font-medium">Shop Analytics + GMV</td><td class="px-5 py-3 text-sm">Dashboardly</td><td class="px-5 py-3 text-sm text-right">$49</td><td class="px-5 py-3 text-sm text-stone-600">Only tool with TikTok Shop sales data without API</td></tr>
+                <tr><td class="px-5 py-3 text-sm font-medium">Video Scraping</td><td class="px-5 py-3 text-sm">Apify TikTok Scraper</td><td class="px-5 py-3 text-sm text-right">$49</td><td class="px-5 py-3 text-sm text-stone-600">Reliable, scalable, handles anti-bot measures</td></tr>
+                <tr><td class="px-5 py-3 text-sm font-medium">AI Content Briefs</td><td class="px-5 py-3 text-sm">Claude API</td><td class="px-5 py-3 text-sm text-right">~$30</td><td class="px-5 py-3 text-sm text-stone-600">Best for long-form analysis and creative scripts</td></tr>
+                <tr><td class="px-5 py-3 text-sm font-medium">Ad Intelligence</td><td class="px-5 py-3 text-sm">TikTok Creative Center</td><td class="px-5 py-3 text-sm text-right font-medium text-green-600">Free</td><td class="px-5 py-3 text-sm text-stone-600">Official tool, trending ads & creative insights</td></tr>
+                <tr><td class="px-5 py-3 text-sm font-medium">Competitor Intel</td><td class="px-5 py-3 text-sm">FastMoss or Kalodata</td><td class="px-5 py-3 text-sm text-right">$59-79</td><td class="px-5 py-3 text-sm text-stone-600">Product ranking, creator performance, trends</td></tr>
+                <tr class="bg-nusava-green/10 font-bold"><td class="px-5 py-3 text-sm" colspan="2">Recommended Total</td><td class="px-5 py-3 text-sm text-nusava-green text-right">~$187-207/mo</td><td class="px-5 py-3 text-sm text-stone-600">Covers 90% of official API capabilities</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Bridging the Gap: The Missing 10% -->
+        <div class="card p-6 mb-6 border-2 border-amber-200 bg-amber-50/30">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">&#9888;&#65039;</span>
+            <h3 class="font-bold text-stone-900 text-lg">Bridging the Last 10%</h3>
+          </div>
+          <p class="text-sm text-stone-600 mb-5">The alternative stack can't access data locked inside your TikTok accounts. Here's what's missing and how to get it with a <strong>15-minute weekly export routine</strong>.</p>
+
+          <div class="overflow-hidden rounded-xl border border-amber-200 mb-4">
+            <table class="w-full">
+              <thead><tr class="bg-amber-100/60">
+                <th class="px-5 py-3 text-left text-xs font-semibold text-amber-800 uppercase">Missing Data</th>
+                <th class="px-5 py-3 text-left text-xs font-semibold text-amber-800 uppercase">Source</th>
+                <th class="px-5 py-3 text-left text-xs font-semibold text-amber-800 uppercase">How to Get It</th>
+                <th class="px-5 py-3 text-right text-xs font-semibold text-amber-800 uppercase">Time</th>
+              </tr></thead>
+              <tbody class="divide-y divide-amber-100 bg-white">
+                <tr>
+                  <td class="px-5 py-3 text-sm font-medium">Exact order-level GMV</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">TikTok Seller Center</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">Orders tab &rarr; Export CSV weekly &rarr; Upload to database</td>
+                  <td class="px-5 py-3 text-sm text-right">3 min</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3 text-sm font-medium">Video-to-sale attribution</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">Seller Center &rarr; Content</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">Content tab shows GMV per video &rarr; Export CSV &rarr; Match to video IDs</td>
+                  <td class="px-5 py-3 text-sm text-right">3 min</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3 text-sm font-medium">Audience demographics</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">TikTok Analytics (in-app)</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">Analytics &rarr; Followers tab &rarr; Screenshot or manual entry weekly</td>
+                  <td class="px-5 py-3 text-sm text-right">3 min</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3 text-sm font-medium">Watch-through / retention</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">TikTok Studio</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">Video detail &rarr; Retention graph &rarr; Screenshot for AI analysis</td>
+                  <td class="px-5 py-3 text-sm text-right">3 min</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3 text-sm font-medium">LIVE real-time metrics</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">During LIVE session</td>
+                  <td class="px-5 py-3 text-sm text-stone-600">Assign team member to log peak viewers, items sold, key moments in a Google Sheet</td>
+                  <td class="px-5 py-3 text-sm text-right">During LIVE</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bg-white border border-amber-200 rounded-xl p-4">
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Suggested Weekly Workflow</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              <div class="bg-amber-50 rounded-lg p-3">
+                <p class="font-semibold text-amber-800 mb-1">Step 1: Export (5 min)</p>
+                <p class="text-stone-600">Log into Seller Center &rarr; Export Orders CSV + Content Performance CSV. Save to a shared Google Drive folder.</p>
+              </div>
+              <div class="bg-amber-50 rounded-lg p-3">
+                <p class="font-semibold text-amber-800 mb-1">Step 2: Demographics (3 min)</p>
+                <p class="text-stone-600">Open TikTok Analytics &rarr; Screenshot follower demographics &rarr; Drop into the same Drive folder.</p>
+              </div>
+              <div class="bg-amber-50 rounded-lg p-3">
+                <p class="font-semibold text-amber-800 mb-1">Step 3: Ingest (automatic)</p>
+                <p class="text-stone-600">Ingestion script watches the Drive folder &rarr; Parses CSVs &rarr; Updates database &rarr; AI re-analyzes with fresh data.</p>
+              </div>
+            </div>
+            <p class="text-xs text-stone-500 mt-3">This can be automated further with Google Sheets API + Apps Script to auto-format exports, or with Zapier/Make to trigger ingestion on file upload.</p>
+          </div>
+        </div>
+
+        <!-- Tier 1: Authorized Partner Tools -->
+        <div class="card p-6 mb-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-1">Tier 1: Authorized Partner Platforms</h3>
+          <p class="text-xs text-stone-500 mb-5">SaaS dashboards with pre-built TikTok Shop analytics. No coding required.</p>
+          <div class="space-y-4">
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Dashboardly</h4><span class="badge badge-green">Best for GMV</span><span class="badge badge-red">$49-99/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">TikTok Shop analytics dashboard. Tracks shop-level GMV, product performance, video-to-sale attribution, and revenue trends.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> GMV, revenue per product, conversion rates, shop rankings, trending products</p>
+              <p class="text-sm text-stone-700"><strong>Setup:</strong> Sign up &rarr; Connect TikTok Shop account &rarr; Dashboard auto-populates in 24hrs</p>
+              <p class="text-xs text-stone-500 mt-2 bg-stone-100 rounded p-2 font-mono">No installation needed &mdash; SaaS platform at dashboardly.com</p>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">FastMoss</h4><span class="badge badge-blue">Top-Rated</span><span class="badge badge-red">$79-199/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Comprehensive TikTok Shop intelligence. Product rankings, creator performance, viral video detection, market trends.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Product rankings, creator sales data, video performance, category trends, LIVE analytics</p>
+              <p class="text-sm text-stone-700"><strong>Setup:</strong> Sign up at fastmoss.com &rarr; Search products/creators &rarr; Export reports as CSV</p>
+              <p class="text-xs text-stone-500 mt-2 bg-stone-100 rounded p-2 font-mono">Chrome extension available for in-page TikTok Shop data overlay</p>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Kalodata</h4><span class="badge badge-blue">Best Analytics</span><span class="badge badge-red">$59-166/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">TikTok Shop research tool. Deep product analytics, creator discovery, sales estimation, and category benchmarks.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Estimated sales/revenue, video analytics, creator metrics, product trends, LIVE session data</p>
+              <p class="text-sm text-stone-700"><strong>Setup:</strong> Sign up at kalodata.com &rarr; Install Chrome extension for enhanced data &rarr; Search by product/category</p>
+              <p class="text-xs text-stone-500 mt-2 bg-stone-100 rounded p-2 font-mono">pip install kalodata-api (unofficial) &mdash; or use CSV exports</p>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">EchoTik</h4><span class="badge badge-blue">Free Tier</span><span class="badge badge-green">Free-$79/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Free TikTok analytics with paid tiers. Creator discovery, trending product tracking, and basic shop analytics.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Creator profiles, video metrics, product links, trending hashtags, basic shop data</p>
+              <p class="text-sm text-stone-700"><strong>Setup:</strong> Sign up at echotik.live &rarr; Free tier gets 10 searches/day &rarr; Chrome extension for overlay</p>
+              <p class="text-xs text-stone-500 mt-2 bg-stone-100 rounded p-2 font-mono">Chrome extension: search "EchoTik" in Chrome Web Store</p>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Shoplus</h4><span class="badge badge-blue">Free Tier</span><span class="badge badge-green">Free-$99/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">TikTok Shop product research and analytics. Discover winning products, track competitors, and analyze creator content.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Product discovery, sales volume estimates, creator content analysis, trending categories</p>
+              <p class="text-sm text-stone-700"><strong>Setup:</strong> Sign up at shoplus.net &rarr; Free tier available &rarr; Upgrade for export + API access</p>
+              <p class="text-xs text-stone-500 mt-2 bg-stone-100 rounded p-2 font-mono">API available on paid plans &mdash; REST endpoints for product/creator data</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 2: Scraping APIs -->
+        <div class="card p-6 mb-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-1">Tier 2: Scraping & Data APIs</h3>
+          <p class="text-xs text-stone-500 mb-5">Programmatic access to TikTok data. Requires coding for integration.</p>
+          <div class="space-y-4">
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Apify &mdash; TikTok Scraper</h4><span class="badge badge-green">Recommended</span><span class="badge badge-red">$49/mo (Platform)</span></div>
+              <p class="text-sm text-stone-600 mb-2">Cloud scraping platform with pre-built TikTok actors. Handles anti-bot, proxies, and rate limiting automatically.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Video details, comments, hashtags, user profiles, search results, trending content</p>
+              <p class="text-sm text-stone-700"><strong>Actors:</strong> clockworks/tiktok-scraper, microworlds/tiktok-shop-scraper, voyager/tiktok-search</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre>npm install apify-client
+# or
+pip install apify-client
+
+# Usage:
+from apify_client import ApifyClient
+client = ApifyClient("YOUR_API_TOKEN")
+run = client.actor("clockworks/tiktok-scraper").call(
+    run_input={"hashtags": ["nusava"], "resultsPerPage": 100}
+)
+for item in client.dataset(run["defaultDatasetId"]).iterate_items():
+    print(item)</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">TikAPI</h4><span class="badge badge-blue">REST API</span><span class="badge badge-red">$29-149/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Unofficial TikTok REST API. Returns JSON data for user profiles, videos, comments, search, and trending content.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Full video metadata, user stats, comments, followers, search results, sound/hashtag data</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre>pip install tikapi
+# or use REST directly:
+curl -H "X-API-Key: YOUR_KEY" \
+  "https://api.tikapi.io/public/check?username=nusava"
+
+# Python SDK:
+from tikapi import TikAPI
+api = TikAPI("YOUR_KEY")
+user = api.public.check(username="nusava")
+videos = user.json()["userInfo"]["stats"]</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">ScrapeCreators</h4><span class="badge badge-blue">TikTok Focus</span><span class="badge badge-red">$39-99/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Dedicated TikTok scraping API. Purpose-built for creator analytics and content discovery.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Creator profiles, video metrics, engagement data, follower trends, content history</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre>curl -H "Authorization: Bearer YOUR_TOKEN" \
+  "https://api.scrapecreators.com/v1/tiktok/user?username=nusava"
+
+# Returns: followers, likes, videos, engagement_rate, recent_posts[]</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Bright Data</h4><span class="badge badge-blue">Enterprise</span><span class="badge badge-red">$500+/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Enterprise-grade web data platform. TikTok dataset with structured data, proxy network, and browser automation.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Structured TikTok datasets, video metadata at scale, user data, comments, hashtag trends</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre>pip install bright-data
+# Pre-collected datasets available via API or download
+# Also offers Scraping Browser for custom scraping logic
+# Best for: large-scale, enterprise needs (1M+ records)</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">SociaVault</h4><span class="badge badge-blue">Budget</span><span class="badge badge-green">Free-$19/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Lightweight TikTok analytics API. Good for basic profile and video data at a low cost.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> User profiles, video lists, basic engagement metrics</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre>curl "https://api.sociavault.com/tiktok/user/nusava"
+# Returns: profile info, follower count, recent videos + stats</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">TikTok-Api (Python)</h4><span class="badge badge-green">Open Source</span><span class="badge badge-green">Free</span></div>
+              <p class="text-sm text-stone-600 mb-2">Open-source Python library for TikTok scraping. Community-maintained, may break with TikTok updates.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Video data, user profiles, trending content, hashtags, sound data</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre>pip install TikTokApi
+python -m playwright install
+
+from TikTokApi import TikTokApi
+async with TikTokApi() as api:
+    await api.create_sessions(num_sessions=1, sleep_after=3)
+    user = api.user(username="nusava")
+    async for video in user.videos(count=30):
+        print(video.stats)</pre>
+              </div>
+              <p class="text-xs text-stone-500 mt-2"><strong>Warning:</strong> Requires Playwright browser. May need proxies and frequent updates for reliability.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 3: MCP Connectors for Claude -->
+        <div class="card p-6 mb-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-1">Tier 3: MCP Connectors for Claude AI</h3>
+          <p class="text-xs text-stone-500 mb-5">Model Context Protocol servers that let Claude directly access TikTok data during conversations.</p>
+          <div class="space-y-4">
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Apify MCP Server</h4><span class="badge badge-green">Recommended</span><span class="badge badge-red">$49/mo (Apify plan)</span></div>
+              <p class="text-sm text-stone-600 mb-2">Connect Claude directly to Apify actors. Run TikTok scrapers from within Claude conversations.</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Install MCP server:
+npx @anthropic/mcp install apify
+
+# Or in Claude Desktop settings.json:
+{
+  "mcpServers": {
+    "apify": {
+      "command": "npx",
+      "args": ["-y", "@apify/mcp-server-rag-web-browser"],
+      "env": { "APIFY_TOKEN": "your_token" }
+    }
+  }
+}
+# Then ask Claude: "Scrape the latest Nusava TikTok videos"</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Composio MCP</h4><span class="badge badge-blue">Multi-Platform</span><span class="badge badge-green">Free-$29/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Unified MCP server connecting Claude to 250+ tools including social media platforms, spreadsheets, and databases.</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre>pip install composio-core
+composio login
+composio add tiktok  # Connect TikTok account
+composio mcp start   # Start MCP server
+
+# In Claude settings:
+{ "mcpServers": { "composio": { "command": "composio", "args": ["mcp", "start"] } } }</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">AdsMCP</h4><span class="badge badge-blue">Ads Focus</span><span class="badge badge-green">Free (Open Source)</span></div>
+              <p class="text-sm text-stone-600 mb-2">MCP server for ad platform analytics. Connects Claude to TikTok Ads, Meta Ads, Google Ads for performance data.</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre>git clone https://github.com/pashpashpash/adsmcp
+cd adsmcp && npm install
+# Configure TikTok Ads credentials in .env
+npm start  # Starts MCP server on default port</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Adzviser MCP</h4><span class="badge badge-blue">Marketing</span><span class="badge badge-red">$15-49/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Marketing analytics MCP. Pulls data from TikTok Ads, Google Analytics, and other marketing platforms into Claude.</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Install via Claude Desktop:
+{ "mcpServers": { "adzviser": {
+    "command": "npx", "args": ["-y", "adzviser-mcp-server"],
+    "env": { "ADZVISER_API_KEY": "your_key" }
+} } }
+# Connects: TikTok Ads, Meta Ads, Google Ads, GA4, Search Console</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Community MCP Servers</h4><span class="badge badge-green">Open Source</span><span class="badge badge-green">Free</span></div>
+              <p class="text-sm text-stone-600 mb-2">Community-built MCP servers for social media data. Quality varies; check GitHub stars and recent activity.</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Search the MCP registry:
+npx @anthropic/mcp search tiktok
+
+# Or browse: github.com/modelcontextprotocol/servers
+# Look for: tiktok-mcp-server, social-media-mcp, etc.</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 4: Ad Spy & Creative Intelligence -->
+        <div class="card p-6 mb-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-1">Tier 4: Ad Spy & Creative Intelligence</h3>
+          <p class="text-xs text-stone-500 mb-5">Discover competitor ads, trending creatives, and winning ad formats.</p>
+          <div class="space-y-4">
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">PiPiAds</h4><span class="badge badge-blue">Top Ad Spy</span><span class="badge badge-red">$77-263/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">TikTok-focused ad spy tool. Discover competitor ads, winning products, trending creatives, and ad performance data.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Ad creatives, targeting info, performance estimates, product discovery, competitor tracking</p>
+              <p class="text-sm text-stone-700"><strong>Setup:</strong> Sign up at pipiads.com &rarr; Search by keyword/product/advertiser &rarr; Filter by engagement/date</p>
+              <p class="text-xs text-stone-500 mt-2 bg-stone-100 rounded p-2 font-mono">No API &mdash; web dashboard only. Can export data as CSV for analysis.</p>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Minea</h4><span class="badge badge-blue">Multi-Platform</span><span class="badge badge-red">$49-99/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Multi-platform ad spy (TikTok, Facebook, Pinterest). Tracks influencer placements and product ads across channels.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Ad creatives across platforms, influencer product placements, engagement metrics, trend detection</p>
+              <p class="text-sm text-stone-700"><strong>Setup:</strong> Sign up at minea.com &rarr; Set keyword/product alerts &rarr; Chrome extension for real-time ad detection</p>
+              <p class="text-xs text-stone-500 mt-2 bg-stone-100 rounded p-2 font-mono">Chrome extension: search "Minea" in Chrome Web Store for ad detection overlay</p>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">TikTok Creative Center</h4><span class="badge badge-green">Official</span><span class="badge badge-green">Free</span></div>
+              <p class="text-sm text-stone-600 mb-2">TikTok's own creative intelligence tool. Trending ads, top-performing creatives, audio trends, and keyword insights.</p>
+              <p class="text-sm text-stone-700"><strong>Data:</strong> Top ads by industry, trending hashtags, popular sounds, creative patterns, keyword analytics</p>
+              <p class="text-sm text-stone-700"><strong>Setup:</strong> Visit ads.tiktok.com/business/creativecenter &rarr; No account needed for basic access</p>
+              <p class="text-xs text-stone-500 mt-2 bg-stone-100 rounded p-2 font-mono">Free &mdash; no installation. Filter by country, industry (Health & Wellness), time period.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 5: Browser Extensions & Automation -->
+        <div class="card p-6 mb-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-1">Tier 5: Browser Extensions & Automation</h3>
+          <p class="text-xs text-stone-500 mb-5">Tools that extract data directly from the TikTok web interface.</p>
+          <div class="space-y-4">
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">EchoTik Chrome Extension</h4><span class="badge badge-green">Free</span></div>
+              <p class="text-sm text-stone-600 mb-2">Overlays analytics data directly on TikTok pages. See creator stats, video performance, and product data inline.</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700">Install from Chrome Web Store &rarr; search "EchoTik" &rarr; Browse TikTok normally with data overlay</div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">PhantomBuster</h4><span class="badge badge-blue">Automation</span><span class="badge badge-red">$69-159/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Cloud browser automation. Pre-built TikTok "phantoms" for profile scraping, follower extraction, and video data collection.</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># No code needed &mdash; use pre-built phantoms:
+# 1. Sign up at phantombuster.com
+# 2. Select "TikTok Profile Scraper" phantom
+# 3. Input Nusava's TikTok URL
+# 4. Schedule daily runs &rarr; Export to Google Sheets/CSV</pre>
+              </div>
+            </div>
+            <div class="p-4 bg-stone-50 rounded-xl">
+              <div class="flex items-center gap-2 mb-2"><h4 class="font-semibold text-stone-800">Decodo (Smart Proxy)</h4><span class="badge badge-blue">Infrastructure</span><span class="badge badge-red">$12+/mo</span></div>
+              <p class="text-sm text-stone-600 mb-2">Proxy network for reliable scraping. Use with TikTok-Api Python or custom scrapers to avoid IP blocks.</p>
+              <div class="mt-2 bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Use with any scraper that supports proxies:
+PROXY="http://user:pass@gate.decodo.com:7000"
+# With TikTok-Api:
+api = TikTokApi(proxy=PROXY)
+# With requests:
+requests.get(url, proxies={"https": PROXY})</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Cost Comparison -->
+        <div class="card p-6">
+          <h3 class="font-bold text-stone-900 text-lg mb-5">Monthly Cost Comparison &mdash; Alternative Stack</h3>
+          <div class="overflow-hidden rounded-xl border border-stone-200">
+            <table class="w-full text-sm">
+              <thead><tr class="bg-stone-50">
+                <th class="px-4 py-3 text-left text-xs font-semibold text-stone-500 uppercase">Tier</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-stone-500 uppercase">Budget Pick</th>
+                <th class="px-4 py-3 text-right text-xs font-semibold text-stone-500 uppercase">Budget</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-stone-500 uppercase">Growth Pick</th>
+                <th class="px-4 py-3 text-right text-xs font-semibold text-stone-500 uppercase">Growth</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-stone-500 uppercase">Scale Pick</th>
+                <th class="px-4 py-3 text-right text-xs font-semibold text-stone-500 uppercase">Scale</th>
+              </tr></thead>
+              <tbody class="divide-y divide-stone-100">
+                <tr><td class="px-4 py-3 font-medium">Shop Analytics</td><td class="px-4 py-3 text-stone-600">EchoTik Free</td><td class="px-4 py-3 text-right">$0</td><td class="px-4 py-3 text-stone-600">Dashboardly</td><td class="px-4 py-3 text-right">$49</td><td class="px-4 py-3 text-stone-600">FastMoss Pro</td><td class="px-4 py-3 text-right">$199</td></tr>
+                <tr><td class="px-4 py-3 font-medium">Scraping API</td><td class="px-4 py-3 text-stone-600">TikTok-Api (OSS)</td><td class="px-4 py-3 text-right">$0</td><td class="px-4 py-3 text-stone-600">Apify</td><td class="px-4 py-3 text-right">$49</td><td class="px-4 py-3 text-stone-600">Apify + TikAPI</td><td class="px-4 py-3 text-right">$198</td></tr>
+                <tr><td class="px-4 py-3 font-medium">AI Engine</td><td class="px-4 py-3 text-stone-600">Claude API</td><td class="px-4 py-3 text-right">$20</td><td class="px-4 py-3 text-stone-600">Claude API</td><td class="px-4 py-3 text-right">$35</td><td class="px-4 py-3 text-stone-600">Claude API</td><td class="px-4 py-3 text-right">$80</td></tr>
+                <tr><td class="px-4 py-3 font-medium">Ad Intelligence</td><td class="px-4 py-3 text-stone-600">Creative Center</td><td class="px-4 py-3 text-right">$0</td><td class="px-4 py-3 text-stone-600">Creative Center</td><td class="px-4 py-3 text-right">$0</td><td class="px-4 py-3 text-stone-600">PiPiAds</td><td class="px-4 py-3 text-right">$77</td></tr>
+                <tr><td class="px-4 py-3 font-medium">Competitor Intel</td><td class="px-4 py-3 text-stone-600">Shoplus Free</td><td class="px-4 py-3 text-right">$0</td><td class="px-4 py-3 text-stone-600">Kalodata</td><td class="px-4 py-3 text-right">$59</td><td class="px-4 py-3 text-stone-600">Kalodata Pro</td><td class="px-4 py-3 text-right">$166</td></tr>
+                <tr><td class="px-4 py-3 font-medium">Infrastructure</td><td class="px-4 py-3 text-stone-600">Vercel Free</td><td class="px-4 py-3 text-right">$0</td><td class="px-4 py-3 text-stone-600">Vercel + Supabase</td><td class="px-4 py-3 text-right">$45</td><td class="px-4 py-3 text-stone-600">Railway + Supabase</td><td class="px-4 py-3 text-right">$100</td></tr>
+                <tr><td class="px-4 py-3 font-medium">MCP Connectors</td><td class="px-4 py-3 text-stone-600">Community (OSS)</td><td class="px-4 py-3 text-right">$0</td><td class="px-4 py-3 text-stone-600">Composio</td><td class="px-4 py-3 text-right">$0</td><td class="px-4 py-3 text-stone-600">Composio Pro</td><td class="px-4 py-3 text-right">$29</td></tr>
+                <tr class="bg-stone-50 font-bold"><td class="px-4 py-3" colspan="2">Total / month</td><td class="px-4 py-3 text-nusava-green text-right">~$20</td><td class="px-4 py-3"></td><td class="px-4 py-3 text-nusava-green text-right">~$237</td><td class="px-4 py-3"></td><td class="px-4 py-3 text-nusava-green text-right">~$849</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-stone-400 mt-3">* Budget tier uses free/open-source tools but requires more manual work. Growth tier is the sweet spot for Nusava's current scale.</p>
+        </div>
+      </div>
+    </div>
+    <!-- SETUP GUIDE TAB -->
+    <div id="tab-setup" class="hidden fade-in">
+
+      <!-- Overview -->
+      <div class="card p-6 mb-6">
+        <h3 class="font-bold text-stone-900 text-lg mb-2">Setup Guide: From Zero to Live</h3>
+        <p class="text-sm text-stone-600 mb-4">Step-by-step instructions to connect the recommended Path B stack and deploy Nusava's Content Intelligence Tool to production.</p>
+        <div class="flex flex-wrap gap-3">
+          <div class="flex items-center gap-2 bg-stone-100 rounded-lg px-3 py-2 text-sm"><span class="w-6 h-6 rounded-full bg-nusava-green text-white flex items-center justify-center text-xs font-bold">1</span> Prerequisites</div>
+          <div class="text-stone-400">&rarr;</div>
+          <div class="flex items-center gap-2 bg-stone-100 rounded-lg px-3 py-2 text-sm"><span class="w-6 h-6 rounded-full bg-nusava-green text-white flex items-center justify-center text-xs font-bold">2</span> Dashboardly</div>
+          <div class="text-stone-400">&rarr;</div>
+          <div class="flex items-center gap-2 bg-stone-100 rounded-lg px-3 py-2 text-sm"><span class="w-6 h-6 rounded-full bg-nusava-green text-white flex items-center justify-center text-xs font-bold">3</span> Apify</div>
+          <div class="text-stone-400">&rarr;</div>
+          <div class="flex items-center gap-2 bg-stone-100 rounded-lg px-3 py-2 text-sm"><span class="w-6 h-6 rounded-full bg-nusava-green text-white flex items-center justify-center text-xs font-bold">4</span> Claude AI</div>
+          <div class="text-stone-400">&rarr;</div>
+          <div class="flex items-center gap-2 bg-stone-100 rounded-lg px-3 py-2 text-sm"><span class="w-6 h-6 rounded-full bg-nusava-green text-white flex items-center justify-center text-xs font-bold">5</span> Creative Center</div>
+          <div class="text-stone-400">&rarr;</div>
+          <div class="flex items-center gap-2 bg-stone-100 rounded-lg px-3 py-2 text-sm"><span class="w-6 h-6 rounded-full bg-nusava-green text-white flex items-center justify-center text-xs font-bold">6</span> FastMoss</div>
+          <div class="text-stone-400">&rarr;</div>
+          <div class="flex items-center gap-2 bg-stone-100 rounded-lg px-3 py-2 text-sm"><span class="w-6 h-6 rounded-full bg-nusava-green text-white flex items-center justify-center text-xs font-bold">7</span> Database</div>
+          <div class="text-stone-400">&rarr;</div>
+          <div class="flex items-center gap-2 bg-stone-100 rounded-lg px-3 py-2 text-sm"><span class="w-6 h-6 rounded-full bg-nusava-green text-white flex items-center justify-center text-xs font-bold">8</span> Deploy</div>
+        </div>
+      </div>
+
+      <!-- Step 1: Prerequisites -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-8 rounded-full bg-nusava-green text-white flex items-center justify-center text-sm font-bold">1</span>
+          <h3 class="font-bold text-stone-900 text-lg">Prerequisites</h3>
+        </div>
+        <p class="text-sm text-stone-600 mb-4">Set up your development environment before connecting any services.</p>
+        <div class="space-y-3">
+          <div class="bg-stone-50 rounded-xl p-4">
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Required Accounts</h4>
+            <ul class="text-sm text-stone-600 space-y-1.5 list-disc ml-5">
+              <li>TikTok Seller Center account (you already have this as a TikTok Shop seller)</li>
+              <li>TikTok Business account linked to your @nusava profile</li>
+              <li>GitHub account (for code hosting and deployment)</li>
+              <li>Credit card for paid services (Dashboardly, Apify, Claude API)</li>
+            </ul>
+          </div>
+          <div class="bg-stone-50 rounded-xl p-4">
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Development Tools</h4>
+            <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Install Node.js (v18+) and Python (3.10+)
+# macOS:
+brew install node python3
+
+# Verify installations:
+node --version    # Should show v18+
+python3 --version # Should show 3.10+
+npm --version     # Should show 9+
+
+# Install project scaffolding:
+npx create-next-app@latest nusava-intel --typescript --tailwind --app
+cd nusava-intel
+
+# Install core dependencies:
+npm install @supabase/supabase-js apify-client @anthropic-ai/sdk chart.js
+npm install node-cron dotenv csv-parse</pre>
+            </div>
+          </div>
+          <div class="bg-stone-50 rounded-xl p-4">
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Environment Variables</h4>
+            <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Create .env.local in your project root:
+touch .env.local
+
+# Add these (fill in as you complete each step):
+DASHBOARDLY_API_KEY=
+APIFY_API_TOKEN=
+ANTHROPIC_API_KEY=
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+FASTMOSS_EMAIL=
+FASTMOSS_PASSWORD=
+GOOGLE_DRIVE_FOLDER_ID=</pre>
+            </div>
+            <p class="text-xs text-stone-500 mt-2"><strong>Important:</strong> Never commit .env.local to Git. Add it to .gitignore.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Dashboardly -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-8 rounded-full bg-nusava-green text-white flex items-center justify-center text-sm font-bold">2</span>
+          <h3 class="font-bold text-stone-900 text-lg">Connect Dashboardly</h3>
+          <span class="badge badge-red">$49/mo</span>
+          <span class="text-xs text-stone-500">~10 min setup</span>
+        </div>
+        <p class="text-sm text-stone-600 mb-4">Dashboardly provides TikTok Shop GMV, order data, and product performance without needing the official API.</p>
+        <div class="space-y-3">
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">a</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Create an account</p>
+              <p class="text-sm text-stone-600">Go to dashboardly.com &rarr; Sign up for the Pro plan ($49/mo) &rarr; Verify your email</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">b</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Connect your TikTok Shop</p>
+              <p class="text-sm text-stone-600">Settings &rarr; Integrations &rarr; "Connect TikTok Shop" &rarr; Log in with your Seller Center credentials &rarr; Authorize access</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">c</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Get your API key</p>
+              <p class="text-sm text-stone-600">Settings &rarr; API Access &rarr; Generate API Key &rarr; Copy to .env.local as DASHBOARDLY_API_KEY</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">d</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Wait for data sync</p>
+              <p class="text-sm text-stone-600">Historical data takes ~24 hours to populate. You'll see products, orders, and GMV data in your dashboard once synced.</p>
+            </div>
+          </div>
+          <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Test the connection:
+curl -H "Authorization: Bearer $DASHBOARDLY_API_KEY" \
+  "https://api.dashboardly.com/v1/shop/products"
+
+# In your app (lib/dashboardly.ts):
+export async function getShopProducts() {
+  const res = await fetch('https://api.dashboardly.com/v1/shop/products', {
+    headers: { 'Authorization': `Bearer ${process.env.DASHBOARDLY_API_KEY}` }
+  });
+  return res.json();
+}
+
+export async function getGMVByProduct(productId: string, days = 30) {
+  const res = await fetch(
+    `https://api.dashboardly.com/v1/analytics/gmv?product_id=${productId}&days=${days}`,
+    { headers: { 'Authorization': `Bearer ${process.env.DASHBOARDLY_API_KEY}` } }
+  );
+  return res.json();
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Apify -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-8 rounded-full bg-nusava-green text-white flex items-center justify-center text-sm font-bold">3</span>
+          <h3 class="font-bold text-stone-900 text-lg">Connect Apify TikTok Scraper</h3>
+          <span class="badge badge-red">$49/mo</span>
+          <span class="text-xs text-stone-500">~15 min setup</span>
+        </div>
+        <p class="text-sm text-stone-600 mb-4">Apify scrapes TikTok video data, engagement metrics, hashtags, and comments at scale.</p>
+        <div class="space-y-3">
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">a</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Create account & get API token</p>
+              <p class="text-sm text-stone-600">Sign up at apify.com &rarr; Choose the Starter plan ($49/mo) &rarr; Go to Settings &rarr; Integrations &rarr; Copy your API token to .env.local as APIFY_API_TOKEN</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">b</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Save the TikTok actors you'll need</p>
+              <p class="text-sm text-stone-600">Go to Apify Store &rarr; Search and save these actors:</p>
+              <ul class="text-sm text-stone-600 list-disc ml-5 mt-1">
+                <li><strong>clockworks/tiktok-scraper</strong> &mdash; Video data, profiles, hashtags</li>
+                <li><strong>microworlds/tiktok-shop-scraper</strong> &mdash; Shop product listings</li>
+                <li><strong>voyager/tiktok-search</strong> &mdash; Search by keyword/hashtag</li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">c</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Set up scheduled scraping</p>
+              <p class="text-sm text-stone-600">Each actor can be scheduled to run automatically. Set them to run every 6 hours for fresh data.</p>
+            </div>
+          </div>
+          <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Install:
+npm install apify-client
+
+# lib/apify.ts — Scrape Nusava's TikTok videos:
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: process.env.APIFY_API_TOKEN });
+
+export async function scrapeNusavaVideos() {
+  const run = await client.actor('clockworks/tiktok-scraper').call({
+    profiles: ['nusava'],
+    resultsPerPage: 100,
+    shouldDownloadVideos: false,
+  });
+
+  const { items } = await client.dataset(run.defaultDatasetId).listItems();
+  return items; // Array of video objects with stats
+}
+
+export async function scrapeByHashtag(hashtag: string) {
+  const run = await client.actor('clockworks/tiktok-scraper').call({
+    hashtags: [hashtag],
+    resultsPerPage: 50,
+  });
+
+  const { items } = await client.dataset(run.defaultDatasetId).listItems();
+  return items;
+}
+
+// Schedule in your cron job (scripts/scrape-cron.ts):
+// Runs every 6 hours via node-cron
+import cron from 'node-cron';
+cron.schedule('0 */6 * * *', async () => {
+  const videos = await scrapeNusavaVideos();
+  await saveToDatabase(videos); // Save to Supabase
+});</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Claude API -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-8 rounded-full bg-nusava-green text-white flex items-center justify-center text-sm font-bold">4</span>
+          <h3 class="font-bold text-stone-900 text-lg">Connect Claude API for AI Briefs</h3>
+          <span class="badge badge-red">~$30/mo</span>
+          <span class="text-xs text-stone-500">~10 min setup</span>
+        </div>
+        <p class="text-sm text-stone-600 mb-4">Claude powers content brief generation, persona detection, script writing, and LIVE playbooks.</p>
+        <div class="space-y-3">
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">a</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Get an API key</p>
+              <p class="text-sm text-stone-600">Go to console.anthropic.com &rarr; Sign up / Log in &rarr; Settings &rarr; API Keys &rarr; Create Key &rarr; Copy to .env.local as ANTHROPIC_API_KEY</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">b</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Add billing</p>
+              <p class="text-sm text-stone-600">Settings &rarr; Billing &rarr; Add credit card &rarr; Set a $50/mo spend limit to control costs</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">c</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Build the AI engine</p>
+              <p class="text-sm text-stone-600">Use structured prompts for each AI feature: content briefs, persona detection, scripts, and LIVE tips.</p>
+            </div>
+          </div>
+          <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Install:
+npm install @anthropic-ai/sdk
+
+# lib/ai-engine.ts:
+import Anthropic from '@anthropic-ai/sdk';
+const anthropic = new Anthropic(); // Uses ANTHROPIC_API_KEY env var
+
+export async function generateContentBrief(topVideos: any[]) {
+  const videoSummary = topVideos.map(v =>
+    `"${v.title}" — ${v.views} views, ${v.engagement}% eng, $${v.gmv} GMV`
+  ).join('\n');
+
+  const response = await anthropic.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 2000,
+    messages: [{
+      role: 'user',
+      content: `You are a TikTok content strategist for Nusava, a health &
+wellness liquid vitamin brand. Analyze these top-performing videos and generate:
+
+1. TOP HOOKS: The 5 best opening lines and why they work
+2. SAMPLE SCRIPTS: 3 complete video scripts (15-30 sec each)
+3. SHOOTING GUIDE: Camera angles, lighting, pacing, transitions
+4. CREATIVE INSIGHTS: Trending formats, audio usage, CTA patterns
+
+Top videos:\n${videoSummary}`
+    }]
+  });
+  return response.content[0].text;
+}
+
+export async function detectPersona(videoData: any) {
+  const response = await anthropic.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 500,
+    messages: [{
+      role: 'user',
+      content: `Classify this TikTok video into one of these Nusava personas:
+- Health Educator, Transformation Journey, Value Hunter,
+- Wellness Routiner, Mom Advocate, Fitness Optimizer, Trend Rider
+
+Video: "${videoData.title}" by ${videoData.creator}
+Content: ${videoData.description}
+
+Return JSON: { "persona": "...", "confidence": 0.0-1.0, "reasoning": "..." }`
+    }]
+  });
+  return JSON.parse(response.content[0].text);
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5: TikTok Creative Center -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-8 rounded-full bg-nusava-green text-white flex items-center justify-center text-sm font-bold">5</span>
+          <h3 class="font-bold text-stone-900 text-lg">Set Up TikTok Creative Center</h3>
+          <span class="badge badge-green">Free</span>
+          <span class="text-xs text-stone-500">~5 min setup</span>
+        </div>
+        <p class="text-sm text-stone-600 mb-4">TikTok's official creative intelligence tool. Use it for trending ad insights, popular sounds, and creative patterns.</p>
+        <div class="space-y-3">
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">a</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Access the Creative Center</p>
+              <p class="text-sm text-stone-600">Go to ads.tiktok.com/business/creativecenter &rarr; Log in with your TikTok Business account (or browse without login for basic access)</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">b</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Configure your filters</p>
+              <p class="text-sm text-stone-600">Set Industry: "Health & Wellness" &rarr; Region: Your target markets (US, etc.) &rarr; Time: Last 30 days</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">c</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Key sections to monitor</p>
+              <ul class="text-sm text-stone-600 list-disc ml-5 mt-1">
+                <li><strong>Top Ads:</strong> See winning ad creatives in your category</li>
+                <li><strong>Trending:</strong> Hashtags, sounds, and creators gaining momentum</li>
+                <li><strong>Keyword Insights:</strong> Search terms your audience uses</li>
+                <li><strong>Creative Tools:</strong> Video templates and AI-assisted editing</li>
+              </ul>
+            </div>
+          </div>
+          <div class="bg-stone-50 rounded-xl p-4">
+            <p class="text-sm text-stone-700"><strong>Integration tip:</strong> There's no API for Creative Center, but you can manually export trending ad data weekly and feed it into your AI engine for enriched content briefs. Alternatively, use Apify's web scraper to automate data extraction from the Creative Center pages.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 6: FastMoss / Kalodata -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-8 rounded-full bg-nusava-green text-white flex items-center justify-center text-sm font-bold">6</span>
+          <h3 class="font-bold text-stone-900 text-lg">Connect FastMoss or Kalodata</h3>
+          <span class="badge badge-red">$59-79/mo</span>
+          <span class="text-xs text-stone-500">~10 min setup</span>
+        </div>
+        <p class="text-sm text-stone-600 mb-4">Competitor intelligence: product rankings, creator performance data, and market trends.</p>
+        <div class="space-y-3">
+          <div class="bg-stone-50 rounded-xl p-4">
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Option A: FastMoss ($79/mo)</h4>
+            <div class="space-y-2">
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">1.</span><p class="text-sm text-stone-600">Sign up at fastmoss.com &rarr; Choose the Standard plan</p></div>
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">2.</span><p class="text-sm text-stone-600">Install Chrome extension from their dashboard for in-page data overlay</p></div>
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">3.</span><p class="text-sm text-stone-600">Search for "nusava" and your competitor brands &rarr; Save to watchlist</p></div>
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">4.</span><p class="text-sm text-stone-600">Set up weekly email reports: Settings &rarr; Reports &rarr; Add your product URLs</p></div>
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">5.</span><p class="text-sm text-stone-600">Export data as CSV &rarr; Upload to your database or Google Drive folder for ingestion</p></div>
+            </div>
+          </div>
+          <div class="bg-stone-50 rounded-xl p-4">
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Option B: Kalodata ($59/mo)</h4>
+            <div class="space-y-2">
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">1.</span><p class="text-sm text-stone-600">Sign up at kalodata.com &rarr; Choose the Basic plan</p></div>
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">2.</span><p class="text-sm text-stone-600">Install Chrome extension for enriched TikTok data overlay</p></div>
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">3.</span><p class="text-sm text-stone-600">Search by category: Health &amp; Wellness &rarr; Vitamins &amp; Supplements</p></div>
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">4.</span><p class="text-sm text-stone-600">Track competitors: Add competing brands to your monitoring list</p></div>
+              <div class="flex gap-2"><span class="text-xs font-bold text-stone-500">5.</span><p class="text-sm text-stone-600">Export product/creator reports as CSV for ingestion</p></div>
+            </div>
+          </div>
+          <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Automated CSV ingestion (scripts/ingest-competitor-data.ts):
+import { parse } from 'csv-parse/sync';
+import fs from 'fs';
+import { supabase } from '../lib/supabase';
+
+export async function ingestCompetitorCSV(filePath: string) {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const records = parse(content, { columns: true, skip_empty_lines: true });
+
+  for (const record of records) {
+    await supabase.from('competitor_products').upsert({
+      product_name: record['Product Name'],
+      estimated_sales: parseInt(record['Est. Sales']),
+      estimated_revenue: parseFloat(record['Est. Revenue']),
+      top_creator: record['Top Creator'],
+      video_count: parseInt(record['Videos']),
+      updated_at: new Date().toISOString(),
+    });
+  }
+  console.log(`Ingested ${records.length} competitor records`);
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 7: Database Setup -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-8 rounded-full bg-nusava-green text-white flex items-center justify-center text-sm font-bold">7</span>
+          <h3 class="font-bold text-stone-900 text-lg">Set Up Supabase Database</h3>
+          <span class="badge badge-green">Free tier available</span>
+          <span class="text-xs text-stone-500">~20 min setup</span>
+        </div>
+        <p class="text-sm text-stone-600 mb-4">Supabase stores all scraped data, analytics, content briefs, and persona classifications.</p>
+        <div class="space-y-3">
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">a</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Create a Supabase project</p>
+              <p class="text-sm text-stone-600">Go to supabase.com &rarr; New Project &rarr; Name: "nusava-intel" &rarr; Choose closest region &rarr; Set a database password</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">b</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Copy your keys</p>
+              <p class="text-sm text-stone-600">Settings &rarr; API &rarr; Copy "Project URL" to SUPABASE_URL, "anon public" key to SUPABASE_ANON_KEY, and "service_role" key to SUPABASE_SERVICE_ROLE_KEY in .env.local</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">c</span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Run the database schema</p>
+              <p class="text-sm text-stone-600">Go to SQL Editor in Supabase dashboard &rarr; Paste and run the schema below:</p>
+            </div>
+          </div>
+          <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># Run this SQL in Supabase SQL Editor:
+
+-- Products table
+CREATE TABLE products (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  tiktok_product_id TEXT UNIQUE,
+  name TEXT NOT NULL,
+  price DECIMAL(10,2),
+  category TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Videos table
+CREATE TABLE videos (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  tiktok_video_id TEXT UNIQUE,
+  product_id UUID REFERENCES products(id),
+  title TEXT,
+  creator TEXT,
+  views INTEGER DEFAULT 0,
+  likes INTEGER DEFAULT 0,
+  shares INTEGER DEFAULT 0,
+  comments INTEGER DEFAULT 0,
+  ctr DECIMAL(5,2),
+  conversion_rate DECIMAL(5,2),
+  gmv DECIMAL(10,2) DEFAULT 0,
+  persona TEXT,
+  persona_confidence DECIMAL(3,2),
+  hook_text TEXT,
+  scraped_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- LIVE sessions table
+CREATE TABLE live_sessions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT,
+  date TIMESTAMPTZ,
+  duration_minutes INTEGER,
+  peak_viewers INTEGER,
+  avg_viewers INTEGER,
+  comments INTEGER,
+  items_sold INTEGER,
+  gmv DECIMAL(10,2) DEFAULT 0,
+  scraped_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Content briefs table
+CREATE TABLE content_briefs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  brief_type TEXT, -- 'hooks', 'scripts', 'shooting_guide', 'live_playbook'
+  content JSONB,
+  generated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Persona analytics
+CREATE TABLE persona_stats (
+  persona TEXT PRIMARY KEY,
+  video_count INTEGER DEFAULT 0,
+  total_views BIGINT DEFAULT 0,
+  total_gmv DECIMAL(12,2) DEFAULT 0,
+  avg_engagement DECIMAL(5,2),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Competitor data
+CREATE TABLE competitor_products (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  product_name TEXT,
+  estimated_sales INTEGER,
+  estimated_revenue DECIMAL(10,2),
+  top_creator TEXT,
+  video_count INTEGER,
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Create indexes for fast queries
+CREATE INDEX idx_videos_product ON videos(product_id);
+CREATE INDEX idx_videos_persona ON videos(persona);
+CREATE INDEX idx_videos_gmv ON videos(gmv DESC);
+CREATE INDEX idx_live_gmv ON live_sessions(gmv DESC);</pre>
+          </div>
+          <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># lib/supabase.ts — Database client:
+import { createClient } from '@supabase/supabase-js';
+
+export const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+// Example: Get top videos by GMV
+export async function getTopVideos(limit = 15) {
+  const { data } = await supabase
+    .from('videos')
+    .select('*, products(name)')
+    .order('gmv', { ascending: false })
+    .limit(limit);
+  return data;
+}
+
+// Example: Get persona stats
+export async function getPersonaStats() {
+  const { data } = await supabase
+    .from('persona_stats')
+    .select('*')
+    .order('total_gmv', { ascending: false });
+  return data;
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 8: Deploy to Production -->
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-8 rounded-full bg-nusava-green text-white flex items-center justify-center text-sm font-bold">8</span>
+          <h3 class="font-bold text-stone-900 text-lg">Deploy to Production</h3>
+          <span class="text-xs text-stone-500">~30 min</span>
+        </div>
+        <p class="text-sm text-stone-600 mb-4">Get the tool live on a server so your team can access it from anywhere.</p>
+        <div class="space-y-4">
+
+          <!-- Option A: Vercel -->
+          <div class="bg-stone-50 rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3"><h4 class="font-semibold text-stone-800">Option A: Vercel (Recommended)</h4><span class="badge badge-green">Free-$20/mo</span></div>
+            <p class="text-sm text-stone-600 mb-3">Best for Next.js apps. Automatic deploys on git push, built-in serverless functions for cron jobs.</p>
+            <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># 1. Push your code to GitHub:
+git init
+git add .
+git commit -m "Initial commit: Nusava Content Intelligence Tool"
+git remote add origin https://github.com/nusava/content-intel.git
+git push -u origin main
+
+# 2. Connect to Vercel:
+npm install -g vercel
+vercel login
+vercel
+
+# 3. Add environment variables:
+vercel env add DASHBOARDLY_API_KEY
+vercel env add APIFY_API_TOKEN
+vercel env add ANTHROPIC_API_KEY
+vercel env add SUPABASE_URL
+vercel env add SUPABASE_ANON_KEY
+vercel env add SUPABASE_SERVICE_ROLE_KEY
+
+# 4. Deploy:
+vercel --prod
+
+# Your app is now live at: nusava-intel.vercel.app
+# Set up custom domain: vercel domains add intel.nusava.com</pre>
+            </div>
+            <div class="mt-3 bg-white border border-stone-200 rounded-lg p-3">
+              <p class="text-sm font-medium text-stone-800 mb-1">Set up cron jobs (vercel.json):</p>
+              <div class="bg-stone-100 rounded p-2 text-xs font-mono text-stone-700">
+<pre>{
+  "crons": [
+    {
+      "path": "/api/cron/scrape-videos",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/cron/generate-briefs",
+      "schedule": "0 8 * * 1"
+    },
+    {
+      "path": "/api/cron/sync-gmv",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}</pre>
+              </div>
+              <p class="text-xs text-stone-500 mt-1">Scrapes videos every 6hrs, generates briefs every Monday 8am, syncs GMV daily at midnight.</p>
+            </div>
+          </div>
+
+          <!-- Option B: Railway -->
+          <div class="bg-stone-50 rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3"><h4 class="font-semibold text-stone-800">Option B: Railway</h4><span class="badge badge-red">$5-20/mo</span></div>
+            <p class="text-sm text-stone-600 mb-3">Better for long-running background processes (persistent cron jobs, workers). Supports Docker.</p>
+            <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># 1. Install Railway CLI:
+npm install -g @railway/cli
+railway login
+
+# 2. Create a new project:
+railway init
+railway link  # Select your project
+
+# 3. Add environment variables:
+railway variables set DASHBOARDLY_API_KEY=xxx
+railway variables set APIFY_API_TOKEN=xxx
+railway variables set ANTHROPIC_API_KEY=xxx
+railway variables set SUPABASE_URL=xxx
+railway variables set SUPABASE_ANON_KEY=xxx
+railway variables set SUPABASE_SERVICE_ROLE_KEY=xxx
+
+# 4. Deploy:
+railway up
+
+# 5. Add custom domain:
+railway domain  # Generates a URL like nusava-intel.up.railway.app
+# Or add custom: Settings → Domains → intel.nusava.com</pre>
+            </div>
+          </div>
+
+          <!-- Option C: VPS -->
+          <div class="bg-stone-50 rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3"><h4 class="font-semibold text-stone-800">Option C: VPS (DigitalOcean / Hetzner)</h4><span class="badge badge-red">$6-24/mo</span></div>
+            <p class="text-sm text-stone-600 mb-3">Full control. Best if you need persistent background processes, heavy scraping, or data storage.</p>
+            <div class="bg-stone-100 rounded p-3 text-xs font-mono text-stone-700 overflow-x-auto">
+<pre># 1. Create a droplet (DigitalOcean) or server (Hetzner):
+#    - Ubuntu 22.04, 2GB RAM, 1 vCPU (~$6-12/mo)
+
+# 2. SSH in and set up:
+ssh root@your-server-ip
+apt update && apt upgrade -y
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+apt install -y nodejs nginx certbot python3-certbot-nginx
+
+# 3. Clone and build:
+git clone https://github.com/nusava/content-intel.git
+cd content-intel
+cp .env.example .env  # Fill in your keys
+npm install
+npm run build
+
+# 4. Set up PM2 for process management:
+npm install -g pm2
+pm2 start npm --name "nusava-intel" -- start
+pm2 startup  # Auto-start on reboot
+pm2 save
+
+# 5. Configure Nginx reverse proxy:
+# /etc/nginx/sites-available/nusava-intel
+server {
+    server_name intel.nusava.com;
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+    }
+}
+
+# 6. Enable HTTPS:
+ln -s /etc/nginx/sites-available/nusava-intel /etc/nginx/sites-enabled/
+nginx -t && systemctl restart nginx
+certbot --nginx -d intel.nusava.com</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post-Deploy Checklist -->
+      <div class="card p-6 border-2 border-nusava-green/30 bg-green-50/20">
+        <h3 class="font-bold text-stone-900 text-lg mb-4">Post-Deploy Checklist</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Verify Connections</h4>
+            <ul class="text-sm text-stone-600 space-y-1.5">
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Dashboardly syncing products &amp; GMV data</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Apify scraper returning video data</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Claude API generating content briefs</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Supabase tables populated with data</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Cron jobs running on schedule</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Security &amp; Access</h4>
+            <ul class="text-sm text-stone-600 space-y-1.5">
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> .env.local not committed to Git</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Supabase Row Level Security (RLS) enabled</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> API rate limits configured</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> HTTPS enabled on custom domain</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Team members invited with proper roles</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Weekly Routine</h4>
+            <ul class="text-sm text-stone-600 space-y-1.5">
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Export Seller Center CSVs (Mon, 5 min)</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Screenshot TikTok Analytics demographics</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Review AI-generated content briefs</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Check FastMoss/Kalodata competitor alerts</li>
+              <li class="flex items-start gap-2"><span class="text-nusava-green mt-0.5">&#9744;</span> Review Creative Center for new trends</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-stone-800 text-sm mb-2">Estimated Timeline</h4>
+            <div class="text-sm text-stone-600 space-y-1.5">
+              <p><strong>Day 1:</strong> Prerequisites + Dashboardly + Supabase</p>
+              <p><strong>Day 2:</strong> Apify + Claude API integration</p>
+              <p><strong>Day 3:</strong> FastMoss/Kalodata + Creative Center</p>
+              <p><strong>Day 4-5:</strong> Build web app UI + connect all data</p>
+              <p><strong>Day 6:</strong> Deploy + test cron jobs</p>
+              <p><strong>Day 7:</strong> QA + invite team + go live</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const videoData = [
+  { title: "I couldn't believe my energy after 1 week...", product: "(2-Pack) B12 Drops", creator: "@wellness_maria", views: 1200000, likes: 98400, shares: 18200, ctr: 4.8, conv: 4.2, gmv: 32400 },
+  { title: "POV: You finally found a B12 that works", product: "(2-Pack) B12 Drops", creator: "@healthylife_jen", views: 890000, likes: 72100, shares: 12800, ctr: 4.1, conv: 3.9, gmv: 24800 },
+  { title: "Why your B12 pills aren't working", product: "(4-Pack) B12 Supplement", creator: "@vitaminscience", views: 764000, likes: 61200, shares: 21400, ctr: 3.8, conv: 3.6, gmv: 28200 },
+  { title: "Week 1 vs Week 4 on B12 liquid drops", product: "(2-Pack) B12 Drops", creator: "@energy_journey", views: 692000, likes: 58400, shares: 14200, ctr: 5.2, conv: 5.1, gmv: 36800 },
+  { title: "Your doctor won't tell you this about D3+K2", product: "(2-Pack) D3K2 Drops", creator: "@healthfacts_daily", views: 623000, likes: 48900, shares: 19600, ctr: 3.4, conv: 3.2, gmv: 12400 },
+  { title: "Tired mom life changed with these drops", product: "(4-Pack) Wellness Bundle", creator: "@momof3_wellness", views: 584000, likes: 52100, shares: 11800, ctr: 4.6, conv: 4.4, gmv: 22600 },
+  { title: "Stop wasting money on B12 pills", product: "(2-Pack) B12 Drops", creator: "@budgetvitamins", views: 548000, likes: 42300, shares: 16400, ctr: 3.9, conv: 3.7, gmv: 19800 },
+  { title: "My naturopath recommended liquid B12", product: "(4-Pack) B12 Supplement", creator: "@naturalhealth_co", views: 512000, likes: 39800, shares: 8900, ctr: 4.2, conv: 4.0, gmv: 26400 },
+  { title: "Morning routine with Nusava supplements", product: "(4-Pack) Wellness Bundle", creator: "@morningrituals_", views: 467000, likes: 34200, shares: 7200, ctr: 3.1, conv: 2.8, gmv: 14200 },
+  { title: "The absorption difference is INSANE", product: "(1-Pack) B12 Drops", creator: "@sciencebabe", views: 423000, likes: 36400, shares: 13100, ctr: 3.6, conv: 3.4, gmv: 8800 },
+  { title: "D3 without K2 is actually dangerous", product: "(4-Pack) D3K2 Drops", creator: "@vitamintruth", views: 398000, likes: 31200, shares: 15800, ctr: 3.2, conv: 2.9, gmv: 6200 },
+  { title: "Gym gains + B12 drops = unstoppable", product: "(2-Pack) B12 Drops", creator: "@fitfuel_mike", views: 356000, likes: 26800, shares: 5400, ctr: 3.4, conv: 3.2, gmv: 12800 },
+  { title: "How I finally beat the 2pm crash", product: "(2-Pack) B12 Drops", creator: "@corporatewell", views: 334000, likes: 28400, shares: 9200, ctr: 4.4, conv: 4.1, gmv: 18600 },
+  { title: "4-pack vs 2-pack: which is the better deal?", product: "(4-Pack) B12 Supplement", creator: "@smartbuyer_", views: 312000, likes: 22100, shares: 11200, ctr: 3.8, conv: 3.6, gmv: 22400 },
+  { title: "Unboxing my Nusava haul from TikTok Shop", product: "(4-Pack) Wellness Bundle", creator: "@unbox_health", views: 289000, likes: 21400, shares: 4800, ctr: 2.6, conv: 2.2, gmv: 8400 },
+];
+
+const liveData = [
+  { title: "Mega Flash Sale - All Nusava Products 40% Off", date: "Mar 28, 2026", duration: "3h 15min", peak: 8200, avg: 5400, comments: 6800, sold: 842, gmv: 28400 },
+  { title: "Vitamin Deep Dive - B12 vs D3K2 Explained", date: "Apr 2, 2026", duration: "2h 30min", peak: 6800, avg: 4200, comments: 5400, sold: 624, gmv: 22100 },
+  { title: "Wellness Bundle Launch + Giveaway", date: "Mar 22, 2026", duration: "2h 00min", peak: 5900, avg: 3800, comments: 4600, sold: 534, gmv: 18600 },
+  { title: "Ask a Naturopath - Live Q&A + Deals", date: "Mar 18, 2026", duration: "2h 45min", peak: 5200, avg: 3400, comments: 7200, sold: 412, gmv: 14800 },
+  { title: "Tuesday Energy Boost - B12 Flash Sale", date: "Mar 14, 2026", duration: "1h 45min", peak: 4800, avg: 3100, comments: 3200, sold: 378, gmv: 12600 },
+  { title: "New Year Health Reset - Full Collection", date: "Jan 8, 2026", duration: "3h 00min", peak: 9200, avg: 6100, comments: 8400, sold: 1024, gmv: 38200 },
+  { title: "D3K2 Deep Dive - Why You Need Both", date: "Mar 5, 2026", duration: "1h 30min", peak: 3200, avg: 2100, comments: 2800, sold: 198, gmv: 7200 },
+  { title: "Sunday Self-Care LIVE - Routine Building", date: "Mar 2, 2026", duration: "2h 15min", peak: 5600, avg: 3600, comments: 4100, sold: 456, gmv: 16400 },
+  { title: "Valentine's Wellness Gift Guide", date: "Feb 12, 2026", duration: "2h 00min", peak: 7200, avg: 4800, comments: 5800, sold: 678, gmv: 24200 },
+  { title: "Black Friday Mega LIVE - Biggest Deals Ever", date: "Nov 29, 2025", duration: "4h 00min", peak: 12400, avg: 8200, comments: 11200, sold: 1842, gmv: 62400 },
+  { title: "Holiday Health Bundle Special", date: "Dec 18, 2025", duration: "2h 30min", peak: 8800, avg: 5600, comments: 6400, sold: 924, gmv: 34800 },
+  { title: "Immune Season Prep - D3K2 + B12 Combos", date: "Oct 15, 2025", duration: "2h 00min", peak: 4600, avg: 2900, comments: 3400, sold: 312, gmv: 11200 },
+];
+
+function formatNum(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+  return n.toString();
+}
+
+function populateVideoTable() {
+  document.getElementById('video-table-body').innerHTML = videoData.map(v => `
+    <tr class="hover:bg-stone-50 transition">
+      <td class="px-5 py-3"><p class="text-sm font-medium text-stone-900 max-w-xs truncate">${v.title}</p></td>
+      <td class="px-5 py-3"><span class="badge badge-green">${v.product}</span></td>
+      <td class="px-5 py-3 text-sm text-stone-600">${v.creator}</td>
+      <td class="px-5 py-3 text-sm text-stone-900 text-right font-medium">${formatNum(v.views)}</td>
+      <td class="px-5 py-3 text-sm text-right">${formatNum(v.likes)}</td>
+      <td class="px-5 py-3 text-sm text-right">${formatNum(v.shares)}</td>
+      <td class="px-5 py-3 text-sm text-right"><span class="font-medium ${v.ctr >= 3.5 ? 'text-green-600' : 'text-stone-600'}">${v.ctr}%</span></td>
+      <td class="px-5 py-3 text-sm text-right"><span class="font-medium ${v.conv >= 3.5 ? 'text-green-600' : 'text-stone-600'}">${v.conv}%</span></td>
+      <td class="px-5 py-3 text-sm text-right font-bold text-stone-900">$${formatNum(v.gmv)}</td>
+    </tr>`).join('');
+}
+
+function populateLiveTable() {
+  document.getElementById('live-table-body').innerHTML = liveData.map(l => `
+    <tr class="hover:bg-stone-50 transition">
+      <td class="px-5 py-3"><p class="text-sm font-medium text-stone-900 max-w-xs truncate">${l.title}</p></td>
+      <td class="px-5 py-3 text-sm text-stone-600">${l.date}</td>
+      <td class="px-5 py-3 text-sm text-right">${l.duration}</td>
+      <td class="px-5 py-3 text-sm text-right font-medium">${formatNum(l.peak)}</td>
+      <td class="px-5 py-3 text-sm text-right">${formatNum(l.avg)}</td>
+      <td class="px-5 py-3 text-sm text-right">${formatNum(l.comments)}</td>
+      <td class="px-5 py-3 text-sm text-right font-medium text-green-600">${l.sold}</td>
+      <td class="px-5 py-3 text-sm text-right font-bold text-stone-900">$${formatNum(l.gmv)}</td>
+    </tr>`).join('');
+}
+
+const tabs = ['dashboard', 'videos', 'live', 'briefs', 'livetips', 'personas', 'tech', 'setup'];
+const titles = {
+  dashboard: ['Dashboard', "Overview of Nusava's TikTok Shop content performance"],
+  videos: ['Product Videos', '156 videos linked to Nusava TikTok Shop products'],
+  live: ['LIVE Sessions', '24 LIVE sessions with Nusava product showcases'],
+  briefs: ['Content Briefs', 'AI-generated scripts, hooks, and shooting guides for Nusava supplements'],
+  livetips: ['LIVE Playbook', 'AI-generated tips and strategies for Nusava LIVE sessions'],
+  personas: ['Persona Library', 'AI-detected creator personas, narrative angles, and per-persona analytics'],
+  tech: ['Technical Requirements & Costs', 'APIs, architecture, and estimated costs to build this tool'],
+  setup: ['Setup Guide', 'Step-by-step instructions to connect the recommended stack and deploy to production']
+};
+
+function showPath(path) {
+  document.getElementById('path-official').classList.toggle('hidden', path !== 'official');
+  document.getElementById('path-alternative').classList.toggle('hidden', path !== 'alternative');
+  const btnOff = document.getElementById('btn-official');
+  const btnAlt = document.getElementById('btn-alternative');
+  if (path === 'official') {
+    btnOff.className = 'px-4 py-2 rounded-lg text-sm font-medium bg-nusava-green text-white transition';
+    btnAlt.className = 'px-4 py-2 rounded-lg text-sm font-medium bg-stone-200 text-stone-600 hover:bg-stone-300 transition';
+  } else {
+    btnAlt.className = 'px-4 py-2 rounded-lg text-sm font-medium bg-nusava-green text-white transition';
+    btnOff.className = 'px-4 py-2 rounded-lg text-sm font-medium bg-stone-200 text-stone-600 hover:bg-stone-300 transition';
+  }
+}
+
+function showTab(name) {
+  tabs.forEach(t => {
+    document.getElementById('tab-' + t).classList.add('hidden');
+    document.getElementById('nav-' + t).classList.remove('active');
+    document.getElementById('nav-' + t).classList.add('text-stone-600');
+  });
+  document.getElementById('tab-' + name).classList.remove('hidden');
+  document.getElementById('nav-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.remove('text-stone-600');
+  document.getElementById('page-title').textContent = titles[name][0];
+  document.getElementById('page-subtitle').textContent = titles[name][1];
+  window.scrollTo(0, 0);
+}
+
+function initCharts() {
+  new Chart(document.getElementById('chart-views').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr W1'],
+      datasets: [
+        { label: 'Views', data: [680000, 920000, 1800000, 1400000, 1600000, 2100000, 1200000], borderColor: '#2d6a4f', backgroundColor: 'rgba(45,106,79,0.1)', fill: true, tension: 0.4, yAxisID: 'y' },
+        { label: 'GMV ($)', data: [32000, 48000, 96000, 62000, 74000, 92000, 52000], borderColor: '#b5851b', backgroundColor: 'rgba(181,133,27,0.1)', fill: true, tension: 0.4, yAxisID: 'y1' }
+      ]
+    },
+    options: { responsive: true, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } }, scales: { y: { ticks: { callback: v => formatNum(v) }, grid: { color: '#f5f5f4' } }, y1: { position: 'right', ticks: { callback: v => '$' + formatNum(v) }, grid: { drawOnChartArea: false } } } }
+  });
+
+  new Chart(document.getElementById('chart-type').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['(2-Pack)\nB12 Drops', '(4-Pack)\nB12 Supp', '(4-Pack)\nWellness', '(2-Pack)\nD3K2', '(1-Pack)\nB12', '(4-Pack)\nD3K2', '(3-Pack)\nWellness'],
+      datasets: [{ label: 'Total Sales ($)', data: [299470, 160294, 17443, 7879, 7376, 3944, 620], backgroundColor: ['#2d6a4f', '#40916c', '#52796f', '#b5851b', '#74c69d', '#dda15e', '#d4a373'], borderRadius: 8 }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + formatNum(v) }, grid: { color: '#f5f5f4' } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+  });
+
+  const ctx3 = document.getElementById('chart-hooks');
+  if (ctx3) {
+    new Chart(ctx3.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Symptom Call-Out', 'Science/Education', 'Transformation', 'Comparison/Debunk', 'Other'],
+        datasets: [{ data: [32, 24, 20, 14, 10], backgroundColor: ['#2d6a4f', '#b5851b', '#e63946', '#457b9d', '#d4a373'], borderWidth: 0, spacing: 3, borderRadius: 4 }]
+      },
+      options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, font: { size: 12 } } } } }
+    });
+  }
+}
+
+function initPersonaCharts() {
+  const ctx4 = document.getElementById('chart-persona-gmv');
+  if (ctx4) {
+    new Chart(ctx4.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Health\nEducator', 'Transform.\nJourney', 'Value\nHunter', 'Wellness\nRoutiner', 'Mom\nAdvocate', 'Fitness\nOptimizer', 'Trend\nRider'],
+        datasets: [
+          { label: 'GMV ($)', data: [142000, 108400, 86200, 68400, 42800, 34600, 14600], backgroundColor: ['#2d6a4f', '#e63946', '#b5851b', '#06b6d4', '#7c3aed', '#16a34a', '#ec4899'], borderRadius: 8 },
+          { label: 'Videos', data: [38, 26, 22, 24, 18, 16, 12], backgroundColor: ['rgba(45,106,79,0.3)', 'rgba(230,57,70,0.3)', 'rgba(181,133,27,0.3)', 'rgba(6,182,212,0.3)', 'rgba(124,58,237,0.3)', 'rgba(22,163,74,0.3)', 'rgba(236,72,153,0.3)'], borderRadius: 8, yAxisID: 'y1' }
+        ]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + formatNum(v) }, grid: { color: '#f5f5f4' } }, y1: { beginAtZero: true, position: 'right', ticks: { callback: v => v + ' vids' }, grid: { drawOnChartArea: false } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+    });
+  }
+  const ctx5 = document.getElementById('chart-persona-scatter');
+  if (ctx5) {
+    new Chart(ctx5.getContext('2d'), {
+      type: 'bubble',
+      data: {
+        datasets: [
+          { label: 'Health Educator', data: [{ x: 9.4, y: 4.2, r: 20 }], backgroundColor: 'rgba(45,106,79,0.7)' },
+          { label: 'Transformation', data: [{ x: 10.8, y: 5.1, r: 17 }], backgroundColor: 'rgba(230,57,70,0.7)' },
+          { label: 'Value Hunter', data: [{ x: 8.2, y: 3.8, r: 15 }], backgroundColor: 'rgba(181,133,27,0.7)' },
+          { label: 'Wellness Routiner', data: [{ x: 7.6, y: 3.1, r: 13 }], backgroundColor: 'rgba(6,182,212,0.7)' },
+          { label: 'Mom Advocate', data: [{ x: 11.6, y: 3.6, r: 11 }], backgroundColor: 'rgba(124,58,237,0.7)' },
+          { label: 'Fitness Optimizer', data: [{ x: 6.8, y: 3.4, r: 10 }], backgroundColor: 'rgba(22,163,74,0.7)' },
+          { label: 'Trend Rider', data: [{ x: 13.2, y: 1.4, r: 8 }], backgroundColor: 'rgba(236,72,153,0.7)' }
+        ]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 10, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.raw.x}% eng, ${ctx.raw.y}% conv` } } }, scales: { x: { title: { display: true, text: 'Avg Engagement Rate %' }, grid: { color: '#f5f5f4' } }, y: { title: { display: true, text: 'Avg Conversion Rate %' }, grid: { color: '#f5f5f4' } } } }
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  populateVideoTable();
+  populateLiveTable();
+  initCharts();
+  initPersonaCharts();
+});
+</script>
+</body>
+</html>

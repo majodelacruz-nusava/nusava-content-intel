@@ -1,0 +1,11 @@
+{
+  "name": "nusava-content-intel",
+  "version": "1.0.0",
+  "description": "Nusava TikTok Shop Content Intelligence Tool",
+  "scripts": {
+    "start": "npx serve -l $PORT -s ."
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}
