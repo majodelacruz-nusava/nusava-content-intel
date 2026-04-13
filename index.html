@@ -326,6 +326,35 @@ tailwind.config = {
       </div>
     </div>
 
+    <!-- VIDEO DETAIL MODAL -->
+    <div id="video-modal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-6">
+      <div class="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between p-5 border-b border-stone-100 sticky top-0 bg-white z-10">
+          <div>
+            <h3 class="font-bold text-stone-900 text-lg">Video Overview</h3>
+            <p id="modal-creator" class="text-sm text-stone-500"></p>
+          </div>
+          <button onclick="closeVideoModal()" class="text-stone-400 hover:text-stone-700 text-2xl leading-none">&times;</button>
+        </div>
+        <div class="p-6 grid grid-cols-2 gap-6">
+          <div>
+            <a id="modal-video-link" href="#" target="_blank" class="block bg-stone-100 rounded-xl aspect-[9/16] flex items-center justify-center text-stone-400 text-sm hover:bg-stone-200 transition">
+              <span>▶ Open original on TikTok</span>
+            </a>
+            <div class="mt-4 grid grid-cols-3 gap-2">
+              <div class="p-3 bg-stone-50 rounded-lg text-center"><p class="text-xs text-stone-500">Impressions</p><p id="modal-views" class="font-bold text-stone-900"></p></div>
+              <div class="p-3 bg-stone-50 rounded-lg text-center"><p class="text-xs text-stone-500">Items Sold</p><p id="modal-items" class="font-bold text-green-600"></p></div>
+              <div class="p-3 bg-stone-50 rounded-lg text-center"><p class="text-xs text-stone-500">GMV</p><p id="modal-gmv" class="font-bold text-stone-900"></p></div>
+              <div class="p-3 bg-stone-50 rounded-lg text-center"><p class="text-xs text-stone-500">CTR</p><p id="modal-ctr" class="font-bold text-stone-900"></p></div>
+              <div class="p-3 bg-stone-50 rounded-lg text-center"><p class="text-xs text-stone-500">Likes</p><p id="modal-likes" class="font-bold text-stone-900"></p></div>
+              <div class="p-3 bg-stone-50 rounded-lg text-center"><p class="text-xs text-stone-500">Comments</p><p id="modal-comments" class="font-bold text-stone-900"></p></div>
+            </div>
+          </div>
+          <div id="modal-ai-content" class="space-y-5"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- LIVE TAB -->
     <div id="tab-live" class="hidden fade-in">
       <div class="card overflow-hidden">
@@ -2241,10 +2270,95 @@ const personaColors = {
   'Wellness Routiner': 'bg-cyan-100 text-cyan-700'
 };
 
+const videoDetails = {
+  "https://www.tiktok.com/@didi_finds/video/7626124644054994189": {
+    overview: "The video explains that neuropathy, characterized by symptoms like foot pain, burning, and tingling, is not caused by sugar but by a deficiency in Vitamin B12. It details how the body's ability to absorb B12 decreases with age, leading to nerve damage and symptoms such as memory loss and fatigue. The speaker uses an analogy of electrical wires to illustrate how B12 protects nerve sheaths.",
+    audience: "Individuals experiencing symptoms of neuropathy, such as pain, numbness, or tingling, particularly those over 50 or concerned about age-related health issues and cognitive function.",
+    tone: "Educational",
+    hooks: [
+      { text: "La neuropatía no empieza por el azúcar.", score: 80, why: "Challenges a common misconception about neuropathy, creating immediate curiosity." },
+      { text: "Son tus nervios pidiendo ayuda.", score: 70, why: "Personifies nerve issues, making the problem relatable and urgent." },
+      { text: "A partir de los 50 años o dependiendo de nuestra genética, ya no se absorbe también la vitamina B12 de los alimentos.", score: 80, why: "Introduces a specific age-related factor affecting nutrient absorption — a key piece of information." },
+      { text: "Al no absorber esta vitamina, estos nervios quedan expuestos y ahí es cuando entra el dolor, el entumecimiento, el hormigueo, falta de memoria, falta de energía.", score: 90, why: "Directly links a deficiency to a list of common, concerning symptoms — highlighting product relevance." }
+    ],
+    transcript: "La neuropatía no empieza por el azúcar. Empieza por algo que nadie te cuenta y que te está enfermando. Te duele los pies, sientes quemazón, hormigueo. Te dicen que es normal, no es normal. Son tus nervios pidiendo ayuda. Es muy triste porque muy poca gente sabe esto, pero es que a partir de los 50 años o dependiendo de nuestra genética, ya no se absorbe también la vitamina B12 de los alimentos. Esta vitamina es la que forma la capa que protege a tus nervios. Porque tus nervios son como cables eléctricos, tienen una capa que los protege. Al no absorber esta vitamina, estos nervios quedan expuestos y ahí es cuando entra el dolor, el entumecimiento, el hormigueo, falta de memoria, falta de energía y estos son los primeros síntomas de algo que puede ir a mucho peor.",
+    productSku: "(2-PACK) Vitamin B12 Liquid Supplement Drops with B6, B1, Niacin & Folate",
+    productNotes: "The product is not directly shown or named in the video. However, the content heavily focuses on the importance of Vitamin B12 supplementation for nerve health, implying the product's relevance.",
+    integrationType: "Verbal Only"
+  },
+  "https://www.tiktok.com/@mellag/video/7626405894468734238": {
+    overview: "The speaker explains why regular B12 supplements might not be effective for everyone. They state that people often don't realize their body might not be utilizing B12 properly on its own. The video suggests that the reason for lack of results from B12 is not that the supplement doesn't work, but rather how the body uses it.",
+    audience: "Individuals who have tried B12 supplements for energy or nerve pain without seeing results, and are looking for alternative explanations or solutions.",
+    tone: "Educational",
+    hooks: [
+      { text: "You didn't waste your money… You were just missing this.", score: 80, why: "Creates curiosity by suggesting a common mistake and offering a solution." },
+      { text: "This is exactly why I don't take regular B12 anymore.", score: 70, why: "Creates intrigue by stating a personal decision and implying a reason that will be revealed." },
+      { text: "Nobody tells you this everybody part.", score: 60, why: "Suggests hidden information, prompting viewers to learn what others are not sharing." }
+    ],
+    transcript: "You didn't waste your money... you were just missing this. This is exactly why I don't take regular B12 anymore. Nobody tells you this everybody part. Everybody keeps talking about B12 fix you try it and nothing really changes. That's where people get stuck. B12 that works is that your body doesn't use it properly by itself. If you ever taken B12 before was it yeah it doesn't really make a difference.",
+    productSku: "(2-PACK) Vitamin B12 Liquid Supplement Drops with B6, B1, Niacin & Folate",
+    productNotes: "The product is not visible in the video. The content is a verbal explanation about B12 supplements in general, not a specific product. The speaker discusses the common experience of taking B12 and not seeing a difference.",
+    integrationType: "Verbal Only"
+  }
+};
+
+function scoreColor(s) { return s >= 80 ? 'text-green-600 border-green-500' : s >= 70 ? 'text-amber-600 border-amber-500' : 'text-stone-500 border-stone-400'; }
+
+function openVideoModal(idx) {
+  const v = videoData[idx];
+  const d = videoDetails[v.link];
+  document.getElementById('modal-creator').textContent = `${v.creator} • ${v.date} • ${v.product}`;
+  document.getElementById('modal-video-link').href = v.link;
+  document.getElementById('modal-views').textContent = formatNum(v.views);
+  document.getElementById('modal-items').textContent = v.items;
+  document.getElementById('modal-gmv').textContent = '$' + v.gmv.toFixed(2);
+  document.getElementById('modal-ctr').textContent = v.ctr.toFixed(2) + '%';
+  document.getElementById('modal-likes').textContent = v.likes;
+  document.getElementById('modal-comments').textContent = v.comments;
+  const ai = document.getElementById('modal-ai-content');
+  if (d) {
+    ai.innerHTML = `
+      <div><h4 class="text-xs font-semibold text-stone-500 uppercase mb-2">Title / Caption</h4><p class="text-sm text-stone-800">${v.title}</p></div>
+      <div><h4 class="text-xs font-semibold text-stone-500 uppercase mb-2">Overview</h4><p class="text-sm text-stone-700 leading-relaxed">${d.overview}</p></div>
+      <div><h4 class="text-xs font-semibold text-stone-500 uppercase mb-2">Target Audience</h4><p class="text-sm text-stone-700 leading-relaxed">${d.audience}</p></div>
+      <div><h4 class="text-xs font-semibold text-stone-500 uppercase mb-2">Tone</h4><span class="text-xs px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 font-medium">${d.tone}</span></div>
+      <div>
+        <h4 class="text-xs font-semibold text-stone-500 uppercase mb-2">Hooks (scored)</h4>
+        <div class="space-y-2">
+          ${d.hooks.map(h => `
+            <div class="p-3 bg-stone-50 rounded-lg flex items-start gap-3">
+              <div class="w-12 h-12 rounded-full border-4 ${scoreColor(h.score)} flex items-center justify-center flex-shrink-0 font-bold text-sm bg-white">${h.score}</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-stone-900">"${h.text}"</p>
+                <p class="text-xs text-stone-500 mt-1">${h.why}</p>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+      <div><h4 class="text-xs font-semibold text-stone-500 uppercase mb-2">Transcript</h4><p class="text-xs text-stone-600 leading-relaxed bg-stone-50 p-3 rounded-lg italic">${d.transcript}</p></div>
+      <div><h4 class="text-xs font-semibold text-stone-500 uppercase mb-2">Product Match</h4>
+        <div class="p-3 bg-emerald-50 rounded-lg">
+          <p class="text-sm font-semibold text-stone-900">${d.productSku}</p>
+          <p class="text-xs text-stone-600 mt-1">${d.productNotes}</p>
+          <span class="inline-block mt-2 text-xs px-2 py-1 rounded-full bg-white border border-stone-200 text-stone-700">Integration: ${d.integrationType}</span>
+        </div>
+      </div>`;
+  } else {
+    ai.innerHTML = `
+      <div><h4 class="text-xs font-semibold text-stone-500 uppercase mb-2">Title / Caption</h4><p class="text-sm text-stone-800">${v.title}</p></div>
+      <div class="p-6 bg-amber-50 border border-amber-200 rounded-xl text-center">
+        <p class="text-sm font-semibold text-stone-800 mb-1">AI analysis pending</p>
+        <p class="text-xs text-stone-600">Send a screenshot of this video to populate the overview, target audience, hooks, and transcript.</p>
+      </div>`;
+  }
+  document.getElementById('video-modal').classList.remove('hidden');
+}
+function closeVideoModal() { document.getElementById('video-modal').classList.add('hidden'); }
+
 function populateVideoTable() {
-  document.getElementById('video-table-body').innerHTML = videoData.map(v => `
-    <tr class="hover:bg-stone-50 transition">
-      <td class="px-5 py-3"><a href="${v.link}" target="_blank" class="text-sm font-medium text-stone-900 hover:text-nusava-green max-w-xs truncate block">${v.title}</a><p class="text-xs text-stone-400 mt-0.5">${v.date}</p></td>
+  document.getElementById('video-table-body').innerHTML = videoData.map((v, i) => `
+    <tr class="hover:bg-stone-50 transition cursor-pointer" onclick="openVideoModal(${i})">
+      <td class="px-5 py-3"><span class="text-sm font-medium text-stone-900 hover:text-nusava-green max-w-xs truncate block">${v.title}${videoDetails[v.link] ? ' <span class=\"ml-1 text-xs text-emerald-600\">●</span>' : ''}</span><p class="text-xs text-stone-400 mt-0.5">${v.date}</p></td>
       <td class="px-5 py-3"><span class="badge badge-green">${v.product}</span></td>
       <td class="px-5 py-3"><span class="text-xs font-medium px-2 py-1 rounded-full ${personaColors[v.persona] || 'bg-stone-100 text-stone-700'}">${v.persona}</span></td>
       <td class="px-5 py-3 text-sm text-stone-600">${v.creator}</td>
