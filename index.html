@@ -17099,6 +17099,14 @@ function showTab(name) {
   document.getElementById('page-title').textContent = titles[name][0];
   document.getElementById('page-subtitle').textContent = titles[name][1];
   window.scrollTo(0, 0);
+  // Resize hook doughnut charts when briefs tab becomes visible
+  // (Chart.js initialises at 0x0 while the tab is hidden)
+  if (name === 'briefs') {
+    setTimeout(function() {
+      if (chartHooksW1) chartHooksW1.resize();
+      if (chartHooksW2) chartHooksW2.resize();
+    }, 30);
+  }
 }
 
 // ── Dashboard chart data by week ──────────────────────────────────────────
