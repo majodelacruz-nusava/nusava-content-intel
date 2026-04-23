@@ -195,7 +195,7 @@ tailwind.config = {
 
       <div class="grid grid-cols-2 gap-6 mb-8">
         <div class="card p-6">
-          <h3 class="font-semibold text-stone-800 mb-4">Impressions & GMV — Apr 12–18, 2026</h3>
+          <h3 id="chart-views-title" class="font-semibold text-stone-800 mb-4">Impressions & GMV — Apr 12–18, 2026</h3>
           <canvas id="chart-views" height="220"></canvas>
         </div>
         <div class="card p-6">
@@ -207,7 +207,7 @@ tailwind.config = {
       <div class="grid grid-cols-2 gap-6">
         <div class="card p-6">
           <h3 class="font-semibold text-stone-800 mb-4">Top Performing Videos</h3>
-          <div class="space-y-3">
+          <div id="dash-top-videos" class="space-y-3">
             <div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">
               <div class="w-10 h-10 rounded-lg bg-nusava-green/10 flex items-center justify-center text-sm font-bold text-nusava-green">1</div>
               <div class="flex-1 min-w-0">
@@ -245,7 +245,7 @@ tailwind.config = {
         </div>
         <div class="card p-6">
           <h3 class="font-semibold text-stone-800 mb-4">Top LIVE Sessions</h3>
-          <div class="space-y-3">
+          <div id="dash-top-lives" class="space-y-3">
             <div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">
               <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-sm font-bold text-amber-600">1</div>
               <div class="flex-1 min-w-0">
@@ -402,7 +402,7 @@ tailwind.config = {
           </div>
           <div>
             <h4 class="text-sm font-semibold text-stone-700 mb-3">Tone Distribution (1,877 videos)</h4>
-            <canvas id="chart-hooks" height="220"></canvas>
+            <canvas id="chart-hooks-w1" height="220"></canvas>
             <div class="mt-4 space-y-2">
               <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Casual</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-nusava-green" style="width:70%"></div></div><span class="text-xs font-semibold text-stone-600">~1,314</span></div></div>
               <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Educational</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-blue-500" style="width:25%"></div></div><span class="text-xs font-semibold text-stone-600">~469</span></div></div>
@@ -486,7 +486,7 @@ tailwind.config = {
           </div>
           <div>
             <h4 class="text-sm font-semibold text-stone-700 mb-3">Tone Distribution (2,065 videos)</h4>
-            <canvas id="chart-hooks" height="220"></canvas>
+            <canvid="chart-hooks-w2"ks" height="220"></canvas>
             <div class="mt-4 space-y-2">
               <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Casual</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-nusava-green" style="width:70%"></div></div><span class="text-xs font-semibold text-stone-600">~1,446</span></div></div>
               <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Educational</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-blue-500" style="width:25%"></div></div><span class="text-xs font-semibold text-stone-600">~516</span></div></div>
@@ -16900,6 +16900,8 @@ function setWeek(key) {
   videoPage = 1;
   populateVideoTable();
   populateLiveTable();
+  updateDashboardCharts(key);
+  renderDashboardTopLists();
   // Toggle week-specific qualitative tab content
   ['briefs', 'livetips', 'personas'].forEach(function(tab) {
     var w1 = document.getElementById(tab + '-week1');
@@ -17099,38 +17101,142 @@ function showTab(name) {
   window.scrollTo(0, 0);
 }
 
+// ── Dashboard chart data by week ──────────────────────────────────────────
+const dashChartData = {
+  week1: {
+    title: 'Impressions & GMV — Apr 5–11, 2026',
+    viewsLabels: ['Apr 5 (Sun)', 'Apr 6 (Mon)', 'Apr 7 (Tue)', 'Apr 8 (Wed)', 'Apr 9 (Thu)', 'Apr 10 (Fri)', 'Apr 11 (Sat)'],
+    impressions:  [68221, 51093, 73372, 60181, 43083, 32992, 13116],
+    videoGmv:     [930,   513,   855,   547,   286,   175,   61],
+    productLabels: ['(2-Pack)\nB12 Drops', '(4-Pack)\nB12 Drops', '(4-Pack)\nWellness', '(2-Pack)\nD3K2', '(1-Pack)\nB12', '(4-Pack)\nD3K2'],
+    productGmv:    [1463, 1224, 353, 196, 148, 0],
+    hooks: {
+      labels: ['Myelin/Nerve Science', 'Anti-Gabapentin Pivot', 'BOGO Value', 'Spanish Curiosity Gap', 'Scam Warning'],
+      data:   [5, 4, 3, 3, 2],
+      total:  '13 videos'
+    }
+  },
+  week2: {
+    title: 'Impressions & GMV — Apr 12–18, 2026',
+    viewsLabels: ['Apr 12 (Sat)', 'Apr 13 (Sun)', 'Apr 14 (Mon)', 'Apr 15 (Tue)', 'Apr 16 (Wed)', 'Apr 17 (Thu)', 'Apr 18 (Fri)'],
+    impressions:  [51059, 86050, 76909, 50080, 54124, 52686, 18478],
+    videoGmv:     [271,   699,   753,   436,   207,   292,   102],
+    productLabels: ['(2-Pack)\nB12 Drops', '(4-Pack)\nB12 Drops', '(4-Pack)\nWellness', '(2-Pack)\nD3K2', '(1-Pack)\nB12', '(4-Pack)\nD3K2'],
+    productGmv:    [1600, 446, 398, 173, 79, 64],
+    hooks: {
+      labels: ['Anti-Neurologist Insider', 'Symptom Recognition List', 'Flash Sale Urgency', 'Root Cause Education', 'Silent Urgency Clip'],
+      data:   [4, 3, 3, 2, 2],
+      total:  '12 videos'
+    }
+  }
+};
+
+let chartViews = null;
+let chartType  = null;
+let chartHooksW1 = null;
+let chartHooksW2 = null;
+
 function initCharts() {
-  new Chart(document.getElementById('chart-views').getContext('2d'), {
+  const d = dashChartData[activeWeek];
+
+  chartViews = new Chart(document.getElementById('chart-views').getContext('2d'), {
     type: 'line',
     data: {
-      labels: ['Apr 5 (Sun)', 'Apr 6 (Mon)', 'Apr 7 (Tue)', 'Apr 8 (Wed)', 'Apr 9 (Thu)', 'Apr 10 (Fri)', 'Apr 11 (Sat)'],
+      labels: d.viewsLabels,
       datasets: [
-        { label: 'Impressions', data: [62400, 48900, 58200, 51600, 44800, 42100, 34600], borderColor: '#2d6a4f', backgroundColor: 'rgba(45,106,79,0.1)', fill: true, tension: 0.4, yAxisID: 'y' },
-        { label: 'Video GMV ($)', data: [612, 478, 618, 498, 398, 420, 361], borderColor: '#b5851b', backgroundColor: 'rgba(181,133,27,0.1)', fill: true, tension: 0.4, yAxisID: 'y1' }
+        { label: 'Impressions', data: d.impressions, borderColor: '#2d6a4f', backgroundColor: 'rgba(45,106,79,0.1)', fill: true, tension: 0.4, yAxisID: 'y' },
+        { label: 'Video GMV ($)', data: d.videoGmv, borderColor: '#b5851b', backgroundColor: 'rgba(181,133,27,0.1)', fill: true, tension: 0.4, yAxisID: 'y1' }
       ]
     },
     options: { responsive: true, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } }, scales: { y: { ticks: { callback: v => formatNum(v) }, grid: { color: '#f5f5f4' } }, y1: { position: 'right', ticks: { callback: v => '$' + formatNum(v) }, grid: { drawOnChartArea: false } } } }
   });
 
-  new Chart(document.getElementById('chart-type').getContext('2d'), {
+  chartType = new Chart(document.getElementById('chart-type').getContext('2d'), {
     type: 'bar',
     data: {
-      labels: ['(2-Pack)\nB12 Drops', '(4-Pack)\nB12 Drops', '(4-Pack)\nWellness', '(2-Pack)\nD3K2', '(1-Pack)\nB12', '(4-Pack)\nD3K2'],
-      datasets: [{ label: 'Affiliate GMV ($)', data: [42721, 25533, 2685, 1622, 1303, 524], backgroundColor: ['#2d6a4f', '#40916c', '#52796f', '#b5851b', '#74c69d', '#dda15e'], borderRadius: 8 }]
+      labels: d.productLabels,
+      datasets: [{ label: 'Affiliate GMV ($)', data: d.productGmv, backgroundColor: ['#2d6a4f', '#40916c', '#52796f', '#b5851b', '#74c69d', '#dda15e'], borderRadius: 8 }]
     },
     options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + formatNum(v) }, grid: { color: '#f5f5f4' } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
   });
 
-  const ctx3 = document.getElementById('chart-hooks');
-  if (ctx3) {
-    new Chart(ctx3.getContext('2d'), {
+  // Tone/hook doughnut — init both canvases (week1 is hidden, week2 visible)
+  const hkOpts = (total) => ({
+    responsive: true, maintainAspectRatio: true, cutout: '65%',
+    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, font: { size: 12 } } },
+               tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.raw + ' of ' + total } } }
+  });
+  const colors = ['#2d6a4f', '#e63946', '#b5851b', '#7c3aed', '#457b9d'];
+  const ctx_w1 = document.getElementById('chart-hooks-w1');
+  if (ctx_w1) {
+    chartHooksW1 = new Chart(ctx_w1.getContext('2d'), {
       type: 'doughnut',
-      data: {
-        labels: ['Myelin/Nerve Science', 'Anti-Gabapentin Pivot', 'BOGO Value', 'Spanish Curiosity Gap', 'Scam Warning'],
-        datasets: [{ data: [5, 4, 3, 3, 2], backgroundColor: ['#2d6a4f', '#e63946', '#b5851b', '#7c3aed', '#457b9d'], borderWidth: 0, spacing: 3, borderRadius: 4 }]
-      },
-      options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, font: { size: 12 } } }, tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} of 13 videos` } } } }
+      data: { labels: dashChartData.week1.hooks.labels, datasets: [{ data: dashChartData.week1.hooks.data, backgroundColor: colors, borderWidth: 0, spacing: 3, borderRadius: 4 }] },
+      options: hkOpts(dashChartData.week1.hooks.total)
     });
+  }
+  const ctx_w2 = document.getElementById('chart-hooks-w2');
+  if (ctx_w2) {
+    chartHooksW2 = new Chart(ctx_w2.getContext('2d'), {
+      type: 'doughnut',
+      data: { labels: dashChartData.week2.hooks.labels, datasets: [{ data: dashChartData.week2.hooks.data, backgroundColor: colors, borderWidth: 0, spacing: 3, borderRadius: 4 }] },
+      options: hkOpts(dashChartData.week2.hooks.total)
+    });
+  }
+}
+
+function updateDashboardCharts(key) {
+  const d = dashChartData[key];
+  // Update title
+  const titleEl = document.getElementById('chart-views-title');
+  if (titleEl) titleEl.textContent = d.title;
+  // Update line chart
+  if (chartViews) {
+    chartViews.data.labels = d.viewsLabels;
+    chartViews.data.datasets[0].data = d.impressions;
+    chartViews.data.datasets[1].data = d.videoGmv;
+    chartViews.update();
+  }
+  // Update product bar chart
+  if (chartType) {
+    chartType.data.labels = d.productLabels;
+    chartType.data.datasets[0].data = d.productGmv;
+    chartType.update();
+  }
+  // Resize the revealed hook chart so it renders at correct size
+  setTimeout(function() {
+    if (key === 'week1' && chartHooksW1) chartHooksW1.resize();
+    if (key === 'week2' && chartHooksW2) chartHooksW2.resize();
+  }, 50);
+}
+
+function renderDashboardTopLists() {
+  // Top 3 videos by GMV
+  const topVids = [...videoData].sort((a, b) => b.gmv - a.gmv).slice(0, 3);
+  const vEl = document.getElementById('dash-top-videos');
+  if (vEl) {
+    vEl.innerHTML = topVids.map((v, i) => {
+      const title = v.title ? v.title.replace(/"/g,'').substring(0, 55) + (v.title.length > 55 ? '…' : '') : (v.creator + ' — ' + v.product);
+      const dateStr = v.date ? v.date.replace('2026-', 'Apr ').replace('-0', ' ').replace('-', ' ') : '';
+      return '<div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">' +
+        '<div class="w-10 h-10 rounded-lg bg-nusava-green/10 flex items-center justify-center text-sm font-bold text-nusava-green">' + (i+1) + '</div>' +
+        '<div class="flex-1 min-w-0"><p class="text-sm font-medium text-stone-900 truncate">' + title + '</p>' +
+        '<p class="text-xs text-stone-400">@' + v.creator.replace('@','') + ' &bull; ' + dateStr + ' &bull; ' + v.items + ' sold</p></div>' +
+        '<div class="text-right"><p class="text-sm font-bold text-stone-900">$' + v.gmv.toFixed(2) + '</p><p class="text-xs text-stone-400">GMV</p></div></div>';
+    }).join('');
+  }
+  // Top 3 LIVE sessions by GMV
+  const topLives = [...liveData].sort((a, b) => b.gmv - a.gmv).slice(0, 3);
+  const lEl = document.getElementById('dash-top-lives');
+  if (lEl) {
+    lEl.innerHTML = topLives.map((s, i) => {
+      const dateStr = s.date ? s.date.split(' ')[0] : '';
+      return '<div class="flex items-center gap-4 p-3 bg-stone-50 rounded-xl">' +
+        '<div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-sm font-bold text-amber-600">' + (i+1) + '</div>' +
+        '<div class="flex-1 min-w-0"><p class="text-sm font-medium text-stone-900 truncate">' + (s.title || s.product) + ' — @' + s.creator.replace('@','') + '</p>' +
+        '<p class="text-xs text-stone-400">' + s.duration + ' &bull; ' + dateStr + ' &bull; ' + s.items + ' items</p></div>' +
+        '<div class="text-right"><p class="text-sm font-bold text-stone-900">$' + s.gmv.toFixed(2) + '</p><p class="text-xs text-stone-400">GMV</p></div></div>';
+    }).join('');
   }
 }
 
@@ -17171,6 +17277,7 @@ document.addEventListener('DOMContentLoaded', () => {
   populateLiveTable();
   initCharts();
   initPersonaCharts();
+  renderDashboardTopLists();
 });
 </script>
 </body>
