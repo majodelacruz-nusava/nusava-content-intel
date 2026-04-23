@@ -377,12 +377,55 @@ tailwind.config = {
     </div>
 
     <!-- CONTENT BRIEFS TAB -->
-    <<div id="tab-briefs" class="hidden fade-in">
+    <div id="tab-briefs" class="hidden fade-in">
+      <div id="briefs-week1" class="hidden">
 
-      <!-- Hook Analysis Note Banner -->
       <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
         <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        <div class="text-xs text-amber-900"><span class="font-semibold">Hook scoring pending.</span> Hook patterns for Apr 12–18, 2026 require screenshot capture and AI analysis of individual video frames. The 5 patterns below are carried forward from prior week analysis and updated with this week's content overview data. Scores will be refreshed once screenshots are processed.</div>
+        <div class="text-xs text-amber-900"><span class="font-semibold">Apr 5–11 analysis.</span> Hook patterns below are based on Apr 5–11, 2026 content overview data. Switch to Apr 12–18 for screenshot-verified hook scores.</div>
+      </div>
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+          <div><h3 class="font-bold text-stone-900 text-lg">Top Hooks Analysis</h3><p class="text-sm text-stone-400">Patterns from 1,877 Nusava videos — Apr 5–11, 2026</p></div>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Patterns — Apr 5–11</h4>
+            <div class="space-y-3">
+              <div class="p-4 bg-gradient-to-r from-emerald-50 to-transparent rounded-xl border border-emerald-100"><div class="flex items-center justify-between mb-2"><span class="hook-tag bg-emerald-100 text-emerald-700">Pattern #1 — Nerve/Myelin Science Explainer</span></div><p class="text-sm text-stone-800 font-medium">"Your nerves are like electrical wires… once the myelin sheath breaks down, that's when the tingling starts."</p><p class="text-xs text-stone-500 mt-1">Dominant pattern across Health Educator persona. Drives highest GMV/video ratio.</p></div>
+              <div class="p-4 bg-gradient-to-r from-rose-50 to-transparent rounded-xl border border-rose-100"><div class="flex items-center justify-between mb-2"><span class="hook-tag bg-rose-100 text-rose-700">Pattern #2 — Symptom → Gabapentin Pivot</span></div><p class="text-sm text-stone-800 font-medium">"Got nerve issues? Taking Gabapentin? That ain't really doing nothing for you."</p><p class="text-xs text-stone-500 mt-1">Positions drops as alternative to prescription nerve pain medication.</p></div>
+              <div class="p-4 bg-gradient-to-r from-amber-50 to-transparent rounded-xl border border-amber-100"><div class="flex items-center justify-between mb-2"><span class="hook-tag bg-amber-100 text-amber-700">Pattern #3 — BOGO Value Callout</span></div><p class="text-sm text-stone-800 font-medium">"The gettin's good — 4 for 2 + free shipping." / "Paga dos y te van a mandar cuatro."</p><p class="text-xs text-stone-500 mt-1">Dominant across Value Hunter creators — 223 verbal-only integration videos.</p></div>
+              <div class="p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-xl border border-blue-100"><div class="flex items-center justify-between mb-2"><span class="hook-tag bg-blue-100 text-blue-700">Pattern #4 — Scam / Authenticity Warning</span></div><p class="text-sm text-stone-800 font-medium">"This is fake, this is fake, and this is fake. Only buy the real Nusava from the orange cart."</p><p class="text-xs text-stone-500 mt-1">Reframes counterfeit prevalence as proof of authenticity.</p></div>
+              <div class="p-4 bg-gradient-to-r from-purple-50 to-transparent rounded-xl border border-purple-100"><div class="flex items-center justify-between mb-2"><span class="hook-tag bg-purple-100 text-purple-700">Pattern #5 — Spanish Curiosity Gap</span></div><p class="text-sm text-stone-800 font-medium">"No quieren que sepas esto." / "La neuropatía no empieza por el azúcar."</p><p class="text-xs text-stone-500 mt-1">Drives Latina Wellness persona — present across casual + educational Spanish-language videos.</p></div>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-stone-700 mb-3">Tone Distribution (1,877 videos)</h4>
+            <canvas id="chart-hooks" height="220"></canvas>
+            <div class="mt-4 space-y-2">
+              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Casual</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-nusava-green" style="width:70%"></div></div><span class="text-xs font-semibold text-stone-600">~1,314</span></div></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Educational</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-blue-500" style="width:25%"></div></div><span class="text-xs font-semibold text-stone-600">~469</span></div></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Emotional</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-rose-400" style="width:2%"></div></div><span class="text-xs font-semibold text-stone-600">~38</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-sage to-nusava-green flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div><h3 class="font-bold text-stone-900 text-lg">Sample Scripts</h3><p class="text-sm text-stone-400">Based on top hook patterns — Apr 5–11, 2026</p></div></div>
+        <div class="grid grid-cols-3 gap-5">
+          <div class="script-card bg-stone-50 rounded-xl p-5"><div class="flex items-center justify-between mb-3"><span class="badge badge-green">Symptom → Gabapentin Pivot</span><span class="text-xs text-stone-400">~30 sec</span></div><div class="space-y-3 text-sm text-stone-700"><div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0–3s)</p><p>"Got nerve system issues? Taking Gabapentin?"</p></div><div><p class="text-xs font-semibold text-amber-600 mb-1">VALIDATE (3–10s)</p><p>"Your hands tingling, your feet numb — and that Gabapentin ain't really doing nothing for you."</p></div><div><p class="text-xs font-semibold text-blue-600 mb-1">SCIENCE (10–20s)</p><p>*Show bottle* "The protective myelin sheath around your nerves is made of B vitamins — Gabapentin masks the signal, it doesn't fix the wire."</p></div><div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (20–30s)</p><p>"Tap the orange cart and grab the Nusava bundle while it's still on sale."</p></div></div></div>
+          <div class="script-card bg-stone-50 rounded-xl p-5"><div class="flex items-center justify-between mb-3"><span class="badge badge-yellow">Spanish Curiosity Gap + BOGO</span><span class="text-xs text-stone-400">~25 sec</span></div><div class="space-y-3 text-sm text-stone-700"><div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0–3s)</p><p>"La neuropatía no empieza por el azúcar. Empieza por algo que nadie te cuenta."</p></div><div><p class="text-xs font-semibold text-amber-600 mb-1">ANALOGÍA (3–12s)</p><p>"Tus nervios son como cables eléctricos con una capa protectora. A partir de los 50, ya no absorbes la vitamina B12."</p></div><div><p class="text-xs font-semibold text-blue-600 mb-1">OFERTA (12–20s)</p><p>*Muestra 2 botellas* "Nusava te lo dejó fácil — paga dos, recibe cuatro. En el carrito naranja."</p></div><div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (20–25s)</p><p>"Toca el carrito antes de que se acabe."</p></div></div></div>
+          <div class="script-card bg-stone-50 rounded-xl p-5"><div class="flex items-center justify-between mb-3"><span class="badge badge-purple">Scam Warning Reframe</span><span class="text-xs text-stone-400">~22 sec</span></div><div class="space-y-3 text-sm text-stone-700"><div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0–4s)</p><p>*Shows competitor listings* "This is fake. This is fake. This is fake."</p></div><div><p class="text-xs font-semibold text-amber-600 mb-1">REFRAME (4–10s)</p><p>"You know this is a good product when everybody else is copying it. The only real Nusava is the orange cart."</p></div><div><p class="text-xs font-semibold text-blue-600 mb-1">PROOF (10–16s)</p><p>"Over 22,000 sold, 4.5-star rating, buy-two-get-two-free with free shipping."</p></div><div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (16–22s)</p><p>"Tap the orange cart. Stock is low and the sale ends tonight."</p></div></div></div>
+        </div>
+      </div>
+
+      </div>
+      <div id="briefs-week2">
+
+      <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+        <svg class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div class="text-xs text-emerald-900"><span class="font-semibold">Hook scores confirmed.</span> All patterns below are verified from 12 top-performing video screenshots (Apr 12–18, 2026) with actual Cruva hook scores. Platform top-hooks panel cross-referenced.</div>
       </div>
 
       <div class="card p-6 mb-6">
@@ -392,70 +435,78 @@ tailwind.config = {
           </div>
           <div>
             <h3 class="font-bold text-stone-900 text-lg">Top Hooks Analysis</h3>
-            <p class="text-sm text-stone-400">Patterns from 971 AI-analyzed Nusava videos (Apr 12–18, 2026) — hook scores pending screenshot analysis</p>
+            <p class="text-sm text-stone-400">Confirmed from 12 top-performing videos — Apr 12–18, 2026</p>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-6">
           <div>
-            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Patterns — Pending Screenshot Analysis</h4>
+            <h4 class="text-sm font-semibold text-stone-700 mb-3">Hook Patterns — Screenshot Verified</h4>
             <div class="space-y-3">
               <div class="p-4 bg-gradient-to-r from-emerald-50 to-transparent rounded-xl border border-emerald-100">
                 <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-emerald-100 text-emerald-700">Pattern #1 &mdash; Nerve/Myelin Science Explainer</span>
-                  <span class="text-xs font-bold text-amber-600">Score pending</span>
+                  <span class="hook-tag bg-emerald-100 text-emerald-700">Pattern #1 — Anti-Neurologist Insider</span>
+                  <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Score 90 ✓</span>
                 </div>
-                <p class="text-sm text-stone-800 font-medium">"Your nerves are like electrical wires… once the myelin sheath breaks down, that's when the tingling starts."</p>
-                <p class="text-xs text-stone-500 mt-1">Confirmed pattern in 242 educational-tone videos this week. Drives Health-Educator persona GMV.</p>
-              </div>
-              <div class="p-4 bg-gradient-to-r from-rose-50 to-transparent rounded-xl border border-rose-100">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-rose-100 text-rose-700">Pattern #2 &mdash; Symptom → Gabapentin Pivot</span>
-                  <span class="text-xs font-bold text-amber-600">Score pending</span>
-                </div>
-                <p class="text-sm text-stone-800 font-medium">"Got nerve issues? Taking Gabapentin? That ain't really doing nothing for you."</p>
-                <p class="text-xs text-stone-500 mt-1">Positions drops as alternative to prescription nerve pain medication. Validates audience frustration.</p>
-              </div>
-              <div class="p-4 bg-gradient-to-r from-amber-50 to-transparent rounded-xl border border-amber-100">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-amber-100 text-amber-700">Pattern #3 &mdash; BOGO Value Callout</span>
-                  <span class="text-xs font-bold text-amber-600">Score pending</span>
-                </div>
-                <p class="text-sm text-stone-800 font-medium">"The gettin's good — 4 for 2 + free shipping." / "Paga dos y te van a mandar cuatro."</p>
-                <p class="text-xs text-stone-500 mt-1">223 verbal-only integration videos this week. BOGO framing dominant across Value Hunter creators.</p>
+                <p class="text-sm text-stone-800 font-medium">"Y lo que los neurólogos no te dicen es que si tú reparas la mielina, que es la capa que cubre esos nervios, puedes ayudar con todo eso."</p>
+                <p class="text-xs text-stone-500 mt-1">26.1K views · @vivianadoestiktok · #1 top hook Apr 12–18. Positions creator as health ally vs. medical establishment. Creates urgency + insider trust.</p>
               </div>
               <div class="p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-xl border border-blue-100">
                 <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-blue-100 text-blue-700">Pattern #4 &mdash; Scam / Authenticity Warning</span>
-                  <span class="text-xs font-bold text-amber-600">Score pending</span>
+                  <span class="hook-tag bg-blue-100 text-blue-700">Pattern #2 — Symptom Recognition List</span>
+                  <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Score 90 ✓</span>
                 </div>
-                <p class="text-sm text-stone-800 font-medium">"This is fake, this is fake, and this is fake. Only buy the real Nusava from the orange cart."</p>
-                <p class="text-xs text-stone-500 mt-1">Reframes counterfeit prevalence as proof of authenticity. Confirmed in review integration videos.</p>
+                <p class="text-sm text-stone-800 font-medium">"Si se te duermen las manos o los pies, sientes entumecimiento, calor, hormigueo o como fuego, esas son unas de las primeras señales de que tus nervios no están funcionando."</p>
+                <p class="text-xs text-stone-500 mt-1">12.9K views · @vivianadoestiktok. Lists 5+ physical symptoms — viewers self-identify immediately. Creates personal relevance before any product mention.</p>
+              </div>
+              <div class="p-4 bg-gradient-to-r from-amber-50 to-transparent rounded-xl border border-amber-100">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="hook-tag bg-amber-100 text-amber-700">Pattern #3 — Flash Sale + Free Shipping</span>
+                  <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Score 90 ✓</span>
+                </div>
+                <p class="text-sm text-stone-800 font-medium">"And today it's a flash sale and free shipping." / "Double discount selling fast!"</p>
+                <p class="text-xs text-stone-500 mt-1">2.1K–1.5K views · @adrigomezmemo / @hotshopdeals4u. Direct deal language — no warm-up needed. Works in 6–30 sec formats equally.</p>
               </div>
               <div class="p-4 bg-gradient-to-r from-purple-50 to-transparent rounded-xl border border-purple-100">
                 <div class="flex items-center justify-between mb-2">
-                  <span class="hook-tag bg-purple-100 text-purple-700">Pattern #5 &mdash; Spanish Curiosity Gap</span>
-                  <span class="text-xs font-bold text-amber-600">Score pending</span>
+                  <span class="hook-tag bg-purple-100 text-purple-700">Pattern #4 — Myth-Busting Opener</span>
+                  <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Score 90 ✓</span>
                 </div>
-                <p class="text-sm text-stone-800 font-medium">"No quieren que sepas esto." / "La neuropatía no empieza por el azúcar."</p>
-                <p class="text-xs text-stone-500 mt-1">Drives Latina Wellness persona — present across casual + educational Spanish-language videos this week.</p>
+                <p class="text-sm text-stone-800 font-medium">"Your nerves can't regenerate without this." / "You're doing supplements wrong." / "La neuropatía no empieza por el azúcar."</p>
+                <p class="text-xs text-stone-500 mt-1">@grant.easten / @midlifemomgrace / @didi_finds. Challenges existing belief. Triggers curiosity gap. Works in English and Spanish.</p>
+              </div>
+              <div class="p-4 bg-gradient-to-r from-rose-50 to-transparent rounded-xl border border-rose-100">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="hook-tag bg-rose-100 text-rose-700">Pattern #5 — Personal Medical Story / FAQ</span>
+                  <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Score 80 ✓</span>
+                </div>
+                <p class="text-sm text-stone-800 font-medium">"Yo llevo la vida entera… desde que me hice mi gastric bypass en el año 2009, tomando estas complejos vitamínicos sublingual."</p>
+                <p class="text-xs text-stone-500 mt-1">3.67% engagement (week high) · @_mily_mily. Answers a repeated question. Medical credibility through personal history. Highest engagement rate of the week.</p>
               </div>
             </div>
           </div>
           <div>
-            <h4 class="text-sm font-semibold text-stone-700 mb-3">Tone Distribution (969 analyzed videos)</h4>
+            <h4 class="text-sm font-semibold text-stone-700 mb-3">Tone Distribution (2,065 videos)</h4>
             <canvas id="chart-hooks" height="220"></canvas>
             <div class="mt-4 space-y-2">
-              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Casual</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-nusava-green" style="width:70%"></div></div><span class="text-xs font-semibold text-stone-600">679</span></div></div>
-              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Educational</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-blue-500" style="width:25%"></div></div><span class="text-xs font-semibold text-stone-600">242</span></div></div>
-              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Emotional</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-rose-400" style="width:1%"></div></div><span class="text-xs font-semibold text-stone-600">13</span></div></div>
-              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Playful</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-amber-400" style="width:1%"></div></div><span class="text-xs font-semibold text-stone-600">9</span></div></div>
-              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Inspirational</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-purple-400" style="width:1%"></div></div><span class="text-xs font-semibold text-stone-600">7</span></div></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Casual</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-nusava-green" style="width:70%"></div></div><span class="text-xs font-semibold text-stone-600">~1,446</span></div></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Educational</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-blue-500" style="width:25%"></div></div><span class="text-xs font-semibold text-stone-600">~516</span></div></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Emotional</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-rose-400" style="width:2%"></div></div><span class="text-xs font-semibold text-stone-600">~41</span></div></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Playful</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-amber-400" style="width:2%"></div></div><span class="text-xs font-semibold text-stone-600">~41</span></div></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-stone-600">Inspirational</span><div class="flex items-center gap-2"><div class="progress-bar w-28"><div class="progress-fill bg-purple-400" style="width:1%"></div></div><span class="text-xs font-semibold text-stone-600">~21</span></div></div>
+            </div>
+            <div class="mt-4 p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+              <p class="text-xs font-semibold text-stone-700 mb-2">Top Selling Points (Platform-Confirmed)</p>
+              <div class="space-y-1.5">
+                <div class="flex items-start gap-2 text-xs text-stone-600"><span class="text-emerald-600 font-bold mt-0.5">①</span><span>"Repairing myelin helps neuropathy, sciatica &amp; carpal tunnel." — <strong>26.1K views</strong></span></div>
+                <div class="flex items-start gap-2 text-xs text-stone-600"><span class="text-emerald-600 font-bold mt-0.5">②</span><span>"B12, B1, folic acid (B9) complex for nerve function." — <strong>12.9K views</strong></span></div>
+                <div class="flex items-start gap-2 text-xs text-stone-600"><span class="text-emerald-600 font-bold mt-0.5">③</span><span>"4-for-1 deal, significant value." — <strong>2.6K views</strong></span></div>
+                <div class="flex items-start gap-2 text-xs text-stone-600"><span class="text-emerald-600 font-bold mt-0.5">④</span><span>"Four bottles with free shipping." — <strong>2.1K views</strong></span></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sample Scripts -->
       <div class="card p-6 mb-6">
         <div class="flex items-center gap-3 mb-5">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-sage to-nusava-green flex items-center justify-center">
@@ -463,64 +514,61 @@ tailwind.config = {
           </div>
           <div>
             <h3 class="font-bold text-stone-900 text-lg">Sample Scripts</h3>
-            <p class="text-sm text-stone-400">Scripts based on top-performing content patterns from 2,065 videos (Apr 12–18, 2026)</p>
+            <p class="text-sm text-stone-400">Based on top-performing creators — Apr 12–18, 2026 screenshot analysis</p>
           </div>
-          <button class="ml-auto bg-nusava-green/10 text-nusava-green px-4 py-2 rounded-lg text-sm font-medium hover:bg-nusava-green/20 transition">Regenerate Scripts</button>
         </div>
         <div class="grid grid-cols-3 gap-5">
           <div class="script-card bg-stone-50 rounded-xl p-5">
-            <div class="flex items-center justify-between mb-3"><span class="badge badge-green">Symptom → Gabapentin Pivot</span><span class="text-xs text-stone-400">~30 sec</span></div>
-            <p class="text-xs text-stone-400 mb-3">Modeled on top Health Educator videos — educational tone, verbal-only integration</p>
+            <div class="flex items-center justify-between mb-3"><span class="badge badge-green">Neurologist Insider (Spanish)</span><span class="text-xs text-stone-400">~60–90 sec</span></div>
+            <p class="text-xs text-stone-400 mb-3">Modeled on @vivianadoestiktok — educational tone, verbal-only + product in background, car setting</p>
             <div class="space-y-3 text-sm text-stone-700">
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"Got nerve system issues? Taking Gabapentin?"</p></div>
-              <div><p class="text-xs font-semibold text-amber-600 mb-1">VALIDATE (3-10s)</p><p>"Your hands tingling, your feet numb, your back shooting down your leg — and that Gabapentin ain't really doing nothing for you."</p></div>
-              <div><p class="text-xs font-semibold text-blue-600 mb-1">SCIENCE (10-20s)</p><p>*Show bottle* "Nine times out of ten your nerves are firing off like fireworks. The protective myelin sheath around them is made of B vitamins — and Gabapentin masks the signal, it doesn't fix the wire."</p></div>
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (20-30s)</p><p>"Tap the orange cart and grab the Nusava bundle while it's still on sale."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0–3s)</p><p>"¿Puedes reparar tus nervios en casa? Sí. Y lo que los neurólogos no te dicen es que si reparas la mielina, puedes ayudar con la neuropatía, la ciática, el hormigueo."</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">SÍNTOMAS (3–15s)</p><p>"Por favor, deja de creer que tienes que vivir con dolor de nervio, túnel carpiano, piernas inquietas, ardor, calambres. Eso son señales de que tus nervios necesitan ayuda."</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">CIENCIA (15–45s)</p><p>"La mielina es la capa protectora de tus nervios. Piénsala como el plástico que cubre un cable. La mielina está hecha de vitamina B — y muchos de nosotros no la absorbemos bien. Ahí empieza el daño."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (45–60s)</p><p>*Muestra botella* "Nusava tiene el complejo B — B12, B1 y ácido fólico — en gotas líquidas para mejor absorción. Toca el carrito naranja."</p></div>
             </div>
           </div>
           <div class="script-card bg-stone-50 rounded-xl p-5">
-            <div class="flex items-center justify-between mb-3"><span class="badge badge-yellow">Spanish Curiosity Gap + BOGO</span><span class="text-xs text-stone-400">~25 sec</span></div>
-            <p class="text-xs text-stone-400 mb-3">Modeled on Latina Wellness creators — casual + educational tone, 54% verbal/review integration</p>
+            <div class="flex items-center justify-between mb-3"><span class="badge badge-yellow">Supplement Optimizer (English)</span><span class="text-xs text-stone-400">~45–55 sec</span></div>
+            <p class="text-xs text-stone-400 mb-3">Modeled on @midlifemomgrace + @grant.easten — educational, product-as-solution, high lighting</p>
             <div class="space-y-3 text-sm text-stone-700">
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-3s)</p><p>"La neuropatía no empieza por el azúcar. Empieza por algo que nadie te cuenta."</p></div>
-              <div><p class="text-xs font-semibold text-amber-600 mb-1">ANALOGÍA (3-12s)</p><p>"Tus nervios son como cables eléctricos con una capa protectora. A partir de los 50, ya no absorbes la vitamina B12 — y esa capa se rompe. Ahí empieza el dolor, el hormigueo, la falta de energía."</p></div>
-              <div><p class="text-xs font-semibold text-blue-600 mb-1">OFERTA (12-20s)</p><p>*Muestra 2 botellas* "Nusava te lo dejó fácil — paga dos, recibe cuatro. En el carrito naranja."</p></div>
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (20-25s)</p><p>"Toca el carrito ahora antes de que se acabe."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0–3s)</p><p>"You're doing supplements wrong — and I say that with love."</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">MISTAKE (3–15s)</p><p>"If you have carpal tunnel, neuropathy, or nerve pain and you're taking Gabapentin — that's blocking the signal, not fixing the wire. The wire is your myelin sheath and it runs on B vitamins."</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">SOLUTION (15–35s)</p><p>*Hold bottle from 0:21* "This is Nusava — B12, B1, B6 in liquid drops. Your body actually absorbs it, unlike a pill. It's the same thing they give in B12 injections, minus the needle."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (35–45s)</p><p>"9,000+ reviews and it's in the orange cart right now. Let's actually make your supplements make sense."</p></div>
             </div>
           </div>
           <div class="script-card bg-stone-50 rounded-xl p-5">
-            <div class="flex items-center justify-between mb-3"><span class="badge badge-purple">Scam Warning Reframe</span><span class="text-xs text-stone-400">~22 sec</span></div>
-            <p class="text-xs text-stone-400 mb-3">Modeled on Value Hunter creators — casual tone, review integration</p>
+            <div class="flex items-center justify-between mb-3"><span class="badge badge-purple">Silent Urgency Clip</span><span class="text-xs text-stone-400">6–18 sec</span></div>
+            <p class="text-xs text-stone-400 mb-3">Modeled on @lexiifairy / @dealsbycaser — zero voiceover, bold text overlay, black or product background</p>
             <div class="space-y-3 text-sm text-stone-700">
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">HOOK (0-4s)</p><p>*Shows competitor listings* "This is fake. This is fake. This is fake."</p></div>
-              <div><p class="text-xs font-semibold text-amber-600 mb-1">REFRAME (4-10s)</p><p>"You know this is a good product when everybody else is making copies of it. The only place you can buy the real Nusava is the orange cart."</p></div>
-              <div><p class="text-xs font-semibold text-blue-600 mb-1">PROOF (10-16s)</p><p>"Over 22,000 sold, 4.5-star rating, and right now it's buy-two-get-two-free with free shipping."</p></div>
-              <div><p class="text-xs font-semibold text-nusava-green mb-1">CTA (16-22s)</p><p>"Tap the orange cart, grab the 4-pack. Stock is low and the sale ends tonight."</p></div>
+              <div><p class="text-xs font-semibold text-nusava-green mb-1">FRAME 1 (0–3s)</p><p>Bold text on screen: "4 FOR 1 🔥" / "LAST DAY ‼️"</p></div>
+              <div><p class="text-xs font-semibold text-amber-600 mb-1">FRAME 2 (3–6s)</p><p>Show bottles on surface or hold up. Text: "Nusava B12 — flash sale + FREE shipping"</p></div>
+              <div><p class="text-xs font-semibold text-blue-600 mb-1">FRAME 3 (6–12s)</p><p>Text: "Tap the 🟠 cart before it ends" + show TikTok Shop cart UI if possible</p></div>
+              <div><p class="text-xs font-semibold text-stone-400 mb-1">NOTE</p><p class="text-xs text-stone-500">No face, no voice needed. Restock + urgency text = strong CTR. Best format for deal-only posts. @lexiifairy: $131 GMV from a 7-second video.</p></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Shooting Guide -->
       <div class="card p-6 mb-6">
         <div class="flex items-center gap-3 mb-5">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-600 flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
           </div>
           <div>
             <h3 class="font-bold text-stone-900 text-lg">Shooting Guide</h3>
-            <p class="text-sm text-stone-400">Production patterns from 971 AI-analyzed Nusava videos (Apr 12–18, 2026)</p>
+            <p class="text-sm text-stone-400">Observed from 12 top-performing videos (Apr 12–18, 2026)</p>
           </div>
         </div>
         <div class="grid grid-cols-4 gap-5">
-          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Camera &amp; Framing</h4><ul class="text-xs text-stone-600 space-y-1.5"><li>&#8226; Eye-level handheld talking-head (dominant format)</li><li>&#8226; Bottle held in frame, gestured-with while talking</li><li>&#8226; Tight close-up when shaking bottle for emphasis</li><li>&#8226; Side-by-side competitor comparison (scam-warning hook)</li><li>&#8226; Indoor casual setting (kitchen, bedroom, car)</li></ul></div>
-          <div class="bg-amber-50 rounded-xl p-5 border border-amber-100"><h4 class="font-semibold text-stone-800 mb-2">Text Overlays</h4><ul class="text-xs text-stone-600 space-y-1.5"><li>&#8226; Hook restated as on-screen caption (every video)</li><li>&#8226; Stat callouts: "B12 2000", "B6 3400", "Niacin + Folate"</li><li>&#8226; "Buy 2 Get 2 Free" sticker visible on product shots</li><li>&#8226; "Results may vary" disclaimer pinned bottom</li><li>&#8226; Spanish videos use bold yellow caption highlights</li></ul></div>
-          <div class="bg-blue-50 rounded-xl p-5 border border-blue-100"><h4 class="font-semibold text-stone-800 mb-2">Pacing &amp; Length</h4><ul class="text-xs text-stone-600 space-y-1.5"><li>&#8226; Hook delivered in first 2 seconds</li><li>&#8226; Product visible by second 5 in majority of videos</li><li>&#8226; 247 videos use background-use integration style</li><li>&#8226; 144 videos feature active product demo</li><li>&#8226; "Orange cart" CTA in final 5 seconds</li></ul></div>
-          <div class="bg-purple-50 rounded-xl p-5 border border-purple-100"><h4 class="font-semibold text-stone-800 mb-2">What's Working Now</h4><ul class="text-xs text-stone-600 space-y-1.5"><li>&#8226; Review integration leads (298 videos, 31%)</li><li>&#8226; Background use (247 videos) drives passive discovery</li><li>&#8226; Verbal-only (223) outperforms on engagement rate</li><li>&#8226; Educational tone (242 videos) pairs with science angle</li><li>&#8226; Casual tone (679 videos) dominates by volume</li></ul></div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Camera &amp; Setting</h4><ul class="text-xs text-stone-600 space-y-1.5"><li>&#8226; <strong>Car filming</strong> = top format for B12 edu content (Viviana, Didi)</li><li>&#8226; Kitchen setting works for English creators (Grant.easten)</li><li>&#8226; White background / flat lay for product deals (Cupontokbypam)</li><li>&#8226; Black background + text only for flash sale clips</li><li>&#8226; Eye-level talking head — bottle held or in background</li></ul></div>
+          <div class="bg-amber-50 rounded-xl p-5 border border-amber-100"><h4 class="font-semibold text-stone-800 mb-2">Text &amp; Captions</h4><ul class="text-xs text-stone-600 space-y-1.5"><li>&#8226; Hook restated as bold on-screen caption (all edu videos)</li><li>&#8226; Spanish: bold yellow captions, symptom emojis (🔥⚡💫)</li><li>&#8226; English: white bold text overlay, clean font</li><li>&#8226; "Results may vary / Not medical advice" pinned bottom</li><li>&#8226; Flash videos: huge bold text is the entire content</li></ul></div>
+          <div class="bg-blue-50 rounded-xl p-5 border border-blue-100"><h4 class="font-semibold text-stone-800 mb-2">Pacing &amp; Integration</h4><ul class="text-xs text-stone-600 space-y-1.5"><li>&#8226; Hook delivered in first <strong>2–3 seconds</strong></li><li>&#8226; Product visible by ~0:21 for review-style videos</li><li>&#8226; Symptom image B-roll shown mid-video (foot/nerve imagery)</li><li>&#8226; Visual props: colored wires = nerve analogy (Didi_finds)</li><li>&#8226; "Orange cart" CTA in final 5 seconds</li></ul></div>
+          <div class="bg-purple-50 rounded-xl p-5 border border-purple-100"><h4 class="font-semibold text-stone-800 mb-2">What's New This Week</h4><ul class="text-xs text-stone-600 space-y-1.5"><li>&#8226; <strong>Silent 6–7 sec clips</strong> — no face needed, still converts ($131–$166 GMV)</li><li>&#8226; <strong>Reply-to-comment</strong> format = 3.67% eng (week high)</li><li>&#8226; <strong>D3K2 content</strong> emerging as second product narrative</li><li>&#8226; Wire prop as nerve-damage visual analogy — @didi_finds</li><li>&#8226; Gastric bypass angle = medical credibility niche</li></ul></div>
         </div>
       </div>
 
-      <!-- Creative Insights -->
       <div class="card p-6">
         <div class="flex items-center gap-3 mb-5">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-gold to-amber-600 flex items-center justify-center">
@@ -528,185 +576,264 @@ tailwind.config = {
           </div>
           <div>
             <h3 class="font-bold text-stone-900 text-lg">Creative Insights</h3>
-            <p class="text-sm text-stone-400">Integration &amp; tone patterns from 971 analyzed Nusava videos (Apr 12–18, 2026)</p>
+            <p class="text-sm text-stone-400">Integration &amp; tone patterns observed from 12 top-performing videos (Apr 12–18, 2026)</p>
           </div>
         </div>
         <div class="grid grid-cols-3 gap-5">
-          <div class="bg-amber-50 rounded-xl p-5 border border-amber-100"><h4 class="font-semibold text-stone-800 mb-3">Integration Types (971 videos)</h4><div class="space-y-2"><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Review</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:31%"></div></div><span class="text-xs font-semibold text-stone-600">298</span></div></div><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Background Use</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:25%"></div></div><span class="text-xs font-semibold text-stone-600">247</span></div></div><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Verbal Only</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:23%"></div></div><span class="text-xs font-semibold text-stone-600">223</span></div></div><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Demo</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:15%"></div></div><span class="text-xs font-semibold text-stone-600">144</span></div></div><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Unboxing</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:6%"></div></div><span class="text-xs font-semibold text-stone-600">58</span></div></div></div></div>
-          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-3">Tone &amp; Integration</h4><div class="space-y-2 text-sm text-stone-700"><div class="p-2 bg-white rounded-lg"><p class="font-medium">Casual tone (679 of 969)</p><p class="text-xs text-stone-500">Highest volume — Value Hunter and Latina Wellness persona energy</p></div><div class="p-2 bg-white rounded-lg"><p class="font-medium">Educational tone (242 of 969)</p><p class="text-xs text-stone-500">Higher hook scores; pairs with science-explainer angle</p></div><div class="p-2 bg-white rounded-lg"><p class="font-medium">Verbal Only integration (223 of 971)</p><p class="text-xs text-stone-500">Strong engagement; no product in-frame required</p></div></div></div>
-          <div class="bg-stone-100 rounded-xl p-5 border border-stone-200"><h4 class="font-semibold text-stone-800 mb-3">CTA Patterns Observed</h4><div class="space-y-2 text-sm text-stone-700"><div class="p-2 bg-white rounded-lg"><p class="font-medium">"Tap the orange cart" — universal</p><p class="text-xs text-stone-500">CTA phrase consistent across all creators and languages</p></div><div class="p-2 bg-white rounded-lg"><p class="font-medium">BOGO / "buy 2 get 2 free"</p><p class="text-xs text-stone-500">Top-performing value hook across Value Hunter persona</p></div><div class="p-2 bg-white rounded-lg"><p class="font-medium">Stock urgency</p><p class="text-xs text-stone-500">"Stock is low" / "ends tonight" framing in top videos</p></div></div></div>
+          <div class="bg-amber-50 rounded-xl p-5 border border-amber-100"><h4 class="font-semibold text-stone-800 mb-3">Integration Types Observed</h4><div class="space-y-2"><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Verbal Only</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:40%"></div></div><span class="text-xs font-semibold text-stone-600">5 videos</span></div></div><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Review (product shown)</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:33%"></div></div><span class="text-xs font-semibold text-stone-600">4 videos</span></div></div><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Background Use</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:20%"></div></div><span class="text-xs font-semibold text-stone-600">2 videos</span></div></div><div class="flex items-center justify-between"><span class="text-sm text-stone-700">Silent / Text-only</span><div class="flex items-center gap-2"><div class="progress-bar w-20"><div class="progress-fill bg-nusava-green" style="width:13%"></div></div><span class="text-xs font-semibold text-stone-600">2 videos (new!)</span></div></div></div></div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-3">Engagement by Format</h4><div class="space-y-2 text-sm text-stone-700"><div class="p-2 bg-white rounded-lg"><p class="font-medium">Reply-to-comment format</p><p class="text-xs text-stone-500">3.67% eng — highest of the week (@_mily_mily). Answer a repeated question = automatic relevance.</p></div><div class="p-2 bg-white rounded-lg"><p class="font-medium">Educational verbal-only</p><p class="text-xs text-stone-500">0.93–1.02% eng · $338–$484 GMV. Nerve science drives highest total revenue.</p></div><div class="p-2 bg-white rounded-lg"><p class="font-medium">Silent 6–7 sec clip</p><p class="text-xs text-stone-500">0.35–0.54% eng · $131–$166 GMV. Ultra-low effort, consistent deal conversion.</p></div></div></div>
+          <div class="bg-stone-100 rounded-xl p-5 border border-stone-200"><h4 class="font-semibold text-stone-800 mb-3">CTA Patterns Observed</h4><div class="space-y-2 text-sm text-stone-700"><div class="p-2 bg-white rounded-lg"><p class="font-medium">"Tap / Toca el carrito naranja" — universal</p><p class="text-xs text-stone-500">Used across all creators, English + Spanish. Never changes. Reinforce this consistently.</p></div><div class="p-2 bg-white rounded-lg"><p class="font-medium">Flash sale time limit</p><p class="text-xs text-stone-500">"1 hour left" / "last day" / "selling fast" — urgency drives immediate action even on low-view clips.</p></div><div class="p-2 bg-white rounded-lg"><p class="font-medium">"9,000+ reviews" social proof</p><p class="text-xs text-stone-500">Used by @grant.easten mid-script. Review count as credibility anchor.</p></div></div></div>
         </div>
+      </div>
+
       </div>
     </div>
 
     <!-- LIVE TIPS TAB -->
-    <div <div id="tab-livetips" class="hidden fade-in">
+    <div id="tab-livetips" class="hidden fade-in">
+      <div id="livetips-week1" class="hidden">
+
       <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
         <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        <div class="text-xs text-amber-900"><span class="font-semibold">Data-only inference.</span> This playbook is derived from LIVE session metadata (creator, duration, GMV, items, AOV) for Apr 12–18, 2026. With no LIVE transcripts/replays available, tactics are inferred from performance patterns rather than observed behavior.</div>
+        <div class="text-xs text-amber-900"><span class="font-semibold">Apr 5–11 data.</span> LIVE playbook based on 76 sessions from Apr 5–11, 2026. Switch to Apr 12–18 for full CSV-driven analysis (793 sessions).</div>
+      </div>
+      <div class="grid grid-cols-3 gap-6 mb-6">
+        <div class="card p-5 border-l-4 border-nusava-green"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Best Day by GMV</p><p class="text-2xl font-bold text-stone-900">Sunday</p><p class="text-xs text-stone-500 mt-1">$1,301 across 11 sessions — top-grossing day of the week</p></div>
+        <div class="card p-5 border-l-4 border-nusava-gold"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Avg Session Duration</p><p class="text-2xl font-bold text-stone-900">1h 42min</p><p class="text-xs text-stone-500 mt-1">Computed from 76 sessions across Apr 5–11, 2026</p></div>
+        <div class="card p-5 border-l-4 border-nusava-sage"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Top LIVE Creator</p><p class="text-2xl font-bold text-stone-900">@nutritionnestegg</p><p class="text-xs text-stone-500 mt-1">$3,183 across 30 sessions — ~65% of total LIVE GMV this week</p></div>
+      </div>
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div><h3 class="font-bold text-stone-900 text-lg">LIVE Creator Performance</h3><p class="text-sm text-stone-400">Top creators — Apr 5–11, 2026</p></div></div>
+        <div class="grid grid-cols-4 gap-4">
+          <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@nutritionnestegg</span><span class="badge badge-green">#1</span></div><p class="text-2xl font-bold text-stone-900">$3,183</p><p class="text-xs text-stone-500 mt-1">30 sessions · "Nusava B12 BOGO" / "B12 Get Two Free"</p><p class="text-xs text-emerald-700 mt-2">Volume play — daily sessions, consistent BOGO title, ~65% of weekly LIVE GMV</p></div>
+          <div class="bg-amber-50 rounded-xl p-4 border border-amber-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@gck_007</span><span class="badge badge-yellow">#2</span></div><p class="text-2xl font-bold text-stone-900">$492</p><p class="text-xs text-stone-500 mt-1">8 sessions · "Nusava B Complex"</p><p class="text-xs text-amber-700 mt-2">Consistent performer — B Complex SKU focus across all sessions</p></div>
+          <div class="bg-blue-50 rounded-xl p-4 border border-blue-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@mireya_remediosok</span><span class="badge badge-blue">#3</span></div><p class="text-2xl font-bold text-stone-900">$422</p><p class="text-xs text-stone-500 mt-1">4 sessions</p><p class="text-xs text-blue-700 mt-2">Strong GMV-per-session efficiency</p></div>
+          <div class="bg-stone-100 rounded-xl p-4 border border-stone-200"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">Long Tail</span><span class="badge bg-stone-200 text-stone-700">~$566</span></div><p class="text-2xl font-bold text-stone-900">8 creators</p><p class="text-xs text-stone-500 mt-1">Sporadic sessions, variable durations</p></div>
+        </div>
+      </div>
+
+      </div>
+      <div id="livetips-week2">
+
+      <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+        <svg class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div class="text-xs text-emerald-900"><span class="font-semibold">Live CSV data — Apr 12–18, 2026.</span> This playbook is derived from 793 LIVE session records across 267 unique hosts. GMV, duration, and session title analysis confirmed from CSV.</div>
       </div>
 
       <div class="grid grid-cols-3 gap-6 mb-6">
-        <div class="card p-5 border-l-4 border-nusava-green"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Best Day by GMV</p><p class="text-2xl font-bold text-stone-900">Sunday</p><p class="text-xs text-stone-500 mt-1">$1,301 across 11 sessions — top-grossing day of the week</p></div>
-        <div class="card p-5 border-l-4 border-nusava-gold"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Avg Session Duration</p><p class="text-2xl font-bold text-stone-900">1h 42min</p><p class="text-xs text-stone-500 mt-1">Computed from 59 sessions across Apr 12–18, 2026</p></div>
-        <div class="card p-5 border-l-4 border-nusava-sage"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Top LIVE Creator</p><p class="text-2xl font-bold text-stone-900">@nutritionnestegg</p><p class="text-xs text-stone-500 mt-1">$3,183 across 30 sessions — ~65% of total LIVE GMV this week</p></div>
+        <div class="card p-5 border-l-4 border-nusava-green"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Best Day by GMV</p><p class="text-2xl font-bold text-stone-900">Saturday</p><p class="text-xs text-stone-500 mt-1">Apr 12 — $1,407 across 105 sessions. Sunday ($757) and Wednesday ($765) are close runners-up.</p></div>
+        <div class="card p-5 border-l-4 border-nusava-gold"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Avg Session Duration</p><p class="text-2xl font-bold text-stone-900">1h 44min</p><p class="text-xs text-stone-500 mt-1">Computed from 793 sessions · Top sessions run 120–145 min for max GMV</p></div>
+        <div class="card p-5 border-l-4 border-nusava-sage"><p class="text-xs font-semibold text-stone-400 uppercase mb-1">Top LIVE Creator</p><p class="text-2xl font-bold text-stone-900">@nutritionnestegg</p><p class="text-xs text-stone-500 mt-1">$2,167 across 11 sessions — 54% of total LIVE GMV this week</p></div>
       </div>
 
-      <!-- Top Creators Breakdown -->
       <div class="card p-6 mb-6">
         <div class="flex items-center gap-3 mb-5">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-          <div><h3 class="font-bold text-stone-900 text-lg">LIVE Creator Performance</h3><p class="text-sm text-stone-400">Top creators driving Nusava LIVE GMV — Apr 12–18, 2026</p></div>
+          <div><h3 class="font-bold text-stone-900 text-lg">LIVE Creator Performance</h3><p class="text-sm text-stone-400">Top creators by GMV — Apr 12–18, 2026 (793 sessions · 267 hosts)</p></div>
         </div>
         <div class="grid grid-cols-4 gap-4">
-          <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@nutritionnestegg</span><span class="badge badge-green">#1</span></div><p class="text-2xl font-bold text-stone-900">$3,183</p><p class="text-xs text-stone-500 mt-1">30 sessions · "Nusava B12 BOGO" / "B12 Get Two Free"</p><p class="text-xs text-emerald-700 mt-2">Volume play — daily sessions, consistent BOGO title framing, ~65% of weekly LIVE GMV</p></div>
-          <div class="bg-amber-50 rounded-xl p-4 border border-amber-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@gck_007</span><span class="badge badge-yellow">#2</span></div><p class="text-2xl font-bold text-stone-900">$492</p><p class="text-xs text-stone-500 mt-1">8 sessions · "Nusava B Complex"</p><p class="text-xs text-amber-700 mt-2">Consistent performer — B Complex SKU focus across all sessions</p></div>
-          <div class="bg-blue-50 rounded-xl p-4 border border-blue-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@mireya_remediosok</span><span class="badge badge-blue">#3</span></div><p class="text-2xl font-bold text-stone-900">$422</p><p class="text-xs text-stone-500 mt-1">4 sessions</p><p class="text-xs text-blue-700 mt-2">Strong GMV-per-session efficiency</p></div>
-          <div class="bg-stone-100 rounded-xl p-4 border border-stone-200"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">Long Tail</span><span class="badge bg-stone-200 text-stone-700">~$566</span></div><p class="text-2xl font-bold text-stone-900">8 creators</p><p class="text-xs text-stone-500 mt-1">@zainsshopp, @tatatrigos, @zule.pinto2026, @ashi.writes0</p><p class="text-xs text-stone-600 mt-2">Sporadic sessions, variable durations and SKU mix</p></div>
+          <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@nutritionnestegg</span><span class="badge badge-green">#1</span></div><p class="text-2xl font-bold text-stone-900">$2,167</p><p class="text-xs text-stone-500 mt-1">11 sessions · "Nusava B12 BOGO" title every session</p><p class="text-xs text-emerald-700 mt-2">Volume + consistency play. BOGO in title pre-sells before viewers even join. 54% of weekly LIVE GMV.</p></div>
+          <div class="bg-amber-50 rounded-xl p-4 border border-amber-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@gck_007</span><span class="badge badge-yellow">#2</span></div><p class="text-2xl font-bold text-stone-900">$936</p><p class="text-xs text-stone-500 mt-1">4 sessions · "Nusava B Complex" · Best: $601 on Apr 12</p><p class="text-xs text-amber-700 mt-2">Highest single-session GMV ($601, 13.3K views, 128 min). High-value consistent performer.</p></div>
+          <div class="bg-blue-50 rounded-xl p-4 border border-blue-100"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@mireya_remediosok</span><span class="badge badge-blue">#3</span></div><p class="text-2xl font-bold text-stone-900">$305</p><p class="text-xs text-stone-500 mt-1">8 sessions</p><p class="text-xs text-blue-700 mt-2">Strong per-session efficiency. Good candidate to scale volume.</p></div>
+          <div class="bg-stone-100 rounded-xl p-4 border border-stone-200"><div class="flex items-center justify-between mb-2"><span class="font-semibold text-stone-800">@journey2wellnessnow</span><span class="badge bg-stone-200 text-stone-700">#4</span></div><p class="text-2xl font-bold text-stone-900">$238</p><p class="text-xs text-stone-500 mt-1">6 sessions · "#fyp #magnesium #womenover40"</p><p class="text-xs text-stone-600 mt-2">Wellness niche. 36K likes on top session — high engagement, lower conversion.</p></div>
         </div>
       </div>
 
-      <!-- Inferred Tactics -->
       <div class="card p-6 mb-6">
         <div class="flex items-center gap-3 mb-5">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg></div>
-          <div><h3 class="font-bold text-stone-900 text-lg">Inferred Tactics from Top Sessions</h3><p class="text-sm text-stone-400">Patterns from 59 session-metadata signals (Apr 12–18, 2026)</p></div>
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+          <div><h3 class="font-bold text-stone-900 text-lg">GMV by Day of Week</h3><p class="text-sm text-stone-400">Apr 12–18, 2026 — 793 sessions across 7 days</p></div>
         </div>
+        <div class="grid grid-cols-7 gap-2 text-center">
+          <div class="p-3 bg-emerald-100 rounded-xl border-2 border-emerald-400"><p class="text-xs font-semibold text-stone-600">SAT Apr 12</p><p class="text-xl font-bold text-emerald-700">$1,407</p><p class="text-xs text-stone-500">105 sessions</p><span class="text-xs bg-emerald-600 text-white px-1.5 py-0.5 rounded mt-1 inline-block">BEST</span></div>
+          <div class="p-3 bg-stone-50 rounded-xl border border-stone-200"><p class="text-xs font-semibold text-stone-600">SUN Apr 13</p><p class="text-xl font-bold text-stone-700">$757</p><p class="text-xs text-stone-500">117 sessions</p></div>
+          <div class="p-3 bg-red-50 rounded-xl border border-red-200"><p class="text-xs font-semibold text-stone-600">MON Apr 14</p><p class="text-xl font-bold text-red-700">$138</p><p class="text-xs text-stone-500">120 sessions</p><span class="text-xs bg-red-500 text-white px-1.5 py-0.5 rounded mt-1 inline-block">Avoid</span></div>
+          <div class="p-3 bg-stone-50 rounded-xl border border-stone-200"><p class="text-xs font-semibold text-stone-600">TUE Apr 15</p><p class="text-xl font-bold text-stone-700">$467</p><p class="text-xs text-stone-500">124 sessions</p></div>
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200"><p class="text-xs font-semibold text-stone-600">WED Apr 16</p><p class="text-xl font-bold text-amber-700">$765</p><p class="text-xs text-stone-500">121 sessions</p><span class="text-xs bg-amber-600 text-white px-1.5 py-0.5 rounded mt-1 inline-block">Strong</span></div>
+          <div class="p-3 bg-red-50 rounded-xl border border-red-200"><p class="text-xs font-semibold text-stone-600">THU Apr 17</p><p class="text-xl font-bold text-red-700">$126</p><p class="text-xs text-stone-500">136 sessions</p><span class="text-xs bg-red-500 text-white px-1.5 py-0.5 rounded mt-1 inline-block">Avoid</span></div>
+          <div class="p-3 bg-stone-50 rounded-xl border border-stone-200"><p class="text-xs font-semibold text-stone-600">FRI Apr 18</p><p class="text-xl font-bold text-stone-700">$375</p><p class="text-xs text-stone-500">70 sessions</p></div>
+        </div>
+        <p class="text-xs text-stone-400 mt-3 text-center">Insight: Mon &amp; Thu have most sessions but lowest GMV — high creator count, low conversion rate. Sat &amp; Wed far more efficient.</p>
+      </div>
+
+      <div class="card p-6 mb-6">
+        <div class="flex items-center gap-3 mb-5"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-emerald-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg></div><div><h3 class="font-bold text-stone-900 text-lg">Inferred Tactics from Top Sessions</h3><p class="text-sm text-stone-400">793 sessions · top 4 hosts = 91% of total LIVE GMV</p></div></div>
         <div class="grid grid-cols-2 gap-5">
           <div class="space-y-4">
-            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-green">Volume</span><h4 class="font-semibold text-stone-800">Daily Cadence Dominance</h4></div><p class="text-sm text-stone-600">@nutritionnestegg ran 30 sessions in 7 days (~65% of weekly LIVE GMV). Consistency drives compounding viewer familiarity and repeat purchase intent.</p></div>
-            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-green">Title</span><h4 class="font-semibold text-stone-800">BOGO in the LIVE Title</h4></div><p class="text-sm text-stone-600">Top sessions use "B12 BOGO" or "B12 Get Two Free" in the title. The deal mechanic is hardcoded into the show name, signaling value before viewers tap in.</p></div>
-            <div class="p-4 bg-blue-50 rounded-xl border border-blue-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-blue">SKU Focus</span><h4 class="font-semibold text-stone-800">Single-Hero-Product Streams</h4></div><p class="text-sm text-stone-600">Top sessions focus on one SKU. Multi-product juggling appears to dilute conversion — stick to one hero product per session.</p></div>
+            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-green">Title</span><h4 class="font-semibold text-stone-800">BOGO in the Session Title</h4></div><p class="text-sm text-stone-600">@nutritionnestegg's "Nusava B12 BOGO" title runs every single session — pre-sells the deal before anyone clicks in. The title is your first hook. Make it a deal statement, not a description.</p></div>
+            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-green">Volume</span><h4 class="font-semibold text-stone-800">Daily Cadence = 54% of GMV</h4></div><p class="text-sm text-stone-600">@nutritionnestegg ran 11 sessions in 7 days and captured 54% of all LIVE GMV. Volume builds viewer familiarity and repeat purchase intent. Consistency compounds.</p></div>
+            <div class="p-4 bg-blue-50 rounded-xl border border-blue-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-blue">SKU</span><h4 class="font-semibold text-stone-800">Single Hero Product Per Stream</h4></div><p class="text-sm text-stone-600">Top sessions (@gck_007 "Nusava B Complex", @nutritionnestegg "Nusava B12 BOGO") each lock into one SKU. Focus drives deeper product story and cleaner conversion flow.</p></div>
           </div>
           <div class="space-y-4">
-            <div class="p-4 bg-amber-50 rounded-xl border border-amber-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Day</span><h4 class="font-semibold text-stone-800">Sunday + Saturday Bias</h4></div><p class="text-sm text-stone-600">Sunday ($1,301), Saturday ($1,059), and Thursday ($853) are top GMV days. Friday is the weakest ($181). Schedule highest-effort streams on Sunday–Saturday.</p></div>
-            <div class="p-4 bg-amber-50 rounded-xl border border-amber-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Duration</span><h4 class="font-semibold text-stone-800">Avg Session: 1h 42min</h4></div><p class="text-sm text-stone-600">Sessions averaging 1h 42min across the week. Top GMV sessions tend to run longer — short under-60-minute sessions consistently underperform on items sold.</p></div>
-            <div class="p-4 bg-purple-50 rounded-xl border border-purple-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-purple">Risk</span><h4 class="font-semibold text-stone-800">Concentration Risk</h4></div><p class="text-sm text-stone-600">@nutritionnestegg accounts for ~65% of total LIVE GMV. Diversifying active LIVE creators reduces single-creator dependency. @gck_007 and @mireya_remediosok are natural candidates to scale.</p></div>
+            <div class="p-4 bg-amber-50 rounded-xl border border-amber-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Duration</span><h4 class="font-semibold text-stone-800">120–145 Min Sweet Spot</h4></div><p class="text-sm text-stone-600">Top GMV sessions run 120–145 min. @gck_007's $601 session = 128 min. @nutritionnestegg's top 3 sessions = 126–145 min. Under 60 minutes consistently underperforms on units sold.</p></div>
+            <div class="p-4 bg-amber-50 rounded-xl border border-amber-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">Day</span><h4 class="font-semibold text-stone-800">Saturday First, Wednesday Second</h4></div><p class="text-sm text-stone-600">Saturday ($1,407) and Wednesday ($765) dominate. Monday and Thursday have the most sessions but worst GMV-per-session — high creator count, low audience quality. Save your best sessions for Sat/Wed.</p></div>
+            <div class="p-4 bg-purple-50 rounded-xl border border-purple-100"><div class="flex items-center gap-2 mb-2"><span class="badge badge-purple">Risk</span><h4 class="font-semibold text-stone-800">91% GMV in Top 4 Hosts</h4></div><p class="text-sm text-stone-600">@nutritionnestegg + @gck_007 + @mireya_remediosok + @journey2wellnessnow = 91% of LIVE GMV. 263 other hosts share 9%. Activate and coach these 4 — then recruit similarly structured creators.</p></div>
           </div>
         </div>
       </div>
 
-      <!-- Suggested Showcase Flow -->
       <div class="card p-6 mb-6">
         <h3 class="font-bold text-stone-900 text-lg mb-1">Suggested 2-Hour Showcase Flow</h3>
-        <p class="text-xs text-stone-400 mb-5">Time blocks inferred from top-performing LIVE sessions. Tactics borrowed from top video hooks (no LIVE replay data available).</p>
+        <p class="text-xs text-stone-400 mb-5">Structure inferred from top-performing sessions. Tactics from top video hooks applied to LIVE format.</p>
         <div class="flex items-start gap-4">
-          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-emerald-600">1</span></div><h5 class="font-semibold text-sm text-stone-800">Warm-Up</h5><p class="text-xs text-stone-500 mt-1">0–15 min</p><p class="text-xs text-stone-600 mt-2">Open with the BOGO offer in plain language. Pin the 2-pack and 4-pack listings immediately so late joiners see them.</p></div>
+          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-emerald-600">1</span></div><h5 class="font-semibold text-sm text-stone-800">Deal Open</h5><p class="text-xs text-stone-500 mt-1">0–15 min</p><p class="text-xs text-stone-600 mt-2">Lead with BOGO offer immediately. "Tonight — buy two, get four, free shipping." Pin 2-pack and 4-pack listings. Title already told them — confirm it instantly.</p></div>
           <div class="pt-6 text-stone-300">&#8594;</div>
-          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-amber-600">2</span></div><h5 class="font-semibold text-sm text-stone-800">Symptom Block</h5><p class="text-xs text-stone-500 mt-1">15–50 min</p><p class="text-xs text-stone-600 mt-2">Use the nerve-pain / Gabapentin pivot from top videos. Invite "drop your symptom" comments — match each to B12 or B-Complex.</p></div>
+          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-amber-600">2</span></div><h5 class="font-semibold text-sm text-stone-800">Symptom Block</h5><p class="text-xs text-stone-500 mt-1">15–50 min</p><p class="text-xs text-stone-600 mt-2">Nerve-pain + Gabapentin pivot from top videos. "Drop your symptom in comments" — match each one (tingling, neuropathy, sciatica) to B12 or B-Complex.</p></div>
           <div class="pt-6 text-stone-300">&#8594;</div>
-          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-blue-600">3</span></div><h5 class="font-semibold text-sm text-stone-800">Science Explainer</h5><p class="text-xs text-stone-500 mt-1">50–80 min</p><p class="text-xs text-stone-600 mt-2">Walk through the myelin-sheath analogy — the highest-scoring hook pattern in the videos. Hold the bottle in frame throughout.</p></div>
+          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-blue-600">3</span></div><h5 class="font-semibold text-sm text-stone-800">Science Block</h5><p class="text-xs text-stone-500 mt-1">50–80 min</p><p class="text-xs text-stone-600 mt-2">Myelin sheath analogy (#1 hook pattern this week). Hold bottle throughout. Compare to B12 injections. Emphasize absorption advantage of liquid drops.</p></div>
           <div class="pt-6 text-stone-300">&#8594;</div>
-          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-purple-600">4</span></div><h5 class="font-semibold text-sm text-stone-800">Bundle Push</h5><p class="text-xs text-stone-500 mt-1">80–105 min</p><p class="text-xs text-stone-600 mt-2">Switch focus to the 4-pack to lift AOV. Frame as the "smart shopper" upgrade.</p></div>
+          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-purple-600">4</span></div><h5 class="font-semibold text-sm text-stone-800">Bundle Push</h5><p class="text-xs text-stone-500 mt-1">80–105 min</p><p class="text-xs text-stone-600 mt-2">Switch to 4-pack to lift AOV. "Stop getting ripped off buying separately" angle (from @hotshopdeals4u). Frame the bundle as the smart-shopper move.</p></div>
           <div class="pt-6 text-stone-300">&#8594;</div>
-          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-rose-600">5</span></div><h5 class="font-semibold text-sm text-stone-800">Close</h5><p class="text-xs text-stone-500 mt-1">105–125 min</p><p class="text-xs text-stone-600 mt-2">Restate BOGO, scarcity message ("stock is low"), and exact tap path. Confirm same time tomorrow to build cadence.</p></div>
+          <div class="flex-1 text-center"><div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-3"><span class="text-lg font-bold text-rose-600">5</span></div><h5 class="font-semibold text-sm text-stone-800">Close + Rebook</h5><p class="text-xs text-stone-500 mt-1">105–125 min</p><p class="text-xs text-stone-600 mt-2">Restate BOGO. "Stock is low." Exact tap path to orange cart. Confirm next session day — Saturday or Wednesday for best results.</p></div>
         </div>
       </div>
 
-      <!-- Interaction Scripts -->
       <div class="card p-6">
         <h3 class="font-bold text-stone-900 text-lg mb-1">Audience Interaction Scripts</h3>
-        <p class="text-xs text-stone-400 mb-5">Adapted from the highest-scoring video hooks across 2,065 videos (Apr 12–18, 2026)</p>
+        <p class="text-xs text-stone-400 mb-5">Adapted from highest-scoring video hooks — Apr 12–18, 2026</p>
         <div class="grid grid-cols-2 gap-5">
-          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Opening (English)</h4><p class="text-sm text-stone-600 italic">"Hey everyone, welcome back. If you're dealing with tingling hands, numb feet, or back pain shooting down your leg — you're in the right place. Tonight it's buy-two-get-two-free on the Nusava B12 drops, and I'm pinning it right now in the orange cart."</p></div>
-          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Opening (Español)</h4><p class="text-sm text-stone-600 italic">"Hola a todos. Si tienes neuropatía, dolor de nervios, hormigueo en las manos o en los pies — lo que voy a contarte hoy nadie te lo cuenta. Y la oferta: paga dos y te van a mandar cuatro botes. Carrito naranja."</p></div>
-          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Gabapentin Pivot</h4><p class="text-sm text-stone-600 italic">"For everyone watching who's on Gabapentin — that medication masks the signal, it doesn't fix the wire. The wire is your myelin sheath, and it's made of B vitamins. Your nerves are firing off like fireworks because they're missing what's in this bottle right here."</p></div>
-          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Authenticity / Closing</h4><p class="text-sm text-stone-600 italic">"You'll see fakes everywhere — that's how you know it works. The real Nusava is only in the orange cart pinned right here. 22,000+ sold, 4.5 stars. Stock is low and the BOGO ends tonight. I'm back same time tomorrow."</p></div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Opening (English)</h4><p class="text-sm text-stone-600 italic">"Hey everyone, welcome back. If you're dealing with tingling hands, numb feet, or nerve pain — you're in the right place. Tonight: buy two, get four, free shipping on Nusava B12 drops. Pinned right now in the orange cart. Let's go."</p></div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Opening (Español)</h4><p class="text-sm text-stone-600 italic">"Hola a todos — bienvenidos. Si tienes neuropatía, hormigueo, ciática, dolor de nervios — estás en el lugar correcto. Esta noche: paga dos, recibe cuatro, envío gratis. Lo pongo en el carrito naranja ahora mismo."</p></div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Myelin / Injection Pivot</h4><p class="text-sm text-stone-600 italic">"A lot of you are on Gabapentin — that blocks the pain signal. It doesn't fix the wire. The myelin sheath around your nerves is made of B vitamins. That's why doctors give B12 injections for neuropathy. This is the same thing, in liquid drops. No needle, better absorption."</p></div>
+          <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100"><h4 class="font-semibold text-stone-800 mb-2">Authenticity / Close</h4><p class="text-sm text-stone-600 italic">"You'll see copies everywhere — that's how you know it's working. 9,000+ real reviews. Real Nusava is only in the orange cart, pinned right here. BOGO ends tonight. I'm back Saturday — same time, same deal."</p></div>
         </div>
+      </div>
+
       </div>
     </div>
 
     <!-- PERSONA LIBRARY TAB -->
-    <div <div id="tab-personas" class="hidden fade-in">
+    <div id="tab-personas" class="hidden fade-in">
+      <div id="personas-week1" class="hidden">
+
       <div class="grid grid-cols-4 gap-5 mb-6">
-        <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Personas Detected</span></div><p class="text-3xl font-bold text-stone-900">5</p><p class="text-xs text-stone-500 mt-1">Tagged across 2,065 videos this week</p></div>
+        <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Personas Detected</span></div><p class="text-3xl font-bold text-stone-900">5</p><p class="text-xs text-stone-500 mt-1">Tagged across 1,877 videos — Apr 5–11, 2026</p></div>
         <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Top Persona GMV</span></div><p class="text-3xl font-bold text-stone-900">$1,127</p><p class="text-xs text-green-600 mt-1 font-medium">Health Educator (258 videos)</p></div>
         <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Narrative Angles</span></div><p class="text-3xl font-bold text-stone-900">5</p><p class="text-xs text-stone-500 mt-1">Distinct hook patterns from coded videos</p></div>
         <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Most Videos</span></div><p class="text-3xl font-bold text-stone-900">487</p><p class="text-xs text-green-600 mt-1 font-medium">Latina Wellness — largest persona by volume</p></div>
+      </div>
+      <div class="card p-6 mb-6">
+        <div class="flex items-center justify-between mb-5">
+          <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-nusava-sage flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div><h3 class="font-bold text-stone-900 text-lg">Persona Library</h3><p class="text-sm text-stone-400">Creator personas from 1,877 Nusava videos — Apr 5–11, 2026</p></div></div>
+        </div>
+        <div class="grid grid-cols-2 gap-5">
+          <div class="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-5 hover:shadow-lg transition-shadow"><div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white text-lg">&#129468;</div><div><h4 class="font-bold text-stone-900">Health Educator</h4><span class="badge badge-green">Top GMV/Video</span></div></div><p class="text-sm text-stone-600 mb-4">Science-driven nerve-pain and B12 deficiency content. Uses the myelin sheath analogy and contrasts liquid drops with prescription Gabapentin.</p><div class="space-y-2 mb-4"><div class="flex justify-between text-sm"><span class="text-stone-500">Videos this week</span><span class="font-semibold text-stone-900">258</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$1,126.67</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Avg GMV/video</span><span class="font-semibold text-stone-900">$4.37</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Unique creators</span><span class="font-semibold text-stone-900">127</span></div></div><div class="border-t border-emerald-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-emerald-100 text-emerald-700">Myelin Sheath / Nerve Wires</span><span class="hook-tag bg-emerald-100 text-emerald-700">Anti-Gabapentin</span><span class="hook-tag bg-emerald-100 text-emerald-700">B12 Absorption Science</span><span class="hook-tag bg-emerald-100 text-emerald-700">Symptom Diagnosis</span></div></div></div>
+          <div class="rounded-xl border-2 border-rose-200 bg-gradient-to-br from-rose-50 to-white p-5 hover:shadow-lg transition-shadow"><div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white text-lg">&#127801;</div><div><h4 class="font-bold text-stone-900">Latina Wellness</h4><span class="badge badge-red">Largest Volume</span></div></div><p class="text-sm text-stone-600 mb-4">Spanish-language content blending wellness storytelling, BOGO value framing, and curiosity-gap hooks. Strong personal-experience and family-health framing.</p><div class="space-y-2 mb-4"><div class="flex justify-between text-sm"><span class="text-stone-500">Videos this week</span><span class="font-semibold text-stone-900">487</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$577.60</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Avg GMV/video</span><span class="font-semibold text-stone-900">$1.19</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Unique creators</span><span class="font-semibold text-stone-900">217</span></div></div><div class="border-t border-rose-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-rose-100 text-rose-700">Spanish Curiosity Gap</span><span class="hook-tag bg-rose-100 text-rose-700">"Paga 2, Recibe 4"</span><span class="hook-tag bg-rose-100 text-rose-700">Neuropatía / Edad</span><span class="hook-tag bg-rose-100 text-rose-700">Energía + Familia</span></div></div></div>
+          <div class="rounded-xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 hover:shadow-lg transition-shadow"><div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center text-white text-lg">&#128176;</div><div><h4 class="font-bold text-stone-900">Value Hunter</h4><span class="badge badge-yellow">BOGO-Forward</span></div></div><p class="text-sm text-stone-600 mb-4">Deal-driven creators who lead with "buy 2 get 2 free", scam/authenticity warnings, and stock urgency.</p><div class="space-y-2 mb-4"><div class="flex justify-between text-sm"><span class="text-stone-500">Videos this week</span><span class="font-semibold text-stone-900">368</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$601.39</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Avg GMV/video</span><span class="font-semibold text-stone-900">$1.63</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Unique creators</span><span class="font-semibold text-stone-900">225</span></div></div><div class="border-t border-amber-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-amber-100 text-amber-700">"This is Fake" Reframe</span><span class="hook-tag bg-amber-100 text-amber-700">Buy 2 Get 2 Free</span><span class="hook-tag bg-amber-100 text-amber-700">Stock Urgency</span></div></div></div>
+          <div class="rounded-xl border-2 border-green-200 bg-gradient-to-br from-green-50 to-white p-5 hover:shadow-lg transition-shadow"><div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center text-white text-lg">&#128170;</div><div><h4 class="font-bold text-stone-900">Fitness Optimizer</h4><span class="badge badge-green">Emerging</span></div></div><p class="text-sm text-stone-600 mb-4">Energy and brain/body performance angle — frames B12 + B-complex as a fuel/focus stack rather than a nerve-pain remedy.</p><div class="space-y-2 mb-4"><div class="flex justify-between text-sm"><span class="text-stone-500">Videos this week</span><span class="font-semibold text-stone-900">190</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$263.91</span></div><div class="flex justify-between text-sm"><span class="text-stone-500">Avg GMV/video</span><span class="font-semibold text-stone-900">$1.39</span></div></div><div class="border-t border-green-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-green-100 text-green-700">Energy + Focus</span><span class="hook-tag bg-green-100 text-green-700">Brain &amp; Heart</span></div></div></div>
+        </div>
+      </div>
+
+      </div>
+      <div id="personas-week2">
+
+      <div class="grid grid-cols-4 gap-5 mb-6">
+        <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Personas Detected</span></div><p class="text-3xl font-bold text-stone-900">5</p><p class="text-xs text-stone-500 mt-1">Confirmed from 12 top-performing video screenshots</p></div>
+        <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Top Persona GMV</span></div><p class="text-3xl font-bold text-stone-900">$484</p><p class="text-xs text-green-600 mt-1 font-medium">Nerve Health Educator (26.1K views)</p></div>
+        <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">Highest Engagement</span></div><p class="text-3xl font-bold text-stone-900">3.67%</p><p class="text-xs text-stone-500 mt-1">Personal Medical Story (@_mily_mily)</p></div>
+        <div class="card metric-card p-5"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-stone-400 uppercase tracking-wide">New This Week</span></div><p class="text-3xl font-bold text-stone-900">2</p><p class="text-xs text-green-600 mt-1 font-medium">Supplement Optimizer + Trust Builder</p></div>
       </div>
 
       <div class="card p-6 mb-6">
         <div class="flex items-center justify-between mb-5">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nusava-green to-nusava-sage flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-            <div><h3 class="font-bold text-stone-900 text-lg">Persona Library</h3><p class="text-sm text-stone-400">AI-detected creator personas from 2,065 Nusava videos (Apr 12–18, 2026)</p></div>
+            <div><h3 class="font-bold text-stone-900 text-lg">Persona Library</h3><p class="text-sm text-stone-400">Screenshot-confirmed creator personas — Apr 12–18, 2026</p></div>
           </div>
-          <button class="bg-nusava-green/10 text-nusava-green px-4 py-2 rounded-lg text-sm font-medium hover:bg-nusava-green/20 transition">Re-analyze Content</button>
         </div>
-
         <div class="grid grid-cols-2 gap-5">
+
           <div class="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-5 hover:shadow-lg transition-shadow">
-            <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white text-lg">&#129468;</div><div><h4 class="font-bold text-stone-900">Health Educator</h4><span class="badge badge-green">Top GMV/Video</span></div></div>
-            <p class="text-sm text-stone-600 mb-4">Science-driven nerve-pain and B12 deficiency content. Uses the myelin sheath analogy and contrasts liquid drops with prescription Gabapentin. Authoritative, often anti-pharma framing.</p>
+            <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white text-lg">🧠</div><div><h4 class="font-bold text-stone-900">Nerve Health Educator</h4><span class="badge badge-green">Top GMV · $484 single video</span></div></div>
+            <p class="text-sm text-stone-600 mb-4">Spanish + English bilingual. Science-driven nerve pain content — myelin sheath analogy, B12 deficiency, anti-Gabapentin angle. Filmed in car or kitchen. Verbal-only or product in background.</p>
             <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos this week</span><span class="font-semibold text-stone-900">258</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$1,126.67</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg GMV/video</span><span class="font-semibold text-stone-900">$4.37</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Unique creators</span><span class="font-semibold text-stone-900">127</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top creators</span><span class="font-semibold text-stone-900">@vivianadoestiktok, @didi_finds, @grant.easten</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Best GMV</span><span class="font-bold text-green-600">$484 · 27.6K views</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg engagement</span><span class="font-semibold text-stone-900">0.93–1.02%</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top hook score</span><span class="font-semibold text-stone-900">90 / 100</span></div>
               <div class="flex justify-between text-sm"><span class="text-stone-500">Dominant tone</span><span class="font-semibold text-stone-900">Educational</span></div>
             </div>
-            <div class="border-t border-emerald-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-emerald-100 text-emerald-700">Myelin Sheath / Nerve Wires</span><span class="hook-tag bg-emerald-100 text-emerald-700">Anti-Gabapentin</span><span class="hook-tag bg-emerald-100 text-emerald-700">B12 Absorption Science</span><span class="hook-tag bg-emerald-100 text-emerald-700">Symptom Diagnosis</span></div></div>
+            <div class="border-t border-emerald-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-emerald-100 text-emerald-700">Myelin Sheath / Nerve Wires</span><span class="hook-tag bg-emerald-100 text-emerald-700">Anti-Neurologist Insider</span><span class="hook-tag bg-emerald-100 text-emerald-700">B12 vs Gabapentin</span><span class="hook-tag bg-emerald-100 text-emerald-700">Symptom Diagnosis List</span><span class="hook-tag bg-emerald-100 text-emerald-700">Wire Prop Visual</span></div></div>
           </div>
+
           <div class="rounded-xl border-2 border-rose-200 bg-gradient-to-br from-rose-50 to-white p-5 hover:shadow-lg transition-shadow">
-            <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white text-lg">&#127801;</div><div><h4 class="font-bold text-stone-900">Latina Wellness</h4><span class="badge badge-red">Largest Volume</span></div></div>
-            <p class="text-sm text-stone-600 mb-4">Spanish-language content blending wellness storytelling, BOGO value framing, and curiosity-gap hooks ("no quieren que sepas esto"). Strong personal-experience and family-health framing.</p>
+            <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white text-lg">🌸</div><div><h4 class="font-bold text-stone-900">Latina Wellness</h4><span class="badge badge-red">Highest Engagement · 3.67%</span></div></div>
+            <p class="text-sm text-stone-600 mb-4">Spanish-language. Blends wellness storytelling, personal medical history, and curiosity-gap hooks. "No quieren que sepas esto." Strong family-health framing. Medical credibility through lived experience (gastric bypass, absorption issues).</p>
             <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos this week</span><span class="font-semibold text-stone-900">487</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$577.60</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg GMV/video</span><span class="font-semibold text-stone-900">$1.19</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Unique creators</span><span class="font-semibold text-stone-900">217</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top creators</span><span class="font-semibold text-stone-900">@vivianadoestiktok, @_mily_mily</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Best engagement</span><span class="font-bold text-green-600">3.67% (@_mily_mily — week high)</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Unique angle</span><span class="font-semibold text-stone-900">Gastric bypass · sublingual since 2009</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top hook score</span><span class="font-semibold text-stone-900">80 / 100</span></div>
               <div class="flex justify-between text-sm"><span class="text-stone-500">Dominant tone</span><span class="font-semibold text-stone-900">Casual / Educational</span></div>
             </div>
-            <div class="border-t border-rose-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-rose-100 text-rose-700">Spanish Curiosity Gap</span><span class="hook-tag bg-rose-100 text-rose-700">"Paga 2, Recibe 4"</span><span class="hook-tag bg-rose-100 text-rose-700">Neuropatía / Edad</span><span class="hook-tag bg-rose-100 text-rose-700">Energía + Familia</span></div></div>
+            <div class="border-t border-rose-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-rose-100 text-rose-700">Spanish Curiosity Gap</span><span class="hook-tag bg-rose-100 text-rose-700">Gastric Bypass / Absorption</span><span class="hook-tag bg-rose-100 text-rose-700">FAQ Reply Format</span><span class="hook-tag bg-rose-100 text-rose-700">Neuropatía + Edad</span></div></div>
           </div>
+
           <div class="rounded-xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 hover:shadow-lg transition-shadow">
-            <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center text-white text-lg">&#128176;</div><div><h4 class="font-bold text-stone-900">Value Hunter</h4><span class="badge badge-yellow">BOGO-Forward</span></div></div>
-            <p class="text-sm text-stone-600 mb-4">Deal-driven creators who lead with "buy 2 get 2 free", scam/authenticity warnings, and stock urgency. "Tap the orange cart" energy. Uses competitor comparison to validate Nusava.</p>
+            <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center text-white text-lg">💰</div><div><h4 class="font-bold text-stone-900">Deal Hunter</h4><span class="badge badge-yellow">Flash Sale · BOGO-Forward</span></div></div>
+            <p class="text-sm text-stone-600 mb-4">English + Spanish. Leads with deal urgency — "flash sale", "4 for 1", "last day". Two sub-formats: (1) 30-sec spoken deal announcement, (2) 6–7 sec silent text-only clip. No face or voice required for short format.</p>
             <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos this week</span><span class="font-semibold text-stone-900">368</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$601.39</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg GMV/video</span><span class="font-semibold text-stone-900">$1.63</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Unique creators</span><span class="font-semibold text-stone-900">225</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Dominant tone</span><span class="font-semibold text-stone-900">Casual</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top creators</span><span class="font-semibold text-stone-900">@adrigomezmemo, @lexiifairy, @dealsbycaser</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Best GMV</span><span class="font-bold text-green-600">$297 · @adrigomezmemo</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">New format</span><span class="font-semibold text-stone-900">Silent 6–7 sec text clip ($131–$166 GMV)</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top hook score</span><span class="font-semibold text-stone-900">90 / 100</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Dominant tone</span><span class="font-semibold text-stone-900">Casual / Urgent</span></div>
             </div>
-            <div class="border-t border-amber-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-amber-100 text-amber-700">"This is Fake" Reframe</span><span class="hook-tag bg-amber-100 text-amber-700">Buy 2 Get 2 Free</span><span class="hook-tag bg-amber-100 text-amber-700">Stock Urgency</span><span class="hook-tag bg-amber-100 text-amber-700">22K+ Sold Social Proof</span></div></div>
+            <div class="border-t border-amber-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-amber-100 text-amber-700">Flash Sale + Free Shipping</span><span class="hook-tag bg-amber-100 text-amber-700">4 FOR 1 Urgency</span><span class="hook-tag bg-amber-100 text-amber-700">Silent Text Clip</span><span class="hook-tag bg-amber-100 text-amber-700">Last Day / 1 Hour Left</span></div></div>
           </div>
-          <div class="rounded-xl border-2 border-green-200 bg-gradient-to-br from-green-50 to-white p-5 hover:shadow-lg transition-shadow">
-            <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center text-white text-lg">&#128170;</div><div><h4 class="font-bold text-stone-900">Fitness Optimizer</h4><span class="badge badge-green">Emerging</span></div></div>
-            <p class="text-sm text-stone-600 mb-4">Energy and brain/body performance angle — frames B12 + B-complex as a fuel/focus stack rather than a nerve-pain remedy. Small but distinct narrative with growth potential.</p>
+
+          <div class="rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white p-5 hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white text-lg">💊</div><div><h4 class="font-bold text-stone-900">Supplement Optimizer</h4><span class="badge badge-blue">New This Week</span></div></div>
+            <p class="text-sm text-stone-600 mb-4">English-speaking, 35–55 audience. "You're doing supplements wrong" hook. Challenges existing routines — D3K2 without K2 is wasted, B12 without absorption is pointless. High production quality, well-lit, face visible throughout. Includes D3K2 product narrative.</p>
             <div class="space-y-2 mb-4">
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Videos this week</span><span class="font-semibold text-stone-900">190</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Total GMV</span><span class="font-bold text-green-600">$263.91</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Avg GMV/video</span><span class="font-semibold text-stone-900">$1.39</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Unique creators</span><span class="font-semibold text-stone-900">132</span></div>
-              <div class="flex justify-between text-sm"><span class="text-stone-500">Dominant tone</span><span class="font-semibold text-stone-900">Casual / Inspirational</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top creators</span><span class="font-semibold text-stone-900">@midlifemomgrace, @grant.easten</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Best GMV</span><span class="font-bold text-green-600">$100 · D3K2 first appearance</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Products</span><span class="font-semibold text-stone-900">B12 2-Pack + D3K2 2-Pack</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Top hook score</span><span class="font-semibold text-stone-900">90 / 100</span></div>
+              <div class="flex justify-between text-sm"><span class="text-stone-500">Dominant tone</span><span class="font-semibold text-stone-900">Educational · High lighting</span></div>
             </div>
-            <div class="border-t border-green-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-green-100 text-green-700">Energy + Focus</span><span class="hook-tag bg-green-100 text-green-700">Brain &amp; Heart</span><span class="hook-tag bg-green-100 text-green-700">4-Pack Stack</span></div></div>
+            <div class="border-t border-blue-100 pt-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-blue-100 text-blue-700">"You're Doing It Wrong"</span><span class="hook-tag bg-blue-100 text-blue-700">D3+K2 Synergy</span><span class="hook-tag bg-blue-100 text-blue-700">B12 vs Injections</span><span class="hook-tag bg-blue-100 text-blue-700">9,000+ Reviews Proof</span></div></div>
+          </div>
+
+        </div>
+
+        <div class="mt-5 rounded-xl border-2 border-teal-200 bg-gradient-to-br from-teal-50 to-white p-5 hover:shadow-lg transition-shadow">
+          <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-full bg-teal-600 flex items-center justify-center text-white text-lg">🔐</div><div><h4 class="font-bold text-stone-900">Trust Builder</h4><span class="badge bg-teal-100 text-teal-700 border border-teal-200">New This Week · Highest Niche Engagement</span></div></div>
+          <div class="grid grid-cols-2 gap-5">
+            <div>
+              <p class="text-sm text-stone-600 mb-4">Responds to viewer skepticism directly. Reply-to-comment format — "is this the real Nusava?" Flat lay product showcase highlighting ingredients, dropper, packaging. Answers FAQ about quantity and price. Builds trust for hesitant buyers.</p>
+              <div class="space-y-2">
+                <div class="flex justify-between text-sm"><span class="text-stone-500">Top creator</span><span class="font-semibold text-stone-900">@cupontokbypam</span></div>
+                <div class="flex justify-between text-sm"><span class="text-stone-500">GMV</span><span class="font-bold text-green-600">$170</span></div>
+                <div class="flex justify-between text-sm"><span class="text-stone-500">Engagement</span><span class="font-semibold text-stone-900">0.74%</span></div>
+                <div class="flex justify-between text-sm"><span class="text-stone-500">Format</span><span class="font-semibold text-stone-900">Reply-to-comment · Flat lay</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="border-t border-teal-100 pt-3 mb-3"><p class="text-xs font-semibold text-stone-500 mb-1.5">NARRATIVE ANGLES</p><div class="flex flex-wrap gap-1.5"><span class="hook-tag bg-teal-100 text-teal-700">Reply-to-Skeptic</span><span class="hook-tag bg-teal-100 text-teal-700">Flat Lay Authenticity</span><span class="hook-tag bg-teal-100 text-teal-700">Ingredient Showcase</span><span class="hook-tag bg-teal-100 text-teal-700">Buy 1 Gift 1 Free</span></div></div>
+              <p class="text-xs text-stone-500 bg-teal-50 p-3 rounded-lg">💡 <strong>Opportunity:</strong> Create a dedicated "is this legit?" reply video for every new skepticism comment wave. This format converts hesitant mid-funnel viewers who need one last nudge.</p>
+            </div>
           </div>
         </div>
 
-        <div class="mt-4 p-4 bg-stone-50 rounded-xl border border-stone-200 flex items-start gap-3"><svg class="w-4 h-4 text-stone-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p class="text-xs text-stone-500"><span class="font-semibold">Uncategorized:</span> 762 videos ($190.35 GMV) did not match any persona pattern from title/overview signals. These are primarily videos with missing titles or generic descriptions — included in total GMV but excluded from persona breakdowns above.</p></div>
+        <div class="mt-4 p-4 bg-stone-50 rounded-xl border border-stone-200 flex items-start gap-3"><svg class="w-4 h-4 text-stone-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p class="text-xs text-stone-500"><span class="font-semibold">Note:</span> These personas are confirmed from 12 screenshot-analyzed top-performing videos. Broader persona distribution (1,303 additional videos) follows similar patterns with Casual and Educational tones dominant.</p></div>
       </div>
 
-      <!-- Charts -->
-      <div class="grid grid-cols-2 gap-6 mb-6">
-        <div class="card p-6"><h3 class="font-semibold text-stone-800 mb-1">GMV &amp; Video Count by Persona</h3><p class="text-xs text-stone-400 mb-4">All 2,065 videos, Apr 12–18, 2026</p><canvas id="chart-persona-gmv" height="280"></canvas></div>
-        <div class="card p-6"><h3 class="font-semibold text-stone-800 mb-1">Avg GMV per Video by Persona</h3><p class="text-xs text-stone-400 mb-4">Higher = more revenue-efficient per video</p><canvas id="chart-persona-scatter" height="280"></canvas></div>
-      </div>
-
-      <!-- Narrative Angles Table -->
       <div class="card overflow-hidden">
-        <div class="p-5 border-b border-stone-100"><h3 class="font-semibold text-stone-800">Narrative Angles Performance</h3><p class="text-sm text-stone-400 mt-0.5">Hook patterns observed across 2,065 Nusava videos (Apr 12–18, 2026) — hook scores pending screenshot analysis</p></div>
+        <div class="p-5 border-b border-stone-100"><h3 class="font-semibold text-stone-800">Narrative Angles Performance</h3><p class="text-sm text-stone-400 mt-0.5">Confirmed from top-performing videos — Apr 12–18, 2026</p></div>
         <table class="w-full">
-          <thead><tr class="bg-stone-50 text-left"><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Narrative Angle</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Persona</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Videos</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Avg Hook Score</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Top Hook Score</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Signature Line</th></tr></thead>
+          <thead><tr class="bg-stone-50 text-left"><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Narrative Angle</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Persona</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Hook Score</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase text-right">Best GMV</th><th class="px-5 py-3 text-xs font-semibold text-stone-500 uppercase">Signature Line</th></tr></thead>
           <tbody class="divide-y divide-stone-50">
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Myelin Sheath / Nerve Wires</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">258</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">Pending</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">—</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Your nerves are like electrical wires…"</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Anti-Gabapentin Pivot</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Health Educator</span></td><td class="px-5 py-3 text-sm text-right">258</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">Pending</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">—</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Mask the signal — they don't fix the wire."</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">BOGO Value Callout</td><td class="px-5 py-3"><span class="badge bg-amber-100 text-amber-700">Value Hunter</span></td><td class="px-5 py-3 text-sm text-right">368</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">Pending</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">—</td><td class="px-5 py-3 text-xs text-stone-600 italic">"4 for 2 + free shipping."</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Spanish Curiosity Gap</td><td class="px-5 py-3"><span class="badge bg-rose-100 text-rose-700">Latina Wellness</span></td><td class="px-5 py-3 text-sm text-right">487</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">Pending</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">—</td><td class="px-5 py-3 text-xs text-stone-600 italic">"No quieren que sepas esto."</td></tr>
-            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Energy + Focus Stack</td><td class="px-5 py-3"><span class="badge bg-green-100 text-green-700">Fitness Optimizer</span></td><td class="px-5 py-3 text-sm text-right">190</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">Pending</td><td class="px-5 py-3 text-sm text-right font-medium text-amber-500">—</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Energy, focus, alignment, brain &amp; body."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Anti-Neurologist Insider</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Nerve Educator</span></td><td class="px-5 py-3 text-sm text-right font-bold text-green-600">90 ✓</td><td class="px-5 py-3 text-sm text-right font-bold text-stone-900">$484 · 26.1K views</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Y lo que los neurólogos no te dicen es que si reparas la mielina…"</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Symptom Recognition List</td><td class="px-5 py-3"><span class="badge bg-emerald-100 text-emerald-700">Nerve Educator</span></td><td class="px-5 py-3 text-sm text-right font-bold text-green-600">90 ✓</td><td class="px-5 py-3 text-sm text-right font-bold text-stone-900">$338 · 13.8K views</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Si se te duermen las manos o los pies, sientes entumecimiento…"</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Myth-Busting Opener</td><td class="px-5 py-3"><span class="badge bg-blue-100 text-blue-700">Supplement Optimizer</span></td><td class="px-5 py-3 text-sm text-right font-bold text-green-600">90 ✓</td><td class="px-5 py-3 text-sm text-right font-bold text-stone-900">$100 · D3K2</td><td class="px-5 py-3 text-xs text-stone-600 italic">"You're doing supplements wrong." / "Your nerves can't regenerate without this."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Flash Sale + Free Shipping</td><td class="px-5 py-3"><span class="badge bg-amber-100 text-amber-700">Deal Hunter</span></td><td class="px-5 py-3 text-sm text-right font-bold text-green-600">90 ✓</td><td class="px-5 py-3 text-sm text-right font-bold text-stone-900">$297 · 2.4K views</td><td class="px-5 py-3 text-xs text-stone-600 italic">"And today it's a flash sale and free shipping."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Personal Medical Story</td><td class="px-5 py-3"><span class="badge bg-rose-100 text-rose-700">Latina Wellness</span></td><td class="px-5 py-3 text-sm text-right font-bold text-amber-600">80 ✓</td><td class="px-5 py-3 text-sm text-right font-bold text-stone-900">$138 · 3.67% eng</td><td class="px-5 py-3 text-xs text-stone-600 italic">"Desde que me hice mi gastric bypass en 2009… tomando estas complejos."</td></tr>
+            <tr class="hover:bg-stone-50"><td class="px-5 py-3 text-sm font-medium text-stone-900">Reply-to-Skeptic Trust Build</td><td class="px-5 py-3"><span class="badge bg-teal-100 text-teal-700">Trust Builder</span></td><td class="px-5 py-3 text-sm text-right font-bold text-amber-600">80 ✓</td><td class="px-5 py-3 text-sm text-right font-bold text-stone-900">$170</td><td class="px-5 py-3 text-xs text-stone-600 italic">"¿Son originales los Nusava? Aquí te lo muestro."</td></tr>
           </tbody>
         </table>
+      </div>
+
       </div>
     </div>
 
@@ -16773,6 +16900,13 @@ function setWeek(key) {
   videoPage = 1;
   populateVideoTable();
   populateLiveTable();
+  // Toggle week-specific qualitative tab content
+  ['briefs', 'livetips', 'personas'].forEach(function(tab) {
+    var w1 = document.getElementById(tab + '-week1');
+    var w2 = document.getElementById(tab + '-week2');
+    if (w1) w1.classList.toggle('hidden', key !== 'week1');
+    if (w2) w2.classList.toggle('hidden', key !== 'week2');
+  });
 }
 
 function formatNum(n) {
