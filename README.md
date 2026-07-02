@@ -12,4 +12,6 @@ npm start
 
 ## Deployment
 
-Deployed on Railway. Auto-deploys on push to `main`.
+Deployed on GitHub Pages: https://majodelacruz-nusava.github.io/nusava-content-intel/
+
+Auto-deploys on push to `main` (Settings → Pages → Deploy from branch: `main` / root).
